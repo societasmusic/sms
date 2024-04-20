@@ -1,6 +1,6 @@
 # Title: Societas Management System (SMS)
 
-## Website: sms.societasmusic.com
+Website: sms.societasmusic.com
 
 Authors: Aiden O'Neal
 
