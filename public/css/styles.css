@@ -1,0 +1,55 @@
+.custom-hover-zoom {
+	transition: 0.25s;
+}
+
+.custom-hover-zoom:hover {
+	transition: 0.25s;
+	transform: scale(1.025);
+}
+
+.form-signin {
+	max-width: 330px;
+	padding: 1rem;
+}
+
+.form-signin .form-floating:focus-within {
+	z-index: 2;
+}
+
+.form-signin input[type="email"] {
+	margin-bottom: -1px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.custom-card {
+	transition: 0.25s;
+}
+
+.custom-card:hover {
+	transition: 0.25s;
+	transform: scale(1.025);
+	background-color: #0d6efd;
+}
+
+.d-grid {
+	display: grid;
+}
+
+.grid-2 {
+	grid-template-columns: 1fr 1fr;
+}
+
+.grid-4 {
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.grid-gap-12 {
+	gap: 12px;
+}
