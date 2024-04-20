@@ -1,6 +1,7 @@
 {
   "name": "sms.societasmusic.com",
-  "version": "1.0.0",
+  "version": "1.0-snapshot",
+  "versiondate": "2024-04-20",
   "description": "",
   "main": "main.js",
   "scripts": {
