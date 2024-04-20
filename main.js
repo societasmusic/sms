@@ -12,6 +12,7 @@ const jwt = require("jsonwebtoken");
 const AWS = require("@aws-sdk/client-s3");
 const cookieParser = require("cookie-parser");
 const authController = require("./src/controllers/authController");
+var pjson = require('./package.json');
 
 /*
     Global variables
@@ -49,6 +50,7 @@ app.use("/", require("./src/routes/auth"));
 app.get("/*", authController.isLoggedIn, (req, res) => {
     res.render("404", {
         user: req.user,
+        pjson,
     });
 });
 
