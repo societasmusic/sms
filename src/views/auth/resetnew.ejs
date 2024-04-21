@@ -1,0 +1,21 @@
+<%- include('../partials/auth/authheader') %>
+<main class="form-signin w-100 m-auto">
+    <form action="/auth/reset/new/<%= _id %>/<%= resetToken %>" method="POST">
+        <img src="/img/SMG_TextLogoBlueTM-v3.png" width="298" height="auto" alt="" class="mb-2">
+        <h1 class="h3 mb-3 fw-normal text-center">Set New Password</h1> 
+        <div class="form-floating mb-2">
+            <input type="password" class="form-control rounded" id="password" name="password" placeholder="" required>
+            <label for="floatingInput">Enter New Password</label>
+        </div>
+        <div class="form-floating mb-2">
+            <input type="password" class="form-control rounded" id="password2" name="password2" placeholder="" required>
+            <label for="floatingInput">Confirm Password</label>
+        </div>
+        <button class="btn btn-primary w-100 py-2" type="submit">Send</button>
+        <p class="mt-4 mb-3 text-center">
+            <a class="text-body-secondary" href="/auth/login">Remember Password</a>
+        </p>
+        <p class="mt-2 mb-3 text-body-secondary text-center">© 2024 Societas Music Group Corp.</p>
+    </form>
+</main>
+<%- include('../partials/auth/authfooter') %>

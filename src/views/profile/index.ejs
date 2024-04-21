@@ -1,0 +1,58 @@
+<%- include('../partials/header') %>
+<div class="flex-grow-1 bg-body-tertiary">
+    <%- include('../partials/breadcrumb') %>
+    <div class="px-3">
+        <div class="container py-3">
+            <div class="text-center mb-3 mt-3">
+                <h3 class="fw-light"><%= `${user.fname} ${user.lname}` %></h3>
+            </div>
+            <div class="d-flex gap-3">
+                <div class="border mb-3 shadow-sm col px-0">
+                    <div class="bg-body border-bottom px-3 py-2">
+                        <h4 class="fw-normal mb-0">Personal Details</h4>
+                    </div>
+                    <div class="py-3 bg-body">
+                        <div class="px-3">
+                            <p class="fs-7">View and edit personal information such as name, demographics, and more.</p>
+                            <a href="/profile/personal" class="btn btn-primary fs-7">Manage</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="border mb-3 shadow-sm col px-0">
+                    <div class="bg-body border-bottom px-3 py-2">
+                        <h4 class="fw-normal mb-0">Contact Information</h4>
+                    </div>
+                    <div class="py-3 bg-body">
+                        <div class="px-3">
+                            <p class="fs-7">Manage the ways you can be contacted including via email, phone, and mail.</p>
+                            <a href="/profile/contact" class="btn btn-primary fs-7">Manage</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="border mb-3 shadow-sm col px-0">
+                    <div class="bg-body border-bottom px-3 py-2">
+                        <h4 class="fw-normal mb-0">Employment Details</h4>
+                    </div>
+                    <div class="py-3 bg-body">
+                        <div class="px-3">
+                            <p class="fs-7">View the details of your employment and see current and past assignments.</p>
+                            <a href="/profile/employment" class="btn btn-primary fs-7">Manage</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="border mb-3 shadow-sm col px-0">
+                    <div class="bg-body border-bottom px-3 py-2">
+                        <h4 class="fw-normal mb-0">Audit Log</h4>
+                    </div>
+                    <div class="py-3 bg-body">
+                        <div class="px-3">
+                            <p class="fs-7">View recent changes you've made to your profile.</p>
+                            <a href="/profile/employment" class="btn btn-primary fs-7">Manage</a>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../partials/footer') %>

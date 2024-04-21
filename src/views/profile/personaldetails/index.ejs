@@ -1,0 +1,37 @@
+<%- include('../../partials/header') %>
+<div class="flex-grow-1 bg-body-tertiary">
+    <%- include('../../partials/breadcrumb') %>
+    <div class="px-3">
+        <div class="container py-3">
+            <div class="text-center mb-3 mt-3">
+                <h3 class="fw-light"><%= `${user.fname} ${user.lname}` %></h3>
+            </div>
+            <div class="border mb-3 shadow-sm">
+                <div class="bg-body border-bottom px-3 py-2">
+                    <h4 class="fw-normal mb-0">Personal Details</h4>
+                </div>
+                <div class="py-3 bg-body">
+                    <div class="row px-3 fs-7">
+                        <div class="col">
+                            <p class="fw-medium mb-0">Last Name:</p>
+                            <p class="text-body-secondary mb-2"><%= user.lname %></p>
+                            <p class="fw-medium mb-0">First Name</p>
+                            <p class="text-body-secondary mb-2"><%= user.fname %></p>
+                        </div>
+                        <div class="col">
+                            <p class="fw-medium mb-0">Created On:</p>
+                            <p class="text-body-secondary mb-2"><%= user.createdAt %></p>
+                            <p class="fw-medium mb-0">Created By:</p>
+                            <p class="text-body-secondary mb-2"><%= createdByUser %></p>
+                            <p class="fw-medium mb-0">Updated On:</p>
+                            <p class="text-body-secondary mb-2"><%= user.updatedAt %></p>
+                            <p class="fw-medium mb-0">Updated By:</p>
+                            <p class="text-body-secondary mb-2"><%= updatedByUser %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/footer') %>

@@ -60,3 +60,7 @@
 .grid-gap-12 {
 	gap: 12px;
 }
+
+.zindex-1 {
+	z-index: 1 !important;
+}
