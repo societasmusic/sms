@@ -46,11 +46,16 @@ app.use(
     Requiring routes
 */
 app.use("/", require("./src/routes/index"));
+app.use("/", require("./src/routes/utilities"));
 app.use("/", require("./src/routes/auth"));
 app.get("/*", authController.isLoggedIn, (req, res) => {
+    const title = "404";
     res.render("404", {
         user: req.user,
         pjson,
+        urlraw: req.url,
+        url: encodeURIComponent(req.url),
+        title,
     });
 });
 

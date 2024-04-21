@@ -26,6 +26,18 @@ const userSchema = mongoose.Schema(
             type: String,
             required: true
         },
+        bookmark: [
+            {
+                title: {
+                    type: String,
+                    required: false
+                },
+                url: {
+                    type: String,
+                    required: false
+                },
+            },
+        ],
         lastLogin: {
             type: String,
             required: false

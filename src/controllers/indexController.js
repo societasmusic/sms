@@ -5,8 +5,12 @@ exports.getIndex = async (req, res) => {
 }
 
 exports.getDash = async (req, res) => {
+    const title = "Dashboard"
     res.render("index", {
         user: req.user,
+        urlraw: req.url,
+        url: encodeURIComponent(req.url),
+        title,
         pjson,
     });
-}
+};
