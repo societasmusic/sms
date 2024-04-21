@@ -1,0 +1,58 @@
+<%- include('../partials/header') %>
+<div class="flex-grow-1 bg-body-tertiary">
+    <%- include('../partials/breadcrumb') %>
+    <div class="px-3">
+        <div class="container py-3">
+            <div class="text-center mb-3 mt-3">
+                <h3 class="fw-light"><%= `${user.fname} ${user.lname}` %></h3>
+            </div>
+            <div class="d-flex gap-3">
+                <div class="border mb-3 shadow-sm col px-0 d-flex flex-column">
+                    <div class="bg-body border-bottom px-3 py-2">
+                        <h4 class="fw-normal mb-0">Webclock</h4>
+                    </div>
+                    <div class="py-3 bg-body flex-grow-1">
+                        <div class="px-3">
+                            <p class="fs-7">Make timesheet entries to the current period through the interactive web clock.</p>
+                            <a href="/mwd/webclock" class="btn btn-primary fs-7">Manage</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="border mb-3 shadow-sm col px-0">
+                    <div class="bg-body border-bottom px-3 py-2">
+                        <h4 class="fw-normal mb-0">Timesheets</h4>
+                    </div>
+                    <div class="py-3 bg-body">
+                        <div class="px-3">
+                            <p class="fs-7">View and manually edit your timesheet for the current payroll period and manage absences.</p>
+                            <a href="/mwd/timesheets" class="btn btn-primary fs-7">Manage</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="border mb-3 shadow-sm col px-0">
+                    <div class="bg-body border-bottom px-3 py-2">
+                        <h4 class="fw-normal mb-0">Expenses and Travel</h4>
+                    </div>
+                    <div class="py-3 bg-body">
+                        <div class="px-3">
+                            <p class="fs-7">Make expense reimbursement requests, log company-related travel, and request cash advances.</p>
+                            <a href="/mwd/expenses" class="btn btn-primary fs-7">Manage</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="border mb-3 shadow-sm col px-0">
+                    <div class="bg-body border-bottom px-3 py-2">
+                        <h4 class="fw-normal mb-0">Audit Log</h4>
+                    </div>
+                    <div class="py-3 bg-body">
+                        <div class="px-3">
+                            <p class="fs-7">View recent changes you've made to your profile.</p>
+                            <a href="/profile/employment" class="btn btn-primary fs-7">Manage</a>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../partials/footer') %>

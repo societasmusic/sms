@@ -46,6 +46,7 @@ app.use(
     Requiring routes
 */
 app.use("/", require("./src/routes/index"));
+app.use("/", require("./src/routes/mwd"));
 app.use("/", require("./src/routes/profile"));
 app.use("/", require("./src/routes/utilities"));
 app.use("/", require("./src/routes/auth"));

@@ -1,0 +1,65 @@
+<%- include('../../partials/header') %>
+<div class="flex-grow-1 bg-body-tertiary">
+    <%- include('../../partials/breadcrumb') %>
+    <div class="px-3">
+        <div class="container py-3">
+            <form action="/mwd/expenses/advances/request" method="POST" class="needs-validation" novalidate>
+                <div class="col-6">
+                    <div class="row mb-3">
+                        <label for="purpose" class="col-sm-2 col-form-label fs-7">Purpose*</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control fs-7" id="purpose" name="purpose" required>
+                            <div class="invalid-feedback fs-7">
+                                This field cannot be left blank
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="amount" class="col-sm-2 col-form-label fs-7">Amount*</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control fs-7" id="amount" name="amount" placeholder="US Dollars - USD" required>
+                            <div class="invalid-feedback fs-7">
+                                This field cannot be left blank
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="attachments" class="col-sm-2 col-form-label fs-7">Attachments</label>
+                        <div class="col-sm-10">
+                            <input type="file" class="form-control fs-7" id="attachments" multiple>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="date" class="col-sm-2 col-form-label fs-7">Type*</label>
+                        <div class="col-sm-10">
+                            <select name="type" id="type" class="form-select fs-7" required>
+                                <option value="" selected disabled>Select one...</option>
+                                <option value="Travel">Travel</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <div class="invalid-feedback fs-7">
+                                This field cannot be left blank
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="startDate" class="col-sm-2 col-form-label fs-7">Start Date</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control fs-7" id="startDate" name="startDate">
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <label for="endDate" class="col-sm-2 col-form-label fs-7">End Date</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control fs-7" id="endDate" name="endDate">
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary fs-7" onclick="location.href='/mwd/expenses'">Cancel</button>
+                <button type="submit" class="btn btn-primary fs-7">Save Draft</button>
+                <p class="fs-7 text-secondary mt-2">* Required Field</p>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/footer') %>

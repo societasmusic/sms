@@ -1,0 +1,81 @@
+<%- include('../../partials/header') %>
+<div class="flex-grow-1 bg-body-tertiary">
+    <%- include('../../partials/breadcrumb') %>
+    <div class="px-3">
+        <div class="container py-3">
+            <form action="/mwd/expenses/create" method="POST" class="needs-validation" novalidate>
+                <div class="row mb-3 col-6">
+                    <label for="purpose" class="col-sm-2 col-form-label fs-7">Purpose*</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control fs-7" id="purpose" name="purpose" required>
+                        <div class="invalid-feedback fs-7">
+                            This field cannot be left blank
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4 col-6">
+                    <label for="date" class="col-sm-2 col-form-label fs-7">Attachments</label>
+                    <div class="col-sm-10">
+                        <input type="file" class="form-control fs-7" id="inputGroupFile01" multiple>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <h3 class="fw-light">Expense Items*</h3>
+                    <table class="table">
+                        <thead>
+                            <tr class="fs-7">
+                                <th>Object</th>
+                                <th>Item Name</th>
+                                <th>Transaction Date</th>
+                                <th>Expense Type</th>
+                                <th>Amount</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="fieldRows">
+                            <tr>
+                                <td class="fs-7">Item</td>
+                                <td>
+                                    <input type="text" class="form-control fs-7" name="itemName[]" id="itemName[]" required>
+                                    <div class="invalid-feedback fs-7">
+                                        This field cannot be left blank
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="date" class="form-control fs-7" name="itemDate[]" id="itemDate[]" required>
+                                    <div class="invalid-feedback fs-7">
+                                        This field cannot be left blank
+                                    </div>
+                                </td>
+                                <td>
+                                    <select name="itemType[]" id="itemType[]" class="form-select fs-7" required>
+                                        <option value="" selected disabled>Select one...</option>
+                                        <% expensetypes.forEach(e => { %>
+                                            <option value="<%= e %>"><%= e %></option>
+                                        <% }) %>
+                                    </select>
+                                    <div class="invalid-feedback fs-7">
+                                        This field cannot be left blank
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control fs-7" name="itemAmount[]" id="itemAmount[]" placeholder="US Dollars - USD" required>
+                                    <div class="invalid-feedback fs-7">
+                                        This field cannot be left blank
+                                    </div>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-secondary fs-7 add_row w-100">Add Field</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button type="button" class="btn btn-secondary fs-7" onclick="location.href='/mwd/expenses'">Cancel</button>
+                <button type="submit" class="btn btn-primary fs-7">Save Draft</button>
+                <p class="fs-7 text-secondary mt-2">* Required Field</p>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/footer') %>

@@ -1,0 +1,77 @@
+<%- include('../../partials/header') %>
+<div class="flex-grow-1 bg-body-tertiary">
+    <%- include('../../partials/breadcrumb') %>
+    <div class="px-3">
+        <div class="container py-3">
+            <form action="/mwd/expenses/advances/request" method="POST" class="needs-validation" novalidate>
+                <div class="col-6">
+                    <div class="row mb-3">
+                        <label for="purpose" class="col-sm-2 col-form-label fs-7">Purpose</label>
+                        <div class="col-sm-10">
+                            <p class="fs-7 mb-0 px-2 py-2"><%= advance.purpose %></p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="amount" class="col-sm-2 col-form-label fs-7">Amount</label>
+                        <div class="col-sm-10">
+                            <p class="fs-7 mb-0 px-2 py-2">$<%= advance.amount %>.00</p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="endDate" class="col-sm-2 col-form-label fs-7">Attachments</label>
+                        <div class="col-sm-10">
+                            <p class="fs-7 mb-0 px-2 py-2"><%= advance.attachment %></p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="date" class="col-sm-2 col-form-label fs-7">Type</label>
+                        <div class="col-sm-10">
+                            <p class="fs-7 mb-0 px-2 py-2"><%= advance.type %></p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="startDate" class="col-sm-2 col-form-label fs-7">Start Date</label>
+                        <div class="col-sm-10">
+                            <p class="fs-7 mb-0 px-2 py-2"><%= advance.startDate %></p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="endDate" class="col-sm-2 col-form-label fs-7">End Date</label>
+                        <div class="col-sm-10">
+                            <p class="fs-7 mb-0 px-2 py-2"><%= advance.endDate %></p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="endDate" class="col-sm-2 col-form-label fs-7">Advance ID</label>
+                        <div class="col-sm-10">
+                            <p class="fs-7 mb-0 px-2 py-2"><%= advance.id %></p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="endDate" class="col-sm-2 col-form-label fs-7">Created At</label>
+                        <div class="col-sm-10">
+                            <p class="fs-7 mb-0 px-2 py-2"><%= advance.createdAt %></p>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <label for="endDate" class="col-sm-2 col-form-label fs-7">Status</label>
+                        <div class="col-sm-10">
+                            <p class="fs-7 mb-0 px-2 py-2">
+                                <% if (advance.status === "Draft") { %>
+                                    <span class="badge text-bg-warning">Draft</span>
+                                <% } else if (advance.status === "Submitted") { %>
+                                    <span class="badge text-bg-warning">Submitted</span>
+                                <% } %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary fs-7" onclick="location.href='/mwd/expenses'">Cancel</button>
+                <button type="button" class="btn btn-primary fs-7" onclick="location.href='/mwd/expenses/advances/<%= advance.id %>/edit'">Edit Draft</button>
+                <button type="submit" class="btn btn-primary fs-7">Submit for Approval</button>
+                <p class="fs-7 text-secondary mt-2">* Required Field</p>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/footer') %>

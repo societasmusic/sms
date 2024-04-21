@@ -1,0 +1,268 @@
+<%- include('../../partials/header') %>
+<div class="flex-grow-1 bg-body-tertiary">
+    <%- include('../../partials/breadcrumb') %>
+    <div class="px-3">
+        <div class="container py-3">
+            <div class="d-flex gap-2">
+                <div class="mb-2 col-1 shadow-sm">
+                    <div class="border px-2 py-4 col fs-7 d-flex flex-column rounded bg-body cursor-pointer text-center" onclick="location.href='/mwd/expenses/create'" data-bs-toggle="tooltip" data-bs-title="Create report">
+                        <div class="flex-grow-1 d-flex align-items-center justify-content-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                            </svg>                             
+                        </div>
+                        <p class="fw-bold mb-0 mt-2">Expense</p>    
+                    </div>
+                </div>
+                <div class="mb-2 col-1 shadow-sm">
+                    <div class="border px-2 py-4 col fs-7 d-flex flex-column rounded bg-body cursor-pointer text-center" onclick="location.href='/mwd/expenses/advances/request'" data-bs-toggle="tooltip" data-bs-title="Request advance">
+                        <div class="flex-grow-1 d-flex align-items-center justify-content-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                            </svg>                             
+                        </div>
+                        <p class="fw-bold mb-0 mt-2">Advance</p>    
+                    </div>
+                </div>
+            </div> 
+            <div class="border mb-3 shadow-sm">
+                <div class="bg-body border-bottom px-3 py-2">
+                    <h4 class="fw-normal mb-0">Expense Reports</h4>
+                </div>
+                <div class="py-3 bg-body">
+                    <p class="fs-7 px-3 mb-2 text-secondary">Search Options</p>
+                    <div class="d-flex justify-content-between px-3">
+                        <div class="d-flex justify-content-between gap-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="text-secondary fs-7">Show</span>
+                                <select class="form-select fs-7" aria-label="Default select example">
+                                    <option value="25" selected>10</option>
+                                    <option value="50">25</option>
+                                    <option value="100">50</option>
+                                    <option value="All">100</option>
+                                </select>
+                                <span class="text-secondary fs-7">Records</span>
+                            </div>
+                            <div>
+                                <ul class="list-group">
+                                    <li class="input-group-text bg-body text-secondary fs-7">
+                                        <% // let startRecord = (Number(current) - 1) * perPage + 1; %>
+                                        <% // let endRecord = Math.min(startRecord + perPage - 1, count); %>
+                                        <%= // `${startRecord}-${endRecord}` %>
+                                        <%= // `of ${count} Records` %>
+                                        0-0 of 0 Records
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- <div>
+                            <div class="input-group">
+                                <span class="input-group-text fs-7" id="basic-addon1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                                    </svg>
+                                </span>
+                                <input type="text" class="form-control fs-7" placeholder="Search records..." aria-label="Search records..." aria-describedby="basic-addon1">
+                            </div>
+                        </div> -->
+                    </div>
+                    <p class="fs-7 px-3 mt-2 pt-2 mb-2 text-secondary border-top">Search Results</p>
+                    <div class="px-3">
+                        <table class="fs-7 table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Report ID
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-funnel ms-1" viewBox="0 0 16 16">
+                                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
+                                        </svg>
+                                    </th>
+                                    <th>
+                                        Report Date
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-funnel ms-1" viewBox="0 0 16 16">
+                                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
+                                        </svg>
+                                    </th>
+                                    <th>
+                                        Period
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-funnel ms-1" viewBox="0 0 16 16">
+                                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
+                                        </svg>
+                                    </th>
+                                    <th>
+                                        Status
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-funnel ms-1" viewBox="0 0 16 16">
+                                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
+                                        </svg>
+                                    </th>
+                                    <th>
+                                        Purpose
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-funnel ms-1" viewBox="0 0 16 16">
+                                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
+                                        </svg>
+                                    </th>
+                                    <th>
+                                        Amount (USD)
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-funnel ms-1" viewBox="0 0 16 16">
+                                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
+                                        </svg>
+                                    </th>
+                                    <th>
+                                        Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>No reports found...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                </tr>
+                                <!-- <tr>
+                                    <td>EXP240100001</td>
+                                    <td>2024-04-21T12:23:36.134Z</td>
+                                    <td>2024-01-01 - 2024-03-31</td>
+                                    <td><span class="badge text-bg-warning">Not Approved</span></td>
+                                    <td>Meals for meeting with partners</td>
+                                    <td><a href="/mwd/expenses">Manage</a></td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="border mb-3 shadow-sm">
+                <div class="bg-body border-bottom px-3 py-2">
+                    <h4 class="fw-normal mb-0">Cash Advances</h4>
+                </div>
+                <div class="py-3 bg-body">
+                    <p class="fs-7 px-3 mb-2 text-secondary">Search Options</p>
+                    <div class="d-flex justify-content-between px-3">
+                        <div class="d-flex justify-content-between gap-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="text-secondary fs-7">Show</span>
+                                <select class="form-select fs-7" aria-label="Default select example">
+                                    <option value="25" selected>10</option>
+                                    <option value="50">25</option>
+                                    <option value="100">50</option>
+                                    <option value="All">100</option>
+                                </select>
+                                <span class="text-secondary fs-7">Records</span>
+                            </div>
+                            <div>
+                                <ul class="list-group">
+                                    <li class="input-group-text bg-body text-secondary fs-7">
+                                        <% // let startRecord = (Number(current) - 1) * perPage + 1; %>
+                                        <% // let endRecord = Math.min(startRecord + perPage - 1, count); %>
+                                        <%= // `${startRecord}-${endRecord}` %>
+                                        <%= // `of ${count} Records` %>
+                                        0-0 of 0 Records
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fs-7 px-3 mt-2 pt-2 mb-2 text-secondary border-top">Search Results</p>
+                    <div class="px-3">
+                        <table class="fs-7 table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Advance ID
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-funnel ms-1" viewBox="0 0 16 16">
+                                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
+                                        </svg>
+                                    </th>
+                                    <th>
+                                        Advance Date
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-funnel ms-1" viewBox="0 0 16 16">
+                                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
+                                        </svg>
+                                    </th>
+                                    <th>
+                                        Period
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-funnel ms-1" viewBox="0 0 16 16">
+                                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
+                                        </svg>
+                                    </th>
+                                    <th>
+                                        Status
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-funnel ms-1" viewBox="0 0 16 16">
+                                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
+                                        </svg>
+                                    </th>
+                                    <th>
+                                        Purpose
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-funnel ms-1" viewBox="0 0 16 16">
+                                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
+                                        </svg>
+                                    </th>
+                                    <th>
+                                        Amount (USD)
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-funnel ms-1" viewBox="0 0 16 16">
+                                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
+                                        </svg>
+                                    </th>
+                                    <th>
+                                        Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% advances.forEach(e => { %>
+                                    <tr>
+                                        <td><a href="/mwd/expenses/advances/<%= e.id %>"><%= e.id %></a></td>
+                                        <td>
+                                            <% if (e.advanceDate) { %>
+                                                <%= e.advanceDate %>
+                                            <% } else { %>
+                                                None
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <% if (e.startDate && e.endDate) { %>
+                                                <%= `${e.startDate} to ${e.endDate}` %>
+                                            <% } else { %>
+                                                None
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <% if (e.status === "Draft") { %>
+                                                <span class="badge text-bg-warning">Draft</span>
+                                            <% } else if (e.status === "Submitted") { %>
+                                                <span class="badge text-bg-warning">Submitted</span>
+                                            <% } %>
+                                        </td>
+                                        <td><%= e.purpose %></td>
+                                        <td><%= `$${e.amount}.00` %></td>
+                                        <td>
+                                            <form action="/mwd/expenses/advances/<%= e.id %>/submit" method="POST">
+                                                <button type="submit" class="text-decoration-underline text-primary custom-button p-0">
+                                                    Submit
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                                <!-- <tr>
+                                    <td>No advances found...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/footer') %>
