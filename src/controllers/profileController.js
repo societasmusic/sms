@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 
 exports.getIndex = async (req, res) => {
     const title = "Profile Index";
+    const messages = await req.flash("info");
     res.render("profile/index", {
         user: req.user,
         urlraw: req.url,
@@ -10,6 +11,7 @@ exports.getIndex = async (req, res) => {
         url: encodeURIComponent(req.url),
         title,
         pjson,
+        messages,
     });
 };
 
@@ -29,6 +31,7 @@ exports.getPersonal = async (req, res) => {
         updatedByUser = "System";
     }
     const title = "Personal Details";
+    const messages = await req.flash("info");
     res.render("profile/personaldetails/index", {
         user: req.user,
         urlraw: req.url,
@@ -38,5 +41,6 @@ exports.getPersonal = async (req, res) => {
         pjson,
         createdByUser,
         updatedByUser,
+        messages,
     });
 };

@@ -3,9 +3,9 @@ const fs = require("fs");
 const Advance = require("../models/advanceModel");
 
 exports.getIndex = async (req, res) => {
-    const title = "My Work Day";
+    const title = "Transaction Processing";
     const messages = await req.flash("info");
-    res.render("mwd/index", {
+    res.render("tps/index", {
         user: req.user,
         urlraw: req.url,
         urlreturn: "/dashboard",
@@ -20,18 +20,29 @@ exports.getIndex = async (req, res) => {
     Expenses & Travel
 */
 exports.getExpensesIndex = async (req, res) => {
-    const advances = await Advance.find({}).limit(999);
+    let perPage = 25;
+    let page = req.query.p || 1;
+    const allAdvances = await Advance.find();
+    const count = allAdvances.length;
+    const advances = await Advance.aggregate([{ $sort: { legalname: 1 }}])
+        .skip(perPage * page - perPage)
+        .limit(perPage)
+        .exec();
     const title = "Expenses and Travel";
     const messages = await req.flash("info");
-    res.render("mwd/expenses/index", {
+    res.render("tps/expenses/index", {
         user: req.user,
         urlraw: req.url,
-        urlreturn: "/mwd",
+        urlreturn: "/tps",
         url: encodeURIComponent(req.url),
         title,
         pjson,
         messages,
         advances,
+        current: page,
+        perPage,
+        count,
+        pages: Math.ceil(count / perPage),
     });
 };
 var expensetypes;
@@ -45,10 +56,10 @@ fs.readFile("src/data/expensetypes.json", "utf8", (err, data) => {
 exports.getExpensesCreate = async (req, res) => {
     const title = "Create Expense Report";
     const messages = await req.flash("info");
-    res.render("mwd/expenses/create", {
+    res.render("tps/expenses/create", {
         user: req.user,
         urlraw: req.url,
-        urlreturn: "/mwd/expenses",
+        urlreturn: "/tps/expenses",
         url: encodeURIComponent(req.url),
         title,
         pjson,
@@ -62,10 +73,10 @@ exports.postExpensesCreate = async (req, res) => {
 exports.getAdvanceRequest = async (req, res) => {
     const title = "Request Cash Advance";
     const messages = await req.flash("info");
-    res.render("mwd/expenses/request", {
+    res.render("tps/expenses/request", {
         user: req.user,
         urlraw: req.url,
-        urlreturn: "/mwd/expenses",
+        urlreturn: "/tps/expenses",
         url: encodeURIComponent(req.url),
         title,
         pjson,
@@ -92,22 +103,22 @@ exports.postAdvanceRequest = async (req, res) => {
     try {
         await request.save();
         await req.flash("info", "Your request has been successfully processed.");
-        return res.redirect("/mwd/expenses");
+        return res.redirect("/tps/expenses");
     } catch (err) {
         console.log(err);
         // Write Error Notification
         await req.flash("info", "There was an error processing your request.");
-        return res.redirect("/mwd/expenses/advances/request");
+        return res.redirect("/tps/expenses/advances/request");
     }
 };
 exports.getAdvanceView = async (req, res) => {
     const advance = await Advance.findById({_id: req.params.id});
     const title = "View Cash Advance";
     const messages = await req.flash("info");
-    res.render("mwd/expenses/viewadvance", {
+    res.render("tps/expenses/viewadvance", {
         user: req.user,
         urlraw: req.url,
-        urlreturn: "/mwd/expenses",
+        urlreturn: "/tps/expenses",
         url: encodeURIComponent(req.url),
         title,
         pjson,
