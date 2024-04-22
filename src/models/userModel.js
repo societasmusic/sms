@@ -26,6 +26,54 @@ const userSchema = mongoose.Schema(
             type: String,
             required: true
         },
+        mailingAddress: [
+            {
+                line1: {
+                    type: String,
+                    required: false
+                },
+                line2: {
+                    type: String,
+                    required: false
+                },
+                city: {
+                    type: String,
+                    required: false
+                },
+                stateProvince: {
+                    type: String,
+                    required: false
+                },
+                zip: {
+                    type: String,
+                    required: false
+                },
+                country: {
+                    type: String,
+                    required: false
+                },
+            },
+        ],
+        emergencyContacts: [
+            {
+                name: {
+                    type: String,
+                    required: false
+                },
+                relation: {
+                    type: String,
+                    required: false
+                },
+                email: {
+                    type: String,
+                    required: false
+                },
+                phone: {
+                    type: Number,
+                    required: false
+                },
+            },
+        ],
         bookmark: [
             {
                 title: {

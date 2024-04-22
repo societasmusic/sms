@@ -1,0 +1,90 @@
+<%- include('../../partials/header') %>
+<div class="flex-grow-1 bg-body-tertiary">
+    <%- include('../../partials/breadcrumb') %>
+    <div class="px-3">
+        <div class="container py-3">
+            <form action="/profile/contact/emergency/<%= contact.id %>/edit" method="POST" class="needs-validation" novalidate>
+                <div class="col-6">
+                    <div class="row mb-3">
+                        <label for="name" class="col-sm-2 col-form-label fs-7">Full Name*</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control fs-7" id="name" name="name" value="<%= contact.name %>" required>
+                            <div class="invalid-feedback fs-7">
+                                This field cannot be left blank
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="relation" class="col-sm-2 col-form-label fs-7">Relation*</label>
+                        <div class="col-sm-10">
+                            <select name="relation" id="relation" class="form-select fs-7" required>
+                                <option value="" selected disabled>Select one...</option>
+                                <option value="Family Member"
+                                    <% if (contact.relation === "Family Member") { %>
+                                        selected
+                                    <% } %>>
+                                    Family Member
+                                </option>
+                                <option value="Friend"
+                                    <% if (contact.relation === "Friend") { %>
+                                        selected
+                                    <% } %>>
+                                    Friend
+                                </option>
+                                <option value="Other"
+                                    <% if (contact.relation === "Other") { %>
+                                        selected
+                                    <% } %>>
+                                    Other
+                                </option>
+                                <option value="Parent"
+                                    <% if (contact.relation === "Parent") { %>
+                                        selected
+                                    <% } %>>
+                                    Parent
+                                </option>
+                                <option value="Partner"
+                                    <% if (contact.relation === "Partner") { %>
+                                        selected
+                                    <% } %>>
+                                    Partner
+                                </option>
+                                <option value="Spouse"
+                                    <% if (contact.relation === "Spouse") { %>
+                                        selected
+                                    <% } %>>
+                                    Spouse
+                                </option>
+                            </select>
+                            <div class="invalid-feedback fs-7">
+                                This field cannot be left blank
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="email" class="col-sm-2 col-form-label fs-7">Email*</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control fs-7" id="email" name="email" value="<%= contact.email %>" required>
+                            <div class="invalid-feedback fs-7">
+                                This field cannot be left blank
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <label for="phone" class="col-sm-2 col-form-label fs-7">Phone*</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control fs-7" id="phone" name="phone" value="<%= contact.phone %>" required>
+                            <div class="invalid-feedback fs-7">
+                                This field cannot be left blank
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary fs-7" onclick="location.href='/profile/contact'">Cancel</button>
+                <button type="submit" class="btn btn-primary fs-7">Save Contact</button>
+                <p class="fs-7 text-secondary mt-2">* Required Field</p>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/footer') %>
