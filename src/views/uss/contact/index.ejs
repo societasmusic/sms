@@ -9,7 +9,7 @@
             <div class="border mb-3 shadow-sm bg-body">
                 <div class="bg-body border-bottom px-3 py-2 d-flex justify-content-between">
                     <h4 class="fw-normal mb-0">Communication</h4>
-                    <!-- <button type="button" class="btn btn-primary fs-7 py-1 px-2 d-flex" data-bs-toggle="tooltip" data-bs-title="Add Contact" onclick="location.href='/profile/contact/emergency/add'">
+                    <!-- <button type="button" class="btn btn-primary fs-7 py-1 px-2 d-flex" data-bs-toggle="tooltip" data-bs-title="Add Contact" onclick="location.href='/uss/contact/emergency/add'">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg d-flex align-self-center me-1" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
                         </svg>
@@ -28,7 +28,7 @@
             <div class="border mb-3 shadow-sm bg-body">
                 <div class="bg-body border-bottom px-3 py-2 d-flex justify-content-between">
                     <h4 class="fw-normal mb-0">Address</h4>
-                    <button type="button" class="btn btn-primary fs-7 py-1 px-2 d-flex" data-bs-toggle="tooltip" data-bs-title="Add Address" onclick="location.href='/profile/contact/address/add'">
+                    <button type="button" class="btn btn-primary fs-7 py-1 px-2 d-flex" data-bs-toggle="tooltip" data-bs-title="Add Address" onclick="location.href='/uss/contact/address/add'">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg d-flex align-self-center me-1" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
                         </svg>
@@ -54,7 +54,7 @@
                                     <p class="text-body-secondary mb-2"><%= e.startDate %></p>
                                 </div>
                                 <div class="col d-flex justify-content-end">
-                                    <a href="/profile/contact/address/<%= e.id %>/edit" class="">
+                                    <a href="/uss/contact/address/<%= e.id %>/edit" class="">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-pencil-square text-secondary" viewBox="0 0 16 16">
                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
@@ -75,7 +75,7 @@
             <div class="border mb-3 shadow-sm bg-body">
                 <div class="bg-body border-bottom px-3 py-2 d-flex justify-content-between">
                     <h4 class="fw-normal mb-0">Emergency Contacts</h4>
-                    <button type="button" class="btn btn-primary fs-7 py-1 px-2 d-flex" data-bs-toggle="tooltip" data-bs-title="Add Contact" onclick="location.href='/profile/contact/emergency/add'">
+                    <button type="button" class="btn btn-primary fs-7 py-1 px-2 d-flex" data-bs-toggle="tooltip" data-bs-title="Add Contact" onclick="location.href='/uss/contact/emergency/add'">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg d-flex align-self-center me-1" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
                         </svg>
@@ -99,7 +99,7 @@
                                     <p class="text-body-secondary mb-2"><%= e.email %></p>
                                 </div>
                                 <div class="col d-flex justify-content-end">
-                                    <a href="/profile/contact/emergency/<%= e.id %>/edit" class="">
+                                    <a href="/uss/contact/emergency/<%= e.id %>/edit" class="">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-pencil-square text-secondary" viewBox="0 0 16 16">
                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>

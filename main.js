@@ -45,12 +45,21 @@ app.use(
 /* 
     Requiring routes
 */
+
+// Index
 app.use("/", require("./src/routes/index"));
+
+// Applications
 app.use("/", require("./src/routes/tps"));
+app.use("/", require("./src/routes/scm"));
+app.use("/", require("./src/routes/uss"));
+
+// Utilities
 app.use("/", require("./src/routes/tasks"));
-app.use("/", require("./src/routes/profile"));
 app.use("/", require("./src/routes/utilities"));
 app.use("/", require("./src/routes/auth"));
+
+// Errors
 app.get("/*", authController.isLoggedIn, (req, res) => {
     const title = "404";
     res.render("404", {

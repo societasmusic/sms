@@ -2,7 +2,6 @@ var pjson = require('../../package.json');
 const User = require("../models/userModel");
 const fs = require('fs');
 
-
 var countries;
 fs.readFile("src/data/countries.json", "utf8", (err, data) => {
     if (err) {
@@ -13,9 +12,9 @@ fs.readFile("src/data/countries.json", "utf8", (err, data) => {
 });
 
 exports.getIndex = async (req, res) => {
-    const title = "Profile Index";
+    const title = "User Self-Service Index";
     const messages = await req.flash("info");
-    res.render("profile/index", {
+    res.render("uss/index", {
         user: req.user,
         urlraw: req.url,
         urlreturn: "/dashboard",
@@ -43,10 +42,10 @@ exports.getPersonal = async (req, res) => {
     }
     const title = "Personal Details";
     const messages = await req.flash("info");
-    res.render("profile/personaldetails/index", {
+    res.render("uss/personal/index", {
         user: req.user,
         urlraw: req.url,
-        urlreturn: "/profile",
+        urlreturn: "/uss",
         url: encodeURIComponent(req.url),
         title,
         pjson,
@@ -58,10 +57,10 @@ exports.getPersonal = async (req, res) => {
 exports.getContact = async (req, res) => {
     const title = "Contact Information";
     const messages = await req.flash("info");
-    res.render("profile/contact/index", {
+    res.render("uss/contact/index", {
         user: req.user,
         urlraw: req.url,
-        urlreturn: "/profile",
+        urlreturn: "/uss",
         url: encodeURIComponent(req.url),
         title,
         pjson,
@@ -71,10 +70,10 @@ exports.getContact = async (req, res) => {
 exports.getAddEmergencyContact = async (req, res) => {
     const title = "Add Emergency Contact";
     const messages = await req.flash("info");
-    res.render("profile/contact/addemergencycontact", {
+    res.render("uss/contact/addemergencycontact", {
         user: req.user,
         urlraw: req.url,
-        urlreturn: "/profile/contact",
+        urlreturn: "/uss/contact",
         url: encodeURIComponent(req.url),
         title,
         pjson,
@@ -98,21 +97,21 @@ exports.postAddEmergencyContact = async (req, res) => {
             },
         );
         await req.flash("info", "Your request has been successfully processed.");
-        return res.redirect("/profile/contact");
+        return res.redirect("/uss/contact");
     } catch (err) {
         console.log(err);
         await req.flash("info", "There was an error processing your request.");
-        return res.redirect(`/profile/contact/emergency/${req.params.id}/edit`);
+        return res.redirect(`/uss/contact/emergency/${req.params.id}/edit`);
     };
 };
 exports.getEditEmergencyContact = async (req, res) => {
     const title = "Edit Emergency Contact";
     const messages = await req.flash("info");
     const contact = req.user.emergencyContacts.find(e => e.id === req.params.id);
-    res.render("profile/contact/editemergencycontact", {
+    res.render("uss/contact/editemergencycontact", {
         user: req.user,
         urlraw: req.url,
-        urlreturn: "/profile/contact",
+        urlreturn: "/uss/contact",
         url: encodeURIComponent(req.url),
         title,
         pjson,
@@ -137,11 +136,11 @@ exports.postEditEmergencyContact = async (req, res) => {
             },
         );
         await req.flash("info", "Your request has been successfully processed.");
-        return res.redirect("/profile/contact");
+        return res.redirect("/uss/contact");
     } catch (err) {
         console.log(err);
         await req.flash("info", "There was an error processing your request.");
-        return res.redirect(`/profile/contact/emergency/${req.params.id}/edit`);
+        return res.redirect(`/uss/contact/emergency/${req.params.id}/edit`);
     };
 };
 exports.postDeleteEmergencyContact = async (req, res) => {
@@ -161,20 +160,20 @@ exports.postDeleteEmergencyContact = async (req, res) => {
             },
         );
         await req.flash("info", "Your request has been successfully processed.");
-        return res.redirect("/profile/contact");
+        return res.redirect("/uss/contact");
     } catch (err) {
         console.log(err);
         await req.flash("info", "There was an error processing your request.");
-        return res.redirect(`/profile/contact/emergency/${req.params.id}/edit`);
+        return res.redirect(`/uss/contact/emergency/${req.params.id}/edit`);
     };
 };
 exports.getAddAddress = async (req, res) => {
     const title = "Add Address";
     const messages = await req.flash("info");
-    res.render("profile/contact/addaddress", {
+    res.render("uss/contact/addaddress", {
         user: req.user,
         urlraw: req.url,
-        urlreturn: "/profile/contact",
+        urlreturn: "/uss/contact",
         url: encodeURIComponent(req.url),
         title,
         pjson,
@@ -203,21 +202,21 @@ exports.postAddAddress = async (req, res) => {
             },
         );
         await req.flash("info", "Your request has been successfully processed.");
-        return res.redirect("/profile/contact");
+        return res.redirect("/uss/contact");
     } catch (err) {
         console.log(err);
         await req.flash("info", "There was an error processing your request.");
-        return res.redirect(`/profile/contact/address/add`);
+        return res.redirect(`/uss/contact/address/add`);
     };
 };
 exports.getEditAddress = async (req, res) => {
     const title = "Edit Address";
     const messages = await req.flash("info");
     const address = req.user.mailingAddress.find(e => e.id === req.params.id);
-    res.render("profile/contact/editaddress", {
+    res.render("uss/contact/editaddress", {
         user: req.user,
         urlraw: req.url,
-        urlreturn: "/profile/contact",
+        urlreturn: "/uss/contact",
         url: encodeURIComponent(req.url),
         title,
         pjson,
@@ -247,11 +246,11 @@ exports.postEditAddress = async (req, res) => {
             },
         );
         await req.flash("info", "Your request has been successfully processed.");
-        return res.redirect("/profile/contact");
+        return res.redirect("/uss/contact");
     } catch (err) {
         console.log(err);
         await req.flash("info", "There was an error processing your request.");
-        return res.redirect(`/profile/contact/address/${req.params.id}/edit`);
+        return res.redirect(`/uss/contact/address/${req.params.id}/edit`);
     };
 };
 exports.postDeleteAddress = async (req, res) => {
@@ -275,10 +274,24 @@ exports.postDeleteAddress = async (req, res) => {
             },
         );
         await req.flash("info", "Your request has been successfully processed.");
-        return res.redirect("/profile/contact");
+        return res.redirect("/uss/contact");
     } catch (err) {
         console.log(err);
         await req.flash("info", "There was an error processing your request.");
-        return res.redirect(`/profile/contact/address/${req.params.id}/edit`);
+        return res.redirect(`/uss/contact/address/${req.params.id}/edit`);
     };
 };
+
+exports.getEmployment = async (req, res) => {
+    const title = "Employment Details";
+    const messages = await req.flash("info");
+    res.render("uss/employment/index", {
+        user: req.user,
+        urlraw: req.url,
+        urlreturn: "/uss",
+        url: encodeURIComponent(req.url),
+        title,
+        pjson,
+        messages,
+    });
+}

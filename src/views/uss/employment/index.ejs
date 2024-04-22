@@ -1,0 +1,45 @@
+<%- include('../../partials/header') %>
+<div class="flex-grow-1 bg-body-tertiary">
+    <%- include('../../partials/breadcrumb') %>
+    <div class="px-3">
+        <div class="container py-3">
+            <div class="text-center mb-3 mt-3">
+                <h3 class="fw-light"><%= `${user.fname} ${user.lname}` %></h3>
+            </div>
+            <div class="border mb-3 shadow-sm bg-body">
+                <div class="bg-body border-bottom px-3 py-2 d-flex justify-content-between">
+                    <h4 class="fw-normal mb-0">Assignments</h4>
+                </div>
+                <div class="pb-3 bg-body">
+                    <% if (user.assignments) { %>
+                        <% user.assignments.forEach(e => { %>
+                            <!-- <div class="row border-bottom mx-3 mt-3 fs-7">
+                                <div class="col-6">
+                                    <p class="fw-medium mb-0">Business Title:</p>
+                                    <p class="text-body-secondary mb-2">President</p>
+                                    <p class="fw-medium mb-0">Department:</p>
+                                    <p class="text-body-secondary mb-2">Executive Group</p>
+                                    <p class="fw-medium mb-0">Legal Employer:</p>
+                                    <p class="text-body-secondary mb-2">Societas Music Group Corporation</p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="fw-medium mb-0">Start Date:</p>
+                                    <p class="text-body-secondary mb-2">2024-02-14</p>
+                                    <p class="fw-medium mb-0">Address Type:</p>
+                                    <p class="text-body-secondary mb-2"></p>
+                                </div>
+                            </div> -->
+                        <% }) %>
+                    <% } else { %>
+                        <div class="row border-bottom mx-3 mt-3 fs-7">
+                            <div class="col-6">
+                                <p class="text-body-secondary mb-2">None</p>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/footer') %>
