@@ -1,6 +1,16 @@
 var pjson = require('../../package.json');
 const User = require("../models/userModel");
-const mongoose = require("mongoose");
+const fs = require('fs');
+
+
+var countries;
+fs.readFile("src/data/countries.json", "utf8", (err, data) => {
+    if (err) {
+        console.log(err);
+    } else {
+        countries = JSON.parse(data);
+    }
+});
 
 exports.getIndex = async (req, res) => {
     const title = "Profile Index";
@@ -90,7 +100,9 @@ exports.postAddEmergencyContact = async (req, res) => {
         await req.flash("info", "Your request has been successfully processed.");
         return res.redirect("/profile/contact");
     } catch (err) {
-
+        console.log(err);
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/profile/contact/emergency/${req.params.id}/edit`);
     };
 };
 exports.getEditEmergencyContact = async (req, res) => {
@@ -130,5 +142,143 @@ exports.postEditEmergencyContact = async (req, res) => {
         console.log(err);
         await req.flash("info", "There was an error processing your request.");
         return res.redirect(`/profile/contact/emergency/${req.params.id}/edit`);
+    };
+};
+exports.postDeleteEmergencyContact = async (req, res) => {
+    const contact = [
+        {
+            name: req.body.name,
+            relation: req.body.relation,
+            email: req.body.email,
+            phone: req.body.phone,
+        }
+    ];
+    try {
+        await User.findOneAndUpdate(
+            { "_id": req.user.id },
+            {
+                $pull: {"emergencyContacts": {_id: req.params.id}}
+            },
+        );
+        await req.flash("info", "Your request has been successfully processed.");
+        return res.redirect("/profile/contact");
+    } catch (err) {
+        console.log(err);
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/profile/contact/emergency/${req.params.id}/edit`);
+    };
+};
+exports.getAddAddress = async (req, res) => {
+    const title = "Add Address";
+    const messages = await req.flash("info");
+    res.render("profile/contact/addaddress", {
+        user: req.user,
+        urlraw: req.url,
+        urlreturn: "/profile/contact",
+        url: encodeURIComponent(req.url),
+        title,
+        pjson,
+        messages,
+        countries,
+    });
+}
+exports.postAddAddress = async (req, res) => {
+    const address = [
+        {
+            type: req.body.type,
+            startDate: req.body.startDate,
+            line1: req.body.line1,
+            line2: req.body.line2,
+            city: req.body.city,
+            stateProvince: req.body.state,
+            zip: req.body.zip,
+            country: req.body.country,
+        }
+    ];
+    try {
+        await User.findByIdAndUpdate(
+            req.user.id,
+            {
+                $push: {"mailingAddress": address}
+            },
+        );
+        await req.flash("info", "Your request has been successfully processed.");
+        return res.redirect("/profile/contact");
+    } catch (err) {
+        console.log(err);
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/profile/contact/address/add`);
+    };
+};
+exports.getEditAddress = async (req, res) => {
+    const title = "Edit Address";
+    const messages = await req.flash("info");
+    const address = req.user.mailingAddress.find(e => e.id === req.params.id);
+    res.render("profile/contact/editaddress", {
+        user: req.user,
+        urlraw: req.url,
+        urlreturn: "/profile/contact",
+        url: encodeURIComponent(req.url),
+        title,
+        pjson,
+        messages,
+        address,
+        countries,
+    });
+};
+exports.postEditAddress = async (req, res) => {
+    const address = [
+        {
+            type: req.body.type,
+            startDate: req.body.startDate,
+            line1: req.body.line1,
+            line2: req.body.line2,
+            city: req.body.city,
+            stateProvince: req.body.state,
+            zip: req.body.zip,
+            country: req.body.country,
+        }
+    ];
+    try {
+        await User.findOneAndUpdate(
+            { "_id": req.user.id, "mailingAddress._id": req.params.id },
+            {
+                $set: {"mailingAddress.$": address}
+            },
+        );
+        await req.flash("info", "Your request has been successfully processed.");
+        return res.redirect("/profile/contact");
+    } catch (err) {
+        console.log(err);
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/profile/contact/address/${req.params.id}/edit`);
+    };
+};
+exports.postDeleteAddress = async (req, res) => {
+    const address = [
+        {
+            type: req.body.type,
+            startDate: req.body.startDate,
+            line1: req.body.line1,
+            line2: req.body.line2,
+            city: req.body.city,
+            stateProvince: req.body.state,
+            zip: req.body.zip,
+            country: req.body.country,
+        }
+    ];
+    try {
+        await User.findOneAndUpdate(
+            { "_id": req.user.id },
+            {
+                $pull: {"mailingAddress": {_id: req.params.id}}
+            },
+        );
+        await req.flash("info", "Your request has been successfully processed.");
+        return res.redirect("/profile/contact");
+    } catch (err) {
+        console.log(err);
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/profile/contact/address/${req.params.id}/edit`);
     };
 };

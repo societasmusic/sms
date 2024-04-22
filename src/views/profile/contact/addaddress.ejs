@@ -1,0 +1,77 @@
+<%- include('../../partials/header') %>
+<div class="flex-grow-1 bg-body-tertiary">
+    <%- include('../../partials/breadcrumb') %>
+    <div class="px-3">
+        <div class="container py-3">
+            <form action="/profile/contact/address/add" method="POST" class="needs-validation" novalidate>
+                <div class="row mt-2">
+                    <div class="col-6 py-1">
+                        <label for="type" class="form-label fs-7">Address Type</label>
+                        <select class="form-select fs-7" name="type" id="type" aria-label="Country" required>
+                            <option value="" disabled selected>Select One...</option>
+                            <option value="Mailing Address">Mailing Address</option>
+                            <option value="Office Address">Office Address</option>
+                            <option value="Residential Address">Residential Address</option>
+                        </select>
+                        <div class="invalid-feedback fs-7">
+                                This field cannot be left blank
+                        </div>
+                    </div>
+                    <div class="col-6 py-1">
+                        <label for="startDate" class="form-label fs-7">Start Date</label>
+                        <input type="date" class="form-control fs-7" name="startDate" id="startDate" required>
+                        <div class="invalid-feedback fs-7">
+                            This field cannot be left blank
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-6 py-1">
+                        <label for="line1" class="form-label fs-7">Address</label>
+                        <input type="text" class="form-control fs-7" name="line1" id="line1" required>
+                        <div class="invalid-feedback fs-7">
+                                This field cannot be left blank
+                        </div>
+                    </div>
+                    <div class="col-6 py-1">
+                        <label for="line2" class="form-label fs-7">Address 2</label>
+                        <input type="text" class="form-control fs-7" name="line2" id="line2">
+                    </div>
+                </div>
+                <div class="row mt-2 mb-4">
+                    <div class="col-3 py-1">
+                        <label for="city" class="form-label fs-7">City</label>
+                        <input type="text" class="form-control fs-7" name="city"  id="city" placeholder="" required>
+                        <div class="invalid-feedback fs-7">
+                                This field cannot be left blank
+                        </div>
+                    </div>
+                    <div class="col-3 py-1">
+                        <label for="state" class="form-label fs-7">State</label>
+                        <input type="text" class="form-control fs-7" name="state"  id="state" placeholder="">
+                    </div>
+                    <div class="col-2 py-1">
+                        <label for="zip" class="form-label fs-7">Postal Code</label>
+                        <input type="text" class="form-control fs-7" name="zip"  id="zip" placeholder="">
+                    </div>
+                    <div class="col-4 py-1">
+                        <label for="country" class="form-label fs-7">Country</label>
+                        <select class="form-select fs-7" name="country" id="country" aria-label="Country" required>
+                            <option value="" disabled selected>Select One...</option>
+                            <% countries.forEach(element => { %>
+                                <option value="<%= element.name %>"><%= element.name %></option>
+                            <% }) %>
+                        </select>
+                        <div class="invalid-feedback fs-7">
+                                This field cannot be left blank
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary fs-7" onclick="location.href='/profile/contact'">Cancel</button>
+                <button type="submit" class="btn btn-primary fs-7">Save Address</button>
+                <p class="fs-7 text-secondary mt-2">* Required Field</p>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/footer') %>

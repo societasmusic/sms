@@ -28,6 +28,14 @@ const userSchema = mongoose.Schema(
         },
         mailingAddress: [
             {
+                type: {
+                    type: String,
+                    required: false
+                },
+                startDate: {
+                    type: String,
+                    required: false
+                },
                 line1: {
                     type: String,
                     required: false
