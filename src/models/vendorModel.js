@@ -28,56 +28,42 @@ const addressSchema = mongoose.Schema(
         },
     },
 );
-const attachmentSchema = mongoose.Schema(
-    {
-        name: {
-            type: String,
-            required: false,
-        },
-        type: {
-            type: String,
-            required: false,
-        },
-        path: {
-            type: String,
-            required: false,
-        },
-        createdBy: {
-            type: String,
-            required: false
-        },
-        updatedBy: {
-            type: String,
-            required: false
-        },
-    },
-    {
-        timestamps: true
-    },
-);
 
-const accountSchema = mongoose.Schema(
+const vendorSchema = mongoose.Schema(
     {
-        legalname: {
+        legalName: {
             type: String,
             require: true
         },
-        businesstype: {
+        businessType: {
             type: String,
             require: true
         },
-        territory: {
+        businessCategory: {
             type: String,
             require: true
+        },
+        taxTerritory: {
+            type: String,
+            require: true
+        },
+        status: {
+            type: String,
+            require: true
+        },
+        email: {
+            type: String,
+            require: false
+        },
+        phone: {
+            type: Number,
+            require: false
+        },
+        altPhone: {
+            type: String,
+            require: false
         },
         address: [addressSchema],
-        contact: [
-            {
-                type: String,
-                required: false,
-            },
-        ],
-        attachments: [attachmentSchema],
         createdBy: {
             type: String,
             required: true
@@ -92,6 +78,6 @@ const accountSchema = mongoose.Schema(
     },
 );
 
-const Account = mongoose.model("Account", accountSchema);
+const Vendor = mongoose.model("Vendor", vendorSchema);
 
-module.exports = Account;
+module.exports = Vendor;
