@@ -12,7 +12,7 @@ fs.readFile("src/data/countries.json", "utf8", (err, data) => {
 });
 
 exports.getIndex = async (req, res) => {
-    const title = "User Self-Service Index";
+    const title = "User Self-Service (USS)";
     const messages = await req.flash("info");
     res.render("uss/index", {
         user: req.user,
