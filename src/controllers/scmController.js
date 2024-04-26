@@ -80,13 +80,31 @@ exports.getCreateVendor = async (req, res) => {
 };
 
 exports.postCreateVendor = async (req, res) => {
+    // Check if any blank inputs
+    if (req.body.status == "" || req.body.legalName == "" || req.body.businessType == "" || req.body.taxTerritory == "" || req.body.businessCategory == "") {
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/scm/vendors/create`);
+    };
+    // Check email regex
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(req.body.email.trim()) == false && req.body.email.trim() != "") {
         await req.flash("info", "Incorrect email format. Please try again.");
         return res.redirect(`/scm/vendors/create`);
     };
+    // Check status values
+    if (req.body.status != "Enabled" || req.body.status != "Disabled") {
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/scm/vendors/create`);
+    };
+    // Check preset arrays
+    if (!businesscategories.includes(req.body.businessCategory)) {
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/scm/vendors/create`);
+    };
+    // Define object
     const vendor = new Vendor({
         createdBy: req.user.id,
         updatedBy: req.user.id,
+        status: req.body.status,
         legalName: req.body.legalName,
         businessType: req.body.businessType,
         taxTerritory: req.body.taxTerritory,
@@ -105,6 +123,7 @@ exports.postCreateVendor = async (req, res) => {
             }
         ],
     });
+    // Save to db
     try {
         await vendor.save();
         await req.flash("info", "Your request has been successfully processed.");

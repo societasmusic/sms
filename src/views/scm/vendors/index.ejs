@@ -6,12 +6,14 @@
             <div class="border mb-3 shadow-sm">
                 <div class="bg-body border-bottom px-3 py-2 d-flex justify-content-between">
                     <h4 class="fw-normal mb-0">Vendors</h4>
-                    <button type="button" class="btn btn-primary fs-7 py-1 px-2 d-flex" data-bs-toggle="tooltip" data-bs-title="Create vendor" onclick="location.href='/scm/vendors/create'">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg d-flex align-self-center me-1" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-                        </svg>
-                        Add
-                    </button>
+                    <% if (user.access ==  "Editor" || user.access ==  "System Administrator" || user.access ==  "System Owner") { %>
+                        <button type="button" class="btn btn-primary fs-7 py-1 px-2 d-flex" data-bs-toggle="tooltip" data-bs-title="Create vendor" onclick="location.href='/scm/vendors/create'">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg d-flex align-self-center me-1" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                            </svg>
+                            Add
+                        </button>
+                    <% } %>
                 </div>
                 <div class="py-3 bg-body">
                     <p class="fs-7 px-3 mb-2 text-secondary">Search Options</p>
