@@ -1,5 +1,34 @@
 const mongoose = require("mongoose");
 
+const transactionSchema = mongoose.Schema(
+    {
+        line1: {
+            type: String,
+            required: false,
+        },
+        line2: {
+            type: String,
+            required: false,
+        },
+        city: {
+            type: String,
+            required: false,
+        },
+        state: {
+            type: String,
+            required: false,
+        },
+        zip: {
+            type: String,
+            required: false,
+        },
+        country: {
+            type: String,
+            required: false,
+        },
+    },
+);
+
 const addressSchema = mongoose.Schema(
     {
         line1: {
@@ -35,6 +64,10 @@ const vendorSchema = mongoose.Schema(
             type: String,
             require: true
         },
+        tin: {
+            type: String,
+            require: false
+        },
         businessType: {
             type: String,
             require: true
@@ -60,10 +93,11 @@ const vendorSchema = mongoose.Schema(
             require: false
         },
         altPhone: {
-            type: String,
+            type: Number,
             require: false
         },
         address: [addressSchema],
+        transaction: [transactionSchema],
         createdBy: {
             type: String,
             required: true

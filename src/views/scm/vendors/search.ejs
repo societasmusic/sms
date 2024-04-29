@@ -5,7 +5,7 @@
         <div class="container py-3">
             <div class="border mb-3 shadow-sm">
                 <div class="bg-body border-bottom px-3 py-2 d-flex justify-content-between">
-                    <h4 class="fw-normal mb-0">Vendors</h4>
+                    <h4 class="fw-normal mb-0">Search Query <%= `"${q}"` %></h4>
                     <% if (user.access ==  "Editor" || user.access ==  "System Administrator" || user.access ==  "System Owner") { %>
                         <button type="button" class="btn btn-primary fs-7 py-1 px-2 d-flex" data-bs-toggle="tooltip" data-bs-title="Create vendor" onclick="location.href='/scm/vendors/create'">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg d-flex align-self-center me-1" viewBox="0 0 16 16">

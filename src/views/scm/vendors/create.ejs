@@ -5,12 +5,16 @@
         <div class="container py-3">
             <form action="/scm/vendors/create" method="POST" class="needs-validation" novalidate>
                 <div class="row mt-2">
-                    <div class="col-6 py-1">
+                    <div class="col-4 py-1">
                         <label for="legalName" class="form-label fs-7">Legal Name*</label>
                         <input type="text" class="form-control fs-7" name="legalName" id="legalName" required>
                         <div class="invalid-feedback fs-7">
                                 This field cannot be left blank
                         </div>
+                    </div>
+                    <div class="col-2 py-1">
+                        <label for="tin" class="form-label fs-7">Tax ID</label>
+                        <input type="text" class="form-control fs-7" name="tin" id="tin">
                     </div>
                     <div class="col-3 py-1">
                         <label for="businessCategory" class="form-label fs-7">Business Category*</label>
@@ -109,7 +113,7 @@
                     </div>
                 </div>
                 <button type="button" class="btn btn-secondary fs-7" onclick="location.href='/scm/vendors'">Cancel</button>
-                <button type="submit" class="btn btn-primary fs-7">Save Address</button>
+                <button type="submit" class="btn btn-primary fs-7">Save Vendor</button>
                 <p class="fs-7 text-secondary mt-2">* Required Field</p>
             </form>
         </div>
