@@ -14,6 +14,10 @@ const itemSchema = mongoose.Schema(
             type: String,
             required: false
         },
+        itemType: {
+            type: String,
+            required: true
+        },
         itemNumber: {
             itemNumberSeries: {
                 type: String,

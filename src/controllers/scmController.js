@@ -446,7 +446,7 @@ exports.getCreateItem = async (req, res) => {
 
 exports.postCreateItem = async (req, res) => {
     // Check if any blank inputs
-    if (req.body.name == "" || req.body.itemNumberSeries == "" || req.body.itemNumberText == "") {
+    if (req.body.name == "" || req.body.itemNumberSeries == "" || req.body.itemNumberText == "" || req.body.itemType == "") {
         await req.flash("info", "There was an error processing your request.");
         return res.redirect(`/scm/inventory/create`);
     };
@@ -467,6 +467,7 @@ exports.postCreateItem = async (req, res) => {
             name: req.body.name,
             version: req.body.version,
             subItemOf: req.body.subItemOf,
+            itemType: req.body.itemType,
             itemNumber: {
                 itemNumberSeries: req.body.itemNumberSeries,
                 itemNumberText: req.body.itemNumberText,
