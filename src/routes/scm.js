@@ -25,5 +25,7 @@ router.get("/scm/inventory", authController.isLoggedIn, scmController.getInvento
 router.get("/scm/inventory/create", authController.isLoggedIn, authController.isEditor, scmController.getCreateItem);
 router.post("/scm/inventory/create", authController.isLoggedIn, authController.isEditor, upload.single("itemImage"), scmController.postCreateItem);
 router.get("/scm/inventory/:id", authController.isLoggedIn, scmController.getItemView);
+router.get("/scm/inventory/:id/edit", authController.isLoggedIn, authController.isEditor, scmController.getEditItem);
+router.get("/scm/inventory/:id/edit", authController.isLoggedIn, authController.isEditor, upload.single("itemImage"), scmController.postEditItem);
 
 module.exports = router;

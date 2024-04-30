@@ -474,7 +474,6 @@ exports.getCreateItem = async (req, res) => {
 };
 
 exports.postCreateItem = async (req, res) => {
-    console.log(req.file);
     // Check if any blank inputs
     if (req.body.name == "" || req.body.itemNumberSeries == "" || req.body.itemNumberText == "" || req.body.itemType == "") {
         await req.flash("info", "There was an error processing your request.");
@@ -500,32 +499,38 @@ exports.postCreateItem = async (req, res) => {
         itemNumberText = req.body.itemNumberText;
     };
     // Check if item number already exists
-    const existingItem = await Item.find({"itemNumber.itemNumberText":itemNumberText});
-    if (existingItem > 0) {
+    const existingItem = await Item.findOne({"itemNumber.itemNumberText":itemNumberText});
+    if (existingItem) {
+        console.log(existingItem);
         await req.flash("info", "There was an error processing your request.");
         return res.redirect(`/scm/inventory/create`);
     };
     // Upload files to s3 bucket
-    const fileNameClean = new Date().toISOString().replaceAll("-", "").replaceAll(":", "").replaceAll(".", "");
-    const securityKey = (bytes = 32) => crypto.randomBytes(bytes).toString("hex");
-    var fileExt;
-    if (req.file.mimetype == "image/png") {
-        fileExt = "png"
-    } else if (req.file.mimetype == "image/jpeg") {
-        fileExt = "jpeg"
+    var fileName;
+    if (req.file != "" && req.file) {
+        const fileNameClean = new Date().toISOString().replaceAll("-", "").replaceAll(":", "").replaceAll(".", "");
+        const securityKey = (bytes = 32) => crypto.randomBytes(bytes).toString("hex");
+        var fileExt;
+        if (req.file.mimetype == "image/png") {
+            fileExt = "png"
+        } else if (req.file.mimetype == "image/jpeg") {
+            fileExt = "jpeg"
+        } else {
+            await req.flash("info", "There was an error processing your request.");
+            return res.redirect(`/scm/inventory/create`);
+        };
+        fileName = `image-${fileNameClean}-${securityKey()}.${fileExt}`
+        const params = {
+            Bucket: process.env.BUCKET_NAME,
+            Key: fileName,
+            Body: req.file.buffer,
+            ContentType: req.file.mimetype,
+        };
+        const command = new PutObjectCommand(params);
+        await s3.send(command);
     } else {
-        await req.flash("info", "There was an error processing your request.");
-        return res.redirect(`/scm/inventory/create`);
+        fileName = "";
     };
-    const fileName = `image-${fileNameClean}-${securityKey()}.${fileExt}`
-    const params = {
-        Bucket: process.env.BUCKET_NAME,
-        Key: fileName,
-        Body: req.file.buffer,
-        ContentType: req.file.mimetype,
-    };
-    const command = new PutObjectCommand(params);
-    await s3.send(command);
     // Define object
     const item = new Item({
         createdBy: req.user.id,
@@ -598,4 +603,94 @@ exports.getItemView = async (req, res) => {
         await req.flash("info", "There was an error processing your request.");
         return res.redirect("/scm/inventory");
     }
-}
+};
+
+exports.getEditItem = async (req, res) => {
+    const item = await Item.findOne({_id: req.params.id});
+    const title = "Edit Item";
+    const messages = await req.flash("info");
+    const items = await Item.find({});
+    res.render("scm/inventory/edit", {
+        user: req.user,
+        urlraw: req.url,
+        urlreturn: `/scm/inventory/${req.params.id}`,
+        url: encodeURIComponent(req.url),
+        title,
+        pjson,
+        messages,
+        countries,
+        businesscategories,
+        item,
+        items,
+        years,
+        itemTypes,
+        languages,
+    });
+};
+
+exports.postEditItem = async (req, res) => {
+    // Check if any blank inputs
+    if (req.body.name == "" || req.body.itemNumberSeries == "" || req.body.itemType == "") {
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/scm/inventory/${req.params.id}/edit`);
+    };
+    // Upload files to s3 bucket
+    var fileName;
+    if (req.file != "" && req.file) {
+        const fileNameClean = new Date().toISOString().replaceAll("-", "").replaceAll(":", "").replaceAll(".", "");
+        const securityKey = (bytes = 32) => crypto.randomBytes(bytes).toString("hex");
+        var fileExt;
+        if (req.file.mimetype == "image/png") {
+            fileExt = "png"
+        } else if (req.file.mimetype == "image/jpeg") {
+            fileExt = "jpeg"
+        } else {
+            await req.flash("info", "There was an error processing your request.");
+            return res.redirect(`/scm/inventory/${req.params.id}/edit`);
+        };
+        fileName = `image-${fileNameClean}-${securityKey()}.${fileExt}`
+        const params = {
+            Bucket: process.env.BUCKET_NAME,
+            Key: fileName,
+            Body: req.file.buffer,
+            ContentType: req.file.mimetype,
+        };
+        const command = new PutObjectCommand(params);
+        await s3.send(command);
+    } else {
+        const existingItem = await Item.findOneById(req.params.id);
+        fileName = existingItem.itemImage;
+    };
+    // Define object
+    const item = new Item({
+        createdBy: req.user.id,
+        updatedBy: req.user.id,
+        name: req.body.name,
+        version: req.body.version,
+        subItemOf: req.body.subItemOf,
+        itemType: req.body.itemType,
+        itemImage: fileName,
+        itemLabel: req.body.itemLabel,
+        manufacturedIn: req.body.manufacturedIn,
+        explicit: req.body.explicit,
+        lang: req.body.lang,
+        cLine: {
+            cLineYear: req.body.cLineYear,
+            cLineText: req.body.cLineText,
+        },
+        pLine: {
+            pLineYear: req.body.pLineYear,
+            pLineText: req.body.pLineText,
+        }
+    });
+    // Save to db
+    try {
+        await item.save();
+        await req.flash("info", "Your request has been successfully processed.");
+        return res.redirect(`/scm/inventory`);
+    } catch (err) {
+        console.log(err);
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/scm/inventory/${req.params.id}/edit`);
+    }
+};
