@@ -3,7 +3,7 @@
     <%- include('../../partials/breadcrumb') %>
     <div class="px-3">
         <div class="container py-3">
-            <form action="/scm/inventory/create" method="POST" class="needs-validation" novalidate>
+            <form action="/scm/inventory/create" method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
                 <div class="row mt-2">
                     <div class="col-4 py-1">
                         <label for="name" class="form-label fs-7">Display Name*</label>
@@ -17,30 +17,9 @@
                         <input type="text" class="form-control fs-7" name="version" id="version">
                     </div>
                     <div class="col-6 py-1">
-                        <label for="itemType" class="form-label fs-7">Item Type*</label>
-                        <select class="form-select fs-7" id="itemType" name="itemType" required>
-                            <option value="" selected hidden disabled>Select one...</option>
-                            <option value="Album">Album</option>
-                            <option value="Collection">Collection</option>
-                            <option value="Compilation">Compilation</option>
-                            <option value="EP">EP</option>
-                            <option value="Musical Work">Musical Work</option>
-                            <option value="Other">Other</option>
-                            <option value="Single">Single</option>
-                            <option value="Software">Software</option>
-                            <option value="Sound Recording">Sound Recording</option>
-                            <option value="Video">Video</option>
-                        </select>
-                        <div class="invalid-feedback fs-7">
-                            This field cannot be left blank
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-3 py-1">
                         <label for="itemNumber" class="form-label fs-7">Item Number*</label>
                         <small class="text-secondary">(Check to enter manually)</small>
-                        <div class="input-group">
+                        <div class="d-flex gap-1">
                             <div class="input-group-text">
                                 <input class="form-check-input mt-0 fs-7" type="checkbox" value="true" id="autogen" name="autogen" aria-label="Checkbox for following text input" disabled onchange="document.getElementById('itemNumberText').disabled = !this.checked;">
                             </div>
@@ -51,27 +30,41 @@
                                 <option value="ISRC-QZZDS">ISRC-QZZDS</option>
                             </select>
                             <input type="text" class="form-control fs-7 rounded-end" aria-label="Text input with checkbox" id="itemNumberText" name="itemNumberText" disabled required>
-                            <div class="invalid-feedback fs-7">
-                                This field cannot be left blank
-                            </div>
+                        </div>
+                        <div class="invalid-feedback fs-7">
+                            This field cannot be left blank
                         </div>
                     </div>
-                    <div class="col-3 py-1">
+                </div>
+                <div class="row mt-2">
+                    <div class="col-6 py-1">
+                        <label for="itemType" class="form-label fs-7">Item Type*</label>
+                        <select class="form-select fs-7" id="itemType" name="itemType" required>
+                            <option value="" selected hidden disabled>Select one...</option>
+                            <% itemTypes.forEach(e => { %>
+                                <option value="<%= e %>"><%= e %></option>
+                            <% }) %>
+                        </select>
+                        <div class="invalid-feedback fs-7">
+                            This field cannot be left blank
+                        </div>
+                    </div>
+                    <div class="col-6 py-1">
                         <label for="formFile" class="form-label fs-7">Cover Image</label>
                         <small class="text-secondary">(PNG and JPG only)</small>
-                        <input class="form-control fs-7" type="file" id="itemImage" name="itemImage">
+                        <input class="form-control fs-7" type="file" id="itemImage" name="itemImage" accept="image/png, image/jpeg">
                     </div>
+                </div>
+                <div class="row mt-2">  
                     <div class="col-6 py-1">
                         <label for="itemLabel" class="form-label fs-7">Label</label>
                         <small class="text-secondary">(If applicable)</small>
                         <input class="form-control fs-7" type="text" id="itemLabel" name="itemLabel">
                     </div>
-                </div>
-                <div class="row mt-2">
                     <div class="col-6 py-1">
-                        <label for="cLine" class="form-label fs-7">C-Line</label>
+                        <label for="pLine" class="form-label fs-7">Copyright Ownership</label>
                         <small class="text-secondary">(If applicable)</small>
-                        <div class="input-group">
+                        <div class="d-flex gap-1 mb-1">
                             <span class="input-group-text fs-7" id="basic-addon1">©</span>
                             <select class="form-select fs-7 itemNumberField" id="cLineYear" name="cLineYear" style="max-width:125px;">
                                 <option value="" selected hidden disabled>Select one...</option>
@@ -82,11 +75,7 @@
                             </select>
                             <input class="form-control fs-7" type="text" id="cLineText" name="cLineText">
                         </div>
-                    </div>
-                    <div class="col-6 py-1">
-                        <label for="pLine" class="form-label fs-7">P-Line</label>
-                        <small class="text-secondary">(If applicable)</small>
-                        <div class="input-group">
+                        <div class="d-flex gap-1">
                             <span class="input-group-text fs-7" id="basic-addon1">℗</span>
                             <select class="form-select fs-7 itemNumberField" id="pLineYear" name="pLineYear" style="max-width:125px;">
                                 <option value="" selected hidden disabled>Select one...</option>
@@ -99,37 +88,37 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mt-4 mb-4">
-                    <h3 class="fw-light">Sub Items</h3>
-                    <table class="table">
-                        <thead>
-                            <tr class="fs-7">
-                                <th class="col-1">Object</th>
-                                <th>Sub Item</th>
-                                <th class="col-1">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="fieldRows">
-                            <tr>
-                                <td class="fs-7">Item</td>
-                                <td>
-                                    <select name="s1" id="s1" class="form-select form-select-min fs-7 s1">
-                                        <option value="" selected hidden disabled>Select one...</option>
-                                        <% items.forEach(e => { %>
-                                            <option value="<%= e.id %>"><%= `${e.itemType}: ${e.name}` %></option>
-                                        <% }) %>
-                                    </select>
-                                    <div class="invalid-feedback fs-7">
-                                        This field cannot be left blank
-                                    </div>
-                                </td>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-secondary fs-7 add_row w-100">Add</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="row mt-2 mb-4">
+                    <div class="col-6 py-1">
+                        <label for="manufacturedIn" class="form-label fs-7">Manufactured In</label>
+                        <small class="text-secondary">(If applicable)</small>
+                        <select class="form-select fs-7" id="manufacturedIn" name="manufacturedIn">
+                            <option value="" selected hidden disabled>Select one...</option>
+                            <option value="">Not Applicable</option>
+                            <% countries.forEach(e => { %>
+                                <option value="<%= e.name %>"><%= e.name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="col-3 py-1">
+                        <label for="explicit" class="form-label fs-7">Explicit Content</label>
+                        <select class="form-select fs-7" id="explicit" name="explicit">
+                            <option value="" selected hidden disabled>Select one...</option>
+                            <option value="">Not Applicable</option>
+                            <option value="Explicit">Explicit</option>
+                            <option value="Not Explicit">Not Explicit</option>
+                        </select>
+                    </div>
+                    <div class="col-3 py-1">
+                        <label for="lang" class="form-label fs-7">Language</label>
+                        <select class="form-select fs-7" id="lang" name="lang">
+                            <option value="" selected hidden disabled>Select one...</option>
+                            <option value="">Not Applicable</option>
+                            <% languages.forEach(e => { %>
+                                <option value="<%= e.name %>"><%= e.native %> (<%= e.name %>)</option>
+                            <% }) %>
+                        </select>
+                    </div>
                 </div>
                 <button type="button" class="btn btn-secondary fs-7" onclick="location.href='/scm/inventory'">Cancel</button>
                 <button type="submit" class="btn btn-primary fs-7">Save Item</button>
@@ -139,49 +128,4 @@
     </div>
 </div>
 <script src="/js/itemNumberValidator.js"></script>
-<script>
-    $(document).ready(function() {
-        $(".add_row").click(function(e) {
-            e.preventDefault();
-            $("#fieldRows").append(`
-                <tr>
-                    <td class="fs-7">Item</td>
-                    <td>
-                        <select name="s1" id="s1" class="form-select fs-7 s1 select2-hidden-accessible" data-select2-id="select2-data-s1" tabindex="-1" aria-hidden="true">
-                            <option value="" selected hidden disabled>Select one...</option>
-                            <% items.forEach(e => { %>
-                                <option value="<%= e.id %>"><%-`${e.itemType}: ${e.name}` %></option>
-                            <% }) %>
-                        </select>
-                        <span class="select2 select2-container select2-container--default select2-container--above select2-container--focus" dir="ltr" data-select2-id="select2-data-9-i0mn" style="width: 1084px;">
-                            <span class="selection">
-                                <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-s1-container">
-                                    <span class="select2-selection__rendered" id="select2-s1-container" role="textbox" aria-readonly="true" title="Select one...">
-                                        Select one...
-                                    </span>
-                                    <span class="select2-selection__arrow" role="presentation">
-                                        <b role="presentation"></b>
-                                    </span>
-                                </span>
-                            </span>
-                            <span class="dropdown-wrapper" aria-hidden="true">
-                            </span>
-                        </span>
-                        <div class="invalid-feedback fs-7">
-                            This field cannot be left blank
-                        </div>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-outline-danger fs-7 delete_row w-100">Delete</button>
-                    </td>
-                </tr>
-            `)
-        });
-        $(document).on("click", ".delete_row", function(e) {
-            e.preventDefault();
-            let row_item = $(this).parent().parent();
-            $(row_item).remove();
-        });
-    });
-</script>
 <%- include('../../partials/footer') %>

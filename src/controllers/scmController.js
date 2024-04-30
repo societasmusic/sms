@@ -3,8 +3,19 @@ const User = require("../models/userModel");
 const Vendor = require("../models/vendorModel");
 const Item = require("../models/itemModel");
 const fs = require('fs');
+const crypto = require("crypto");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const { S3Client, PutObjectCommand, GetObjectCommand } = require("@aws-sdk/client-s3");
 const {downloadCsvResource} = require("../utils/json-csv");
 const {downloadXmlResource} = require("../utils/json-xml");
+
+const s3 = new S3Client({
+    credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_KEY,
+    },
+    region: process.env.BUCKET_REGION
+});
 
 var countries;
 fs.readFile("src/data/countries.json", "utf8", (err, data) => {
@@ -12,6 +23,14 @@ fs.readFile("src/data/countries.json", "utf8", (err, data) => {
         console.log(err);
     } else {
         countries = JSON.parse(data);
+    }
+});
+var languages;
+fs.readFile("src/data/languages.json", "utf8", (err, data) => {
+    if (err) {
+        console.log(err);
+    } else {
+        languages = JSON.parse(data);
     }
 });
 var businesscategories;
@@ -28,6 +47,14 @@ fs.readFile("src/data/years.json", "utf8", (err, data) => {
         console.log(err);
     } else {
         years = JSON.parse(data);
+    }
+});
+var itemTypes;
+fs.readFile("src/data/itemTypes.json", "utf8", (err, data) => {
+    if (err) {
+        console.log(err);
+    } else {
+        itemTypes = JSON.parse(data);
     }
 });
 
@@ -441,51 +468,89 @@ exports.getCreateItem = async (req, res) => {
         businesscategories,
         items,
         years,
+        itemTypes,
+        languages,
     });
 };
 
 exports.postCreateItem = async (req, res) => {
+    console.log(req.file);
     // Check if any blank inputs
     if (req.body.name == "" || req.body.itemNumberSeries == "" || req.body.itemNumberText == "" || req.body.itemType == "") {
         await req.flash("info", "There was an error processing your request.");
         return res.redirect(`/scm/inventory/create`);
     };
-    // // Check email regex
-    // if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(req.body.email.trim()) == false && req.body.email.trim() != "") {
-    //     await req.flash("info", "Incorrect email format. Please try again.");
-    //     return res.redirect(`/scm/vendors/${req.params.id}/edit`);
-    // };
-    // Check status values
-    // if (!years.includes(req.body.cLineYear) && req.body.cLineYear != "" || !years.includes(req.body.pLineYear) && req.body.pLineYear != "") {
-    //     await req.flash("info", "There was an error processing your request.");
-    //     return res.redirect(`/scm/inventory/create`);
-    // };
+    // Check if item num series is accepted value
+    if (!["ISRC-QZZDS", "ISRC-Custom", "UPC-Custom"].includes(req.body.itemNumberSeries)) {
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/scm/inventory/create`);
+    };
+    // Item number autogen
+    var itemNumberText;
+    if (req.body.itemNumberSeries == "ISRC-QZZDS") {
+        const items = await Item.find({"itemNumber.itemNumberSeries":req.body.itemNumberSeries});
+        const itemsSorted = [];
+        items.forEach(e => {
+            itemsSorted.push(Number(e.itemNumber.itemNumberText.slice(7, 12)));
+        });
+        var itemNumberTextYear = new Date().getFullYear().toString().slice(2, 4);
+        itemNumberText = (Number(itemNumberTextYear) * 100000) + Number(Math.max(...itemsSorted) + 1);
+        itemNumberText = "QZZDS" + itemNumberText;
+    } else {
+        itemNumberText = req.body.itemNumberText;
+    };
+    // Check if item number already exists
+    const existingItem = await Item.find({"itemNumber.itemNumberText":itemNumberText});
+    if (existingItem > 0) {
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/scm/inventory/create`);
+    };
+    // Upload files to s3 bucket
+    const fileNameClean = new Date().toISOString().replaceAll("-", "").replaceAll(":", "").replaceAll(".", "");
+    const securityKey = (bytes = 32) => crypto.randomBytes(bytes).toString("hex");
+    var fileExt;
+    if (req.file.mimetype == "image/png") {
+        fileExt = "png"
+    } else if (req.file.mimetype == "image/jpeg") {
+        fileExt = "jpeg"
+    } else {
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/scm/inventory/create`);
+    };
+    const fileName = `image-${fileNameClean}-${securityKey()}.${fileExt}`
+    const params = {
+        Bucket: process.env.BUCKET_NAME,
+        Key: fileName,
+        Body: req.file.buffer,
+        ContentType: req.file.mimetype,
+    };
+    const command = new PutObjectCommand(params);
+    await s3.send(command);
     // Define object
     const item = new Item({
         createdBy: req.user.id,
-            updatedBy: req.user.id,
-            name: req.body.name,
-            version: req.body.version,
-            subItemOf: req.body.subItemOf,
-            itemType: req.body.itemType,
-            itemNumber: {
-                itemNumberSeries: req.body.itemNumberSeries,
-                itemNumberText: req.body.itemNumberText,
-            },
-            itemImage: req.body.itemImage,
-            itemLabel: req.body.itemLabel,
-            cLine: [
-                {
-                    cLineYear: req.body.cLineYear,
-                    cLineText: req.body.cLineText,
-                }
-            ],
-            pLine: [
-                {
-                    pLineYear: req.body.pLineYear,
-                    pLineText: req.body.pLineText,
-                }
-            ],
+        updatedBy: req.user.id,
+        name: req.body.name,
+        version: req.body.version,
+        subItemOf: req.body.subItemOf,
+        itemType: req.body.itemType,
+        itemNumber: {
+            itemNumberSeries: req.body.itemNumberSeries,
+            itemNumberText: itemNumberText,
+        },
+        itemImage: fileName,
+        itemLabel: req.body.itemLabel,
+        manufacturedIn: req.body.manufacturedIn,
+        explicit: req.body.explicit,
+        lang: req.body.lang,
+        cLine: {
+            cLineYear: req.body.cLineYear,
+            cLineText: req.body.cLineText,
+        },
+        pLine: {
+            pLineYear: req.body.pLineYear,
+            pLineText: req.body.pLineText,
+        }
     });
     // Save to db
     try {
@@ -498,3 +563,39 @@ exports.postCreateItem = async (req, res) => {
         return res.redirect(`/scm/inventory/create`);
     }
 };
+
+exports.getItemView = async (req, res) => {
+    try {
+        const item = await Item.findOne({_id: req.params.id});
+        const createdBy = await User.findOne({_id: item.createdBy});
+        const updatedBy = await User.findOne({_id: item.updatedBy});
+        const title = `Item: ${item.name}`;
+        const messages = await req.flash("info");
+        var imageUrl;
+        if (item.itemImage != "" && item.itemImage) {
+            const getObjectParams = {
+                Bucket: process.env.BUCKET_NAME,
+                Key: item.itemImage,
+            };
+            const command = new GetObjectCommand(getObjectParams);
+            imageUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+        };
+        res.render("scm/inventory/view", {
+            item,
+            user: req.user,
+            urlraw: req.url,
+            urlreturn: "/scm/inventory",
+            url: encodeURIComponent(req.url),
+            imageUrl,
+            title,
+            pjson,
+            messages,
+            createdBy: `${createdBy.fname} ${createdBy.lname}`,
+            updatedBy: `${updatedBy.fname} ${updatedBy.lname}`,
+        });
+    } catch (err) {
+        console.log(err);
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect("/scm/inventory");
+    }
+}

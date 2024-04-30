@@ -56,6 +56,18 @@ const itemSchema = mongoose.Schema(
                 required: false
             },
         },
+        manufacturedIn: {
+            type: String,
+            required: false
+        },
+        explicit: {
+            type: String,
+            required: false
+        },
+        lang: {
+            type: String,
+            required: false
+        },
         createdBy: {
             type: String,
             required: true

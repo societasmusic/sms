@@ -1,0 +1,129 @@
+<%- include('../../partials/header') %>
+<div class="flex-grow-1 bg-body-tertiary">
+    <%- include('../../partials/breadcrumb') %>
+    <div class="px-3">
+        <div class="container py-3">
+            <div class="border mb-3 shadow-sm bg-body">
+                <div class="bg-body border-bottom px-3 py-2 d-flex justify-content-start gap-2">
+                    <h4 class="fw-normal mb-0"><%= item.name %></h4>
+                </div>
+                <div class="pb-3 bg-body">
+                    <div class="row border-bottom mx-3 mt-3 fs-7 pb-2">
+                        <div class="col-3">
+                            <% if (imageUrl != "" && imageUrl) { %>                          
+                                <img src="<%= imageUrl %>" alt="" width="275" height="275">
+                            <% } else { %>
+                                <div class="bg-body-tertiary ratio ratio-1x1" style="width:275;height:275;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-images" viewBox="0 0 16 16" style="padding:30%">
+                                        <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+                                        <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z"/>
+                                    </svg>
+                                </div>
+                            <% } %>
+                        </div>
+                        <div class="col-3">
+                            <p class="fw-medium mb-0">Item Name:</p>
+                            <p class="text-body-secondary mb-2"><%= item.name %></p>
+                            <p class="fw-medium mb-0">Version:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (item.version != "") { %>
+                                    <%= item.version %>
+                                <% } else { %>
+                                    None
+                                <% } %>
+                            </p>
+                            <p class="fw-medium mb-0">Item Number (UPC/SKU/ISRC):</p>
+                            <p class="text-body-secondary mb-2"><%= item.itemNumber.itemNumberText %></p>
+                            <p class="fw-medium mb-0">Type:</p>
+                            <p class="text-body-secondary mb-2"><%= item.itemType %></p>
+                            <p class="fw-medium mb-0">Language:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (item.lang != "" && item.lang) { %>
+                                    <%= item.lang %>
+                                <% } else { %>
+                                    None
+                                <% } %>
+                            </p>
+                        </div>
+                        <div class="col-3">
+                            <p class="fw-medium mb-0">Label:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (item.itemLabel != "" && item.itemLabel) { %>
+                                    <%= item.itemLabel %>
+                                <% } else { %>
+                                    None
+                                <% } %>
+                            </p>
+                            <p class="fw-medium mb-0">C-Line:</p>
+                            <p class="text-body-secondary mb-2"><%= `© ${item.cLine.cLineYear} ${item.cLine.cLineText}` %></p>
+                            <p class="fw-medium mb-0">P-Line:</p>
+                            <p class="text-body-secondary mb-2"><%= `℗ ${item.pLine.pLineYear} ${item.pLine.pLineText}` %></p>
+                            <p class="fw-medium mb-0">Manufactured In:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (item.manufacturedIn != "" && item.manufacturedIn) { %>
+                                    <%= item.manufacturedIn %>
+                                <% } else { %>
+                                    None
+                                <% } %>
+                            </p>
+                            <p class="fw-medium mb-0">Is Explicit:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (item.explicit != "" && item.explicit) { %>
+                                    <%= item.explicit %>
+                                <% } else { %>
+                                    Not indicated
+                                <% } %>
+                            </p>
+                        </div>
+                        <% if (user.access ==  "Editor" || user.access ==  "System Administrator" || user.access ==  "System Owner") { %>
+                            <div class="col d-flex justify-content-end">
+                                <a href="/scm/inventory/<%= item.id %>/edit" class="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-pencil-square text-secondary" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            <div class="border mb-3 shadow-sm bg-body">
+                <div class="bg-body border-bottom px-3 py-2 d-flex justify-content-between">
+                    <h4 class="fw-normal mb-0">Sub Items</h4>
+                </div>
+                <div class="pb-3 bg-body">
+                    <div class="row border-bottom mx-3 mt-3 fs-7">
+                        <div class="col-6">
+                            <p class="text-body-secondary mb-2">None</p>
+                        </div>
+                    </div>     
+                </div>
+            </div>
+            <div class="border mb-3 shadow-sm bg-body">
+                <div class="bg-body border-bottom px-3 py-2">
+                    <h4 class="fw-normal mb-0">Audit</h4>
+                </div>
+                <div class="pb-3 bg-body">
+                    <div class="row border-bottom mx-3 mt-3 fs-7">
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Created At:</p>
+                            <p class="text-body-secondary mb-2"><%= item.createdAt %></p>
+                            <p class="fw-medium mb-0">Created By:</p>
+                            <p class="text-body-secondary mb-2"><%= createdBy %></p>
+                            <p class="fw-medium mb-0">Database Object ID:</p>
+                            <p class="text-body-secondary mb-2"><%= item.id %></p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Updated At:</p>
+                            <p class="text-body-secondary mb-2"><%= item.updatedAt %></p>
+                            <p class="fw-medium mb-0">Updated By:</p>
+                            <p class="text-body-secondary mb-2"><%= updatedBy %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/footer') %>

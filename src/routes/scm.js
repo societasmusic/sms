@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const scmController = require("../controllers/scmController");
 const authController = require("../controllers/authController");
+const multer = require("multer");
+const storage = multer.memoryStorage();
+const upload = multer({storage: storage});
 
 router.get("/scm", authController.isLoggedIn, scmController.getIndex);
 
@@ -20,6 +23,7 @@ router.post("/scm/vendors/:id/delete", authController.isLoggedIn, authController
 // Inventory
 router.get("/scm/inventory", authController.isLoggedIn, scmController.getInventory);
 router.get("/scm/inventory/create", authController.isLoggedIn, authController.isEditor, scmController.getCreateItem);
-router.post("/scm/inventory/create", authController.isLoggedIn, authController.isEditor, scmController.postCreateItem);
+router.post("/scm/inventory/create", authController.isLoggedIn, authController.isEditor, upload.single("itemImage"), scmController.postCreateItem);
+router.get("/scm/inventory/:id", authController.isLoggedIn, scmController.getItemView);
 
 module.exports = router;

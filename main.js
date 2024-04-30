@@ -9,10 +9,10 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const AWS = require("@aws-sdk/client-s3");
 const cookieParser = require("cookie-parser");
 const authController = require("./src/controllers/authController");
 var pjson = require('./package.json');
+
 
 /*
     Global variables
