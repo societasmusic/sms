@@ -181,6 +181,14 @@ exports.isViewer = async (req, res, next) => {
         return res.redirect("/");
     }
 };
+// AIS Access
+// exports.hasAISAccess = async (req, res, next) => {
+//     if (req.user.access == "Viewer" || req.user.access == "Editor" || req.user.access == "System Administrator" || req.user.access == "System Owner") {
+//         return next();
+//     } else {
+//         return res.redirect("/");
+//     }
+// };
 
 /*
     Password reset post function

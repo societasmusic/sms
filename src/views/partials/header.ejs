@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+    <title>SMG Cloud Application</title>
+    <!-- Custom Styling -->
     <link href="/css/styles.css" rel="stylesheet">
     <!-- Bootstrap -->
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -19,20 +21,28 @@
         $(document).ready(function() {
             $(".form-select").select2({
                 theme: 'bootstrap-5',
+                placeholder: "Select one...",
+                minimumResultsForSearch: -1,
+                allowClear: true
+            });
+            $(".form-select-search").select2({
+                theme: 'bootstrap-5',
+                placeholder: "Select one...",
+                allowClear: true
             });
             $(".form-select-min").select2({
                 theme: 'bootstrap-5',
-                minimumInputLength: 2
+                minimumInputLength: 2,
+                allowClear: true,
             });
         });
     </script>
-    <!-- Other JS -->
+    <!-- Other Scripts -->
     <script defer src="/js/color-modes.js"></script>
     <script defer src="/js/field-validator.js"></script>
     <script defer src="/js/modal.js"></script>
     <script defer src="/js/toasts.js"></script>
     <script defer src="/js/tooltips.js"></script>
-    <title>SMG Cloud Application</title>
 </head>
 <body>
 <div class="min-vh-100 d-flex flex-column">
@@ -88,50 +98,33 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- <div class="accordion-item">
+                                        <div class="accordion-item">
                                             <h2 class="accordion-header">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nav6" aria-expanded="false" aria-controls="flush-collapseOne">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-briefcase-fill me-2" viewBox="0 0 16 16">
-                                                        <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v1.384l7.614 2.03a1.5 1.5 0 0 0 .772 0L16 5.884V4.5A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5"/>
-                                                        <path d="M0 12.5A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5V6.85L8.129 8.947a.5.5 0 0 1-.258 0L0 6.85z"/>
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nav2" aria-expanded="false" aria-controls="flush-collapseThree">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bank me-2" viewBox="0 0 16 16">
+                                                        <path d="M8.277.084a.5.5 0 0 0-.554 0l-7.5 5A.5.5 0 0 0 .5 6h1.875v7H1.5a.5.5 0 0 0 0 1h13a.5.5 0 1 0 0-1h-.875V6H15.5a.5.5 0 0 0 .277-.916zM12.375 6v7h-1.25V6zm-2.5 0v7h-1.25V6zm-2.5 0v7h-1.25V6zm-2.5 0v7h-1.25V6zM8 4a1 1 0 1 1 0-2 1 1 0 0 1 0 2M.5 15a.5.5 0 0 0 0 1h15a.5.5 0 1 0 0-1z"/>
                                                     </svg>
-                                                    Transaction Processing
+                                                    Accounting Information System (AIS)
                                                 </button>
                                             </h2>
-                                            <div id="nav6" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                            <div id="nav2" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                                                 <div class="accordion-body">
                                                     <ul class="navbar-nav">
-                                                        <li><a href="/tps">Transaction Processing Index</a></li>
-                                                        <li><a href="/tps/webclock">Webclock</a></li>
-                                                        <li><a href="/tps/timesheets">Timesheets</a></li>
-                                                        <li><a href="/tps/expenses">Expenses & Travel</a></li>
+                                                        <li><a href="/ais">AIS Index</a></li>
+                                                        <li><a href="/ais/coa">Chart of Accounts</a></li>
+                                                        <li><a href="/ais/entries">Entries</a></li>
+                                                        <li><a href="/ais/parties">Parties</a></li>
+                                                        <li><a href="/ais/analytics">Analytics</a></li>
+                                                        <li><a href="/ais/import">Import Wizard</a></li>
+                                                        <li><a href="/ais/config">Configuration</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
-                                        </div> -->
-                                        <!-- <div class="accordion-item">
-                                            <h2 class="accordion-header">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nav1" aria-expanded="false" aria-controls="flush-collapseOne">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-line-fill me-2" viewBox="0 0 16 16">
-                                                        <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1z"/>
-                                                    </svg>
-                                                    Operations Manager
-                                                </button>
-                                            </h2>
-                                            <div id="nav1" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                                                <div class="accordion-body">
-                                                    <ul class="navbar-nav">
-                                                        <li><a href="/ops/accounts">Accounts</a></li>
-                                                        <li><a href="/ops/contacts">Contacts</a></li>
-                                                        <li><a href="/ops/products">Products</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div> -->
+                                        </div>
                                         <% if (user.access == "System Owner" || user.access == "System Administrator") { %>
                                             <!-- <div class="accordion-item">
                                                 <h2 class="accordion-header">
-                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nav2" aria-expanded="false" aria-controls="flush-collapseTwo">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nav4" aria-expanded="false" aria-controls="flush-collapseTwo">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-database-fill-gear me-2" viewBox="0 0 16 16">
                                                             <path d="M8 1c-1.573 0-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4s.875 1.755 1.904 2.223C4.978 6.711 6.427 7 8 7s3.022-.289 4.096-.777C13.125 5.755 14 5.007 14 4s-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1"/>
                                                             <path d="M2 7v-.839c.457.432 1.004.751 1.49.972C4.722 7.693 6.318 8 8 8s3.278-.307 4.51-.867c.486-.22 1.033-.54 1.49-.972V7c0 .424-.155.802-.411 1.133a4.51 4.51 0 0 0-4.815 1.843A12 12 0 0 1 8 10c-1.573 0-3.022-.289-4.096-.777C2.875 8.755 2 8.007 2 7m6.257 3.998L8 11c-1.682 0-3.278-.307-4.51-.867-.486-.22-1.033-.54-1.49-.972V10c0 1.007.875 1.755 1.904 2.223C4.978 12.711 6.427 13 8 13h.027a4.55 4.55 0 0 1 .23-2.002m-.002 3L8 14c-1.682 0-3.278-.307-4.51-.867-.486-.22-1.033-.54-1.49-.972V13c0 1.007.875 1.755 1.904 2.223C4.978 15.711 6.427 16 8 16c.536 0 1.058-.034 1.555-.097a4.5 4.5 0 0 1-1.3-1.905m3.631-4.538c.18-.613 1.048-.613 1.229 0l.043.148a.64.64 0 0 0 .921.382l.136-.074c.561-.306 1.175.308.87.869l-.075.136a.64.64 0 0 0 .382.92l.149.045c.612.18.612 1.048 0 1.229l-.15.043a.64.64 0 0 0-.38.921l.074.136c.305.561-.309 1.175-.87.87l-.136-.075a.64.64 0 0 0-.92.382l-.045.149c-.18.612-1.048.612-1.229 0l-.043-.15a.64.64 0 0 0-.921-.38l-.136.074c-.561.305-1.175-.309-.87-.87l.075-.136a.64.64 0 0 0-.382-.92l-.148-.045c-.613-.18-.613-1.048 0-1.229l.148-.043a.64.64 0 0 0 .382-.921l-.074-.136c-.306-.561.308-1.175.869-.87l.136.075a.64.64 0 0 0 .92-.382zM14 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"/>
@@ -139,83 +132,43 @@
                                                         Configuration
                                                     </button>
                                                 </h2>
-                                                <div id="nav2" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                                <div id="nav4" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                                                     <div class="accordion-body">
                                                         <ul class="navbar-nav">
-                                                            <li><a href="/config/users">System Users</a></li>
+                                                            <li><a href="/config">Configuration Index</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div> -->
                                         <% } %>
-                                        <!-- <div class="accordion-item">
-                                            <h2 class="accordion-header">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nav3" aria-expanded="false" aria-controls="flush-collapseThree">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check-fill me-2" viewBox="0 0 16 16">
-                                                        <path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z"/>
-                                                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5zm6.854 7.354-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708"/>
-                                                    </svg>
-                                                    Task Manager
-                                                </button>
-                                            </h2>
-                                            <div id="nav3" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                                                <div class="accordion-body">
-                                                    <ul class="navbar-nav">
-                                                        <li><a href="/tasks">My Tasks</a></li>
-                                                        <li><a href="/tasks/create">Create New Task</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div> -->
                                         <div class="accordion-item">
                                             <h2 class="accordion-header">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nav7" aria-expanded="false" aria-controls="flush-collapseThree">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-fill me-2" viewBox="0 0 16 16">
-                                                        <path fill-rule="evenodd" d="M15.528 2.973a.75.75 0 0 1 .472.696v8.662a.75.75 0 0 1-.472.696l-7.25 2.9a.75.75 0 0 1-.557 0l-7.25-2.9A.75.75 0 0 1 0 12.331V3.669a.75.75 0 0 1 .471-.696L7.443.184l.004-.001.274-.11a.75.75 0 0 1 .558 0l.274.11.004.001zm-1.374.527L8 5.962 1.846 3.5 1 3.839v.4l6.5 2.6v7.922l.5.2.5-.2V6.84l6.5-2.6v-.4l-.846-.339Z"/>
-                                                    </svg>
-                                                    Supply Chain Management (SCM)
-                                                </button>
-                                            </h2>
-                                            <div id="nav7" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                                                <div class="accordion-body">
-                                                    <ul class="navbar-nav">
-                                                        <li><a href="/scm">SCM Index</a></li>
-                                                        <li><a href="/scm/vendors">Vendors</a></li>
-                                                        <li><a href="/scm/inventory">Inventory</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nav4" aria-expanded="false" aria-controls="flush-collapseThree">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nav5" aria-expanded="false" aria-controls="flush-collapseThree">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-badge-fill me-2" viewBox="0 0 16 16">
                                                         <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm4.5 0a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1zM8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6m5 2.755C12.146 12.825 10.623 12 8 12s-4.146.826-5 1.755V14a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1z"/>
                                                     </svg>
                                                     User Self-Service (USS)
                                                 </button>
                                             </h2>
-                                            <div id="nav4" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                            <div id="nav5" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                                                 <div class="accordion-body">
                                                     <ul class="navbar-nav">
-                                                        <li><a href="/uss">User Self-Service Index</a></li>
+                                                        <li><a href="/uss">USS Index</a></li>
                                                         <li><a href="/uss/personal">Personal Details</a></li>
-                                                        <li><a href="/uss/contact">Contact Information</a></li>
-                                                        <li><a href="/uss/employment">Employment Details</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="accordion-item">
                                             <h2 class="accordion-header">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nav5" aria-expanded="false" aria-controls="flush-collapseThree">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nav6" aria-expanded="false" aria-controls="flush-collapseThree">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-check-fill me-2" viewBox="0 0 16 16">
                                                         <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
                                                     </svg>                                                  
                                                     Bookmarks
                                                 </button>
                                             </h2>
-                                            <div id="nav5" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                            <div id="nav6" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                                                 <div class="accordion-body">
                                                     <ul class="navbar-nav">
                                                         <% if (user.bookmark !=0) { %>

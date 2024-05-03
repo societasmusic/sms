@@ -1,0 +1,21 @@
+const express = require("express");
+const router = express.Router();
+const aisController = require("../controllers/aisController");
+const authController = require("../controllers/authController");
+const multer = require("multer");
+const storage = multer.memoryStorage();
+const upload = multer({storage: storage});
+
+router.get("/ais", authController.isLoggedIn, aisController.getIndex);
+
+// Parties
+router.get("/ais/parties", authController.isLoggedIn, aisController.getParties);
+router.get("/ais/parties/create", authController.isLoggedIn, aisController.getCreateParty);
+router.post("/ais/parties/create", authController.isLoggedIn, aisController.postCreateParty);
+
+// COA
+router.get("/ais/coa", authController.isLoggedIn, aisController.getAccounts);
+router.get("/ais/coa/create", authController.isLoggedIn, aisController.getCreateAccount);
+router.post("/ais/coa/create", authController.isLoggedIn, aisController.postCreateAccount);
+
+module.exports = router;

@@ -12,5 +12,4 @@ router.get("/tps/expenses/advances/request", authController.isLoggedIn, tpsContr
 router.post("/tps/expenses/advances/request", authController.isLoggedIn, tpsController.postAdvanceRequest);
 router.get("/tps/expenses/advances/:id", authController.isLoggedIn, tpsController.getAdvanceView);
 
-
 module.exports = router;

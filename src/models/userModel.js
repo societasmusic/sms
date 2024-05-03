@@ -18,6 +18,18 @@ const userSchema = mongoose.Schema(
             type: String,
             required: true
         },
+        // access: [
+        //     {
+        //         module: {
+        //             type: String,
+        //             required: true
+        //         },
+        //         module: {
+        //             type: String,
+        //             required: true
+        //         },
+        //     }
+        // ],
         access: {
             type: String,
             required: true
