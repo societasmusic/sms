@@ -91,6 +91,17 @@
 	position: static !important;
 }
 
+.alert-dismissible {
+	padding-right: 1rem !important;
+}
+
+.btn-close {
+	position: static !important;
+	padding: 0 !important;
+	padding-right: 1rem !important;
+	z-index: 1 !important;
+}
+
 .page-link {
 	position: static !important;
 }
@@ -110,4 +121,30 @@
 
 .select2-container--bootstrap-5 .select2-dropdown .select2-search .select2-search__field {
 	font-size: 80% !important;
+}
+
+.header {
+	z-index: 2 !important;
+}
+
+.breadcrumb-custom {
+	top:115.2px !important;
+	z-index: 1 !important;
+}
+
+.circle {
+	display: inline-block;
+	background-color: #20c997;
+	border-radius: 50%;
+}
+  
+.circle-inner {
+	color: white;
+	display: table-cell;
+	vertical-align: middle; 
+	text-align: center;
+	text-decoration: none;
+	height: 36px;
+	width: 36px;  
+	font-size: 14px;
 }

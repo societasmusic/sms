@@ -1,6 +1,7 @@
 var pjson = require('../../package.json');
 const Party = require("../models/partyModel");
 const Account = require("../models/accountModel");
+const Entry = require("../models/entryModel");
 const fs = require('fs');
 const crypto = require("crypto");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
@@ -296,4 +297,47 @@ exports.postCreateParty = async (req, res) => {
         await req.flash("info", "There was an error processing your request.");
         return res.redirect("/ais/parties/create");
     }
+};
+exports.postDeleteParty = async (req, res) => {
+    try {
+        await Party.findByIdAndDelete(req.params.id);
+        await req.flash("info", "Your request has been successfully processed.");
+        return res.redirect(`/ais/parties`);
+    } catch (err) {
+        console.log(err);
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/ais/parties`);
+    }
+};
+
+/*
+    Entries
+*/
+
+// Get Index 
+exports.getEntries = async (req, res) => {
+    const title = "Entries";
+    let perPage = Number(req.query.limit) || 100;
+    let page = req.query.p || 1;
+    const allEntries = await Entry.find();
+    const count = allEntries.length;
+    const entries = await Entry.aggregate([{ $sort: { legalName: 1 }}])
+        .skip(perPage * page - perPage)
+        .limit(perPage)
+        .exec();
+    const messages = await req.flash("info");
+    res.render("ais/entries", {
+        user: req.user,
+        urlraw: req.url,
+        urlreturn: "/ais",
+        url: encodeURIComponent(req.url),
+        title,
+        pjson,
+        messages,
+        entries,
+        current: page,
+        perPage,
+        count,
+        pages: Math.ceil(count / perPage),
+    });
 };

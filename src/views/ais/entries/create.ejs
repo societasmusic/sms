@@ -1,0 +1,43 @@
+<%- include('../../partials/header') %>
+<div class="flex-grow-1 bg-body">
+    <%- include('../../partials/breadcrumb') %>
+    <div class="pt-2 pb-3 bg-body">
+        <div class="px-3">
+            <div class="px-3">
+                <form action="/ais/coa/create" method="POST" class="needs-validation" novalidate>
+                    <div class="row mt-2 mb-4">
+                        <div class="col-6 py-1">
+                            <label for="name" class="form-label fs-7">Name*</label>
+                            <input type="text" class="form-control fs-7" name="name" id="name" required>
+                            <div class="invalid-feedback fs-7">
+                                    This field cannot be left blank
+                            </div>
+                        </div>
+                        <div class="col-6 py-1">
+                            <label for="type" class="form-label fs-7">Account Type*</label>
+                            <select class="form-select fs-7" name="type" id="type" aria-label="type" required>
+                                <option value=""></option>
+                                <!-- <option value="1000">1000 - Asset</option> -->
+                                <option value="1100">1100 - Current Asset</option>
+                                <option value="1200">1200 - Non-Current Asset</option>
+                                <!-- <option value="2000">2000 - Liability</option> -->
+                                <option value="2100">2100 - Current Liability</option>
+                                <option value="2200">2200 - Non-Current Liability</option>
+                                <option value="3000">3000 - Equity</option>
+                                <option value="4000">4000 - Revenue</option>
+                                <option value="5000">5000 - Expense</option>
+                            </select>
+                            <div class="invalid-feedback fs-7">
+                                    This field cannot be left blank
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary fs-7" onclick="location.href='<%= urlreturn %>'">Cancel</button>
+                    <button type="submit" class="btn btn-primary fs-7">Save Account</button>
+                    <p class="fs-7 text-secondary mt-2">* Required Field</p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/footer') %>
