@@ -1,0 +1,211 @@
+<%- include('../../partials/header') %>
+<div class="flex-grow-1 bg-body">
+    <%- include('../../partials/breadcrumb') %>
+    <div class="pt-2 pb-3 bg-body">
+        <div class="px-3">
+            <div class="px-3">
+                <form action="/ais/parties/<%= party._id %>/edit" method="POST" class="needs-validation" novalidate>
+                    <div class="row mt-2">
+                        <div class="col-4 py-1">
+                            <label for="name" class="form-label fs-7">Name*</label>
+                            <input type="text" class="form-control fs-7" name="name" id="name" value="<%= party.name %>" required>
+                            <div class="invalid-feedback fs-7">
+                                    This field cannot be left blank
+                            </div>
+                        </div>
+                        <div class="col-2 py-1">
+                            <label for="tin" class="form-label fs-7">Tax ID</label>
+                            <input type="text" class="form-control fs-7" name="tin" id="tin" value="<%= party.tin %>">
+                        </div>
+                        <div class="col-3 py-1">
+                            <label for="category" class="form-label fs-7">Business Category*</label>
+                            <select class="form-select form-select-search fs-7" name="category" id="category" aria-label="category" required>
+                                <option value=""></option>
+                                <option value="Unknown"
+                                    <% if (party.category == "Unknown") { %>
+                                        selected
+                                    <% } %>>
+                                    Unknown
+                                </option>
+                                <% businesscategories.forEach(e => { %>
+                                    <option value="<%= e %>"
+                                        <% if (party.category == e) { %>
+                                            selected
+                                        <% } %>>
+                                        <%= e %>
+                                    </option>
+                                <% }) %>
+                            </select>
+                            <div class="invalid-feedback fs-7">
+                                    This field cannot be left blank
+                            </div>
+                        </div>
+                        <div class="col-3 py-1">
+                            <label for="partyType" class="form-label fs-7">Party Type*</label>
+                            <select class="form-select fs-7" name="partyType" id="partyType" aria-label="partyType" required>
+                                <option value=""></option>
+                                <option value="Customer"
+                                    <% if (party.partyType == "Customer") { %>
+                                        selected   
+                                    <% } %>>
+                                    Customer
+                                </option>
+                                <option value="Partner"
+                                    <% if (party.partyType == "Partner") { %>
+                                        selected
+                                    <% } %>>
+                                    Partner
+                                </option>
+                                <option value="Vendor"
+                                    <% if (party.partyType == "Vendor") { %>
+                                        selected
+                                    <% } %>>
+                                    Vendor
+                                </option>
+                            </select>
+                            <div class="invalid-feedback fs-7">
+                                    This field cannot be left blank
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-2 py-1">
+                            <label for="email" class="form-label fs-7">Email</label>
+                            <input type="email" class="form-control fs-7" name="email" id="email" value="<%= party.email %>">
+                        </div>
+                        <div class="col-2 py-1">
+                            <label for="phone" class="form-label fs-7">Phone</label>
+                            <input type="number" class="form-control fs-7" name="phone" id="phone" value="<%= party.phone %>">
+                        </div>
+                        <div class="col-2 py-1">
+                            <label for="altPhone" class="form-label fs-7">Alt Phone</label>
+                            <input type="number" class="form-control fs-7" name="altPhone" id="altPhone" value="<%= party.altPhone %>">
+                        </div>
+                        <div class="col-3 py-1">
+                            <label for="businessType" class="form-label fs-7">Business Type*</label>
+                            <select class="form-select fs-7" name="businessType" id="businessType" aria-label="businessType" required>
+                                <option value=""></option>
+                                <option value="Individual"
+                                    <% if (party.businessType == "Individual") { %>
+                                        selected
+                                    <% } %>>
+                                    Individual
+                                </option>
+                                <option value="Company"
+                                    <% if (party.businessType == "Company") { %>
+                                        selected
+                                    <% } %>>
+                                    Company
+                                </option>
+                            </select>
+                            <div class="invalid-feedback fs-7">
+                                    This field cannot be left blank
+                            </div>
+                        </div>
+                        <div class="col-3 py-1">
+                            <label for="territory" class="form-label fs-7">Tax Territory*</label>
+                            <select class="form-select form-select-search fs-7" name="territory" id="territory" aria-label="territory" required>
+                                <option value=""></option>
+                                <option value="Unknown"
+                                    <% if (party.territory == "Unknown") { %>
+                                        selected
+                                    <% } %>>
+                                    Unknown
+                                </option>
+                                <% countries.forEach(e => { %>
+                                    <option value="<%= e.name %>"
+                                        <% if (party.territory == e.name) { %>
+                                            selected
+                                        <% } %>>
+                                        <%= e.name %>
+                                    </option>
+                                <% }) %>
+                            </select>
+                            <div class="invalid-feedback fs-7">
+                                This field cannot be left blank
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6 py-1">
+                            <label for="currency" class="form-label fs-7">Currency*</label>
+                            <select class="form-select form-select-search fs-7" name="currency" id="currency" aria-label="currency" required>
+                                <option value=""></option>
+                                <% currencies.forEach(e => { %>
+                                    <option value="<%= e.cc %>"
+                                        <% if (party.currency == e.cc) { %>
+                                            selected
+                                        <% } %>>
+                                        <%= e.cc %>
+                                    </option>
+                                <% }) %>
+                            </select>
+                            <div class="invalid-feedback fs-7">
+                                    This field cannot be left blank
+                            </div>
+                        </div>
+                        <div class="col-6 py-1">
+                            <label for="billingAccount" class="form-label fs-7">Billing Account*</label>
+                            <select class="form-select form-select-search fs-7" name="billingAccount" id="billingAccount" aria-label="billingAccount" required>
+                                <option value=""></option>
+                                <% accounts.forEach(e => { %>
+                                    <option value="<%= e.number %>"
+                                        <% if (party.billingAccount == e.number) { %>
+                                            selected
+                                        <% } %>>
+                                        <%= e.number %> - <%= e.name %>
+                                    </option>
+                                <% }) %>
+                            </select>
+                            <div class="invalid-feedback fs-7">
+                                    This field cannot be left blank
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6 py-1">
+                            <label for="line1" class="form-label fs-7">Address</label>
+                            <input type="text" class="form-control fs-7" name="line1" id="line1" value="<%= party.address[0].line1 %>">
+                        </div>
+                        <div class="col-6 py-1">
+                            <label for="line2" class="form-label fs-7">Address 2</label>
+                            <input type="text" class="form-control fs-7" name="line2" id="line2" value="<%= party.address[0].line2 %>">
+                        </div>
+                    </div>
+                    <div class="row mt-2 mb-4">
+                        <div class="col-3 py-1">
+                            <label for="city" class="form-label fs-7">City</label>
+                            <input type="text" class="form-control fs-7" name="city"  id="city" placeholder="" value="<%= party.address[0].city %>">
+                        </div>
+                        <div class="col-3 py-1">
+                            <label for="state" class="form-label fs-7">State</label>
+                            <input type="text" class="form-control fs-7" name="state"  id="state" placeholder="" value="<%= party.address[0].state %>">
+                        </div>
+                        <div class="col-2 py-1">
+                            <label for="zip" class="form-label fs-7">Postal Code</label>
+                            <input type="text" class="form-control fs-7" name="zip"  id="zip" placeholder="" value="<%= party.address[0].zip %>">
+                        </div>
+                        <div class="col-4 py-1">
+                            <label for="country" class="form-label fs-7">Country</label>
+                            <select class="form-select form-select-search fs-7" name="country" id="country" aria-label="Country">
+                                <option value=""></option>
+                                <% countries.forEach(e => { %>
+                                    <option value="<%= e.name %>"
+                                        <% if (party.address[0].country == e.name) { %>
+                                            selected
+                                        <% } %>>
+                                        <%= e.name %>
+                                    </option>
+                                <% }) %>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary fs-7" onclick="location.href='<%= urlreturn %>'">Cancel</button>
+                    <button type="submit" class="btn btn-primary fs-7">Save Party</button>
+                    <p class="fs-7 text-secondary mt-2">* Required Field</p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/footer') %>

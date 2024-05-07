@@ -15,122 +15,56 @@
                         </button>
                     <% } %>
                 </div>
-                <div class="d-flex justify-content-between gap-3">
-                    <form action="/scm/vendors/search" method="GET">
-                        <input type="search" class="form-control fs-7" placeholder="Search records..." aria-label="Search" name="q" id="q" style="width: 275px;">
-                    </form>
-                </div>
-                <div class="d-flex align-items-center">
-                    <p class="fs-7 text-secondary m-0">
-                        <% let startRecord = (Number(current) - 1) * perPage + 1; %>
-                        <% let endRecord = Math.min(startRecord + perPage - 1, count); %>
-                        <%= `${startRecord}-${endRecord}` %>
-                        <%= `of ${count} Records` %>
-                    </p>
-                </div>
-                <!-- <nav aria-label="Page navigation">
-                    <ul class="pagination mb-0">
-                        <% if (parties > 0) { %>                                 
-                            <% if (current == 1) { %>
-                                <li class="page-item disabled"><a class="page-link fs-7" href="">&laquo;</a></li>
-                            <% } else { %>
-                                <li class="page-item"><a class="page-link fs-7" href="?p=1">&laquo;</a></li>
-                            <% } %>
-                            <% if (current == 1) { %>
-                                <li class="page-item disabled"><a class="page-link fs-7" href="">&lsaquo;</a></li>
-                            <% } else { %>
-                                <li class="page-item"><a class="page-link fs-7" href="?p=<%= current - 1 %>">&lsaquo;</a></li>
-                            <% } %>
-                            <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
-                            <% if (i !== 1) { %>
-                                <li class="page-item disabled"><a class="page-link fs-7" href="">...</a></li>
-                            <% } %>
-                            <% for(; i <= (Number(current) + 4) && i <= pages; i++) { %>
-                                <% if (i == current) { %>
-                                    <li class="page-item disabled"><a class="page-link fs-7" href=""><%= i %></a></li>
-                                <% } else { %>
-                                    <li class="page-item"><a class="page-link fs-7" href="?p=<%= i %>"><%= i %></a></li>
-                                <% } %>
-                                <% if (i == Number(current) + 4 && i < pages) { %>
-                                    <li class="page-item disabled"><a class="page-link fs-7" href="">...</a></li>
-                                <% } %>
-                            <% } %>
-                            <% if (current == pages) { %>
-                                <li class="page-item disabled"><a class="page-link fs-7" href="">&rsaquo;</a></li>
-                            <% } else { %>
-                                <li class="page-item"><a class="page-link fs-7" href="?p=<%= Number(current) + 1 %>">&rsaquo;</a></li>
-                            <% } %>
-                            <% if (current == pages) { %>
-                                <li class="page-item disabled"><a class="page-link fs-7" href="">&raquo;</a></li>
-                            <% } else { %>
-                                <li class="page-item"><a class="page-link fs-7" href="?p=<%= pages %>">&raquo;</a></li>
-                            <% } %>
-                        <% } else { %>
-                            <li class="page-item disabled"><a class="page-link fs-7" href="">&laquo;</a></li>
-                            <li class="page-item disabled"><a class="page-link fs-7" href="">&lsaquo;</a></li>
-                            <li class="page-item disabled"><a class="page-link fs-7" href="">1</a></li>
-                            <li class="page-item disabled"><a class="page-link fs-7" href="">&rsaquo;</a></li>
-                            <li class="page-item disabled"><a class="page-link fs-7" href="">&raquo;</a></li>
-                        <% } %>
-                    </ul>
-                </nav> -->
             </div>
         </div>
         <div class="px-3 container-fluid mt-2">
             <div class="px-3">
-                <table class="fs-7 table table-striped">
+                <table class="table table-striped" id="table" style="width:100%">
                     <thead>
                         <tr>
-                            <th class="col text-light fw-medium bg-dark py-3 text-center">
+                            <th class="col text-light fw-medium bg-dark py-3 text-center fs-7">
                                 #
                             </th>
-                            <th class="col-2 text-light fw-medium bg-dark py-3">
+                            <th class="col-2 text-light fw-medium bg-dark py-3 fs-7">
                                 Actions
                             </th>
-                            <th class="col-4 text-light fw-medium bg-dark py-3">
+                            <th class="col-4 text-light fw-medium bg-dark py-3 fs-7">
                                 Name
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel ms-1" viewBox="0 0 16 16">
-                                    <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
-                                </svg>
                             </th>
-                            <th class="col-1 text-light fw-medium bg-dark py-3">
+                            <th class="col-1 text-light fw-medium bg-dark py-3 fs-7">
                                 Party Type
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel ms-1" viewBox="0 0 16 16">
-                                    <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
-                                </svg>
                             </th>
-                            <th class="col-1 text-light fw-medium bg-dark py-3">
+                            <th class="col-1 text-light fw-medium bg-dark py-3 fs-7">
                                 Business Type
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel ms-1" viewBox="0 0 16 16">
-                                    <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
-                                </svg>
                             </th>
-                            <th class="col-1 text-light fw-medium bg-dark py-3">
+                            <th class="col-1 text-light fw-medium bg-dark py-3 fs-7">
                                 Tax Territory
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel ms-1" viewBox="0 0 16 16">
-                                    <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
-                                </svg>
                             </th>
-                            <th class="col-2 text-light fw-medium bg-dark py-3">
+                            <th class="col-2 text-light fw-medium bg-dark py-3 fs-7">
                                 Last Updated
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel ms-1" viewBox="0 0 16 16">
-                                    <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
-                                </svg>
                             </th>
-                            <th class="col-1 text-light fw-medium bg-dark py-3">
+                            <th class="col-1 text-light fw-medium bg-dark py-3 fs-7">
                                 Balance
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel ms-1" viewBox="0 0 16 16">
-                                    <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
-                                </svg>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
+                        <% 
+                            parties.sort(function (a, b) {
+                                if (a.name < b.name) {
+                                    return -1;
+                                }
+                                if (a.name > b.name) {
+                                    return 1;
+                                }
+                                return 0;
+                            }); 
+                        %>
                         <% if (parties) { %>
                             <% var i = 1 %>
                             <% parties.forEach(e => { %>
                                 <tr id="<%= e._id %>">
-                                    <td class="py-4 text-center">
+                                    <td class="py-4 text-center fs-7">
                                         <div class="py-1">
                                             <%= i %>
                                         </div>
@@ -171,7 +105,7 @@
                                             <% } %>
                                         </div>
                                     </td>
-                                    <td class="py-3">
+                                    <td class="py-3 fs-7">
                                         <div class="py-1 d-flex gap-3 align-items-center">
                                             <div class="circle">
                                                 <p class="circle-inner"><%= e.name.slice(0,2) %></p>
@@ -179,28 +113,28 @@
                                             <a href="/ais/parties/<%= e._id %>"><%= e.name %></a>
                                         </div>
                                     </td>
-                                    <td class="py-4">
+                                    <td class="py-4 fs-7">
                                         <div class="py-1">
                                             <%= e.partyType %>
                                         </div>
                                     </td>
-                                    <td class="py-4">
+                                    <td class="py-4 fs-7">
                                         <div class="py-1">
                                             <%= e.businessType %>
                                         </div>
                                     </td>
-                                    <td class="py-4">
+                                    <td class="py-4 fs-7">
                                         <div class="py-1 d-block text-truncate">
                                             <%= e.territory %>
                                         </div>
                                     </td>
-                                    <td class="py-4">
+                                    <td class="py-4 fs-7">
                                         <div class="py-1">
                                             <% var date = e.updatedAt.toISOString() %>
                                             <%= date %>
                                         </div>
                                     </td>
-                                    <td class="py-4">
+                                    <td class="py-4 fs-7">
                                         <div class="py-1">
                                             0.00 USD
                                         </div>
@@ -225,4 +159,17 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready( function () {
+        $('#table').DataTable({
+            responsive: true,
+            order: [[2, 'asc']],
+            columnDefs: [
+                {
+                    orderable: false, targets: [0, 1]
+                }
+            ]
+        });
+    });
+</script>
 <%- include('../../partials/footer') %>

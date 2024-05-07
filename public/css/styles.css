@@ -123,12 +123,13 @@
 	font-size: 80% !important;
 }
 
-.header {
-	z-index: 2 !important;
+header {
+	position: static !important;
+	z-index: 999 !important;
 }
 
 .breadcrumb-custom {
-	top:115.2px !important;
+	position: static !important;
 	z-index: 1 !important;
 }
 

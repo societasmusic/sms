@@ -12,7 +12,8 @@ router.get("/ais", authController.isLoggedIn, aisController.getIndex);
 router.get("/ais/parties", authController.isLoggedIn, aisController.getParties);
 router.get("/ais/parties/create", authController.isLoggedIn, aisController.getCreateParty);
 router.post("/ais/parties/create", authController.isLoggedIn, aisController.postCreateParty);
-
+router.get("/ais/parties/:id/edit", authController.isLoggedIn, aisController.getEditParty);
+router.post("/ais/parties/:id/edit", authController.isLoggedIn, aisController.postEditParty);
 router.post("/ais/parties/:id/delete", authController.isLoggedIn, aisController.postDeleteParty);
 
 // COA
