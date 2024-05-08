@@ -1,143 +1,146 @@
 <%- include('../../partials/header') %>
 <div class="flex-grow-1 bg-body">
     <%- include('../../partials/breadcrumb') %>
-    <div class="bg-body border-bottom px-3 py-2">
-        <div class="px-3 container-fluid d-flex justify-content-between">
-            <div class="d-flex" role="group" aria-label="Basic example">
-                <button class="btn btn-outline-secondary rounded-0 rounded-start py-0 px-3 fs-7" onclick="location.href='/ais/coa/export/csv'">Export CSV</button>
-                <button class="btn btn-outline-secondary rounded-0 rounded-end border-start-0 py-0 px-3 fs-7" onclick="location.href='/ais/coa/export/xml'">Export XML</button>
-                <% if (user.access ==  "Editor" || user.access ==  "System Administrator" || user.access ==  "System Owner") { %>
-                    <button type="button" class="btn btn-outline-secondary fs-7 py-1 px-2 d-flex ms-2" data-bs-toggle="tooltip" data-bs-title="Create account" onclick="location.href='/ais/coa/create'">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg d-flex align-self-center me-1" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-                        </svg>
-                        Add
-                    </button>
-                <% } %>
-            </div>
-        </div>
-    </div>
     <div class="pt-2 pb-3 bg-body">
         <div class="px-3">
             <div class="px-3 container-fluid d-flex justify-content-between">
-                <div class="d-flex justify-content-between gap-3">
-                    <form action="/ais/coa/search" method="GET">
-                        <input type="search" class="form-control fs-7" placeholder="Search records..." aria-label="Search" name="q" id="q" style="width: 275px;">
-                    </form>
-                    <div>
-                        <ul class="list-group">
-                            <li class="input-group-text bg-body text-secondary fs-7">
-                                <% let startRecord = (Number(current) - 1) * perPage + 1; %>
-                                <% let endRecord = Math.min(startRecord + perPage - 1, count); %>
-                                <%= `${startRecord}-${endRecord}` %>
-                                <%= `of ${count} Records` %>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="d-flex" role="group" aria-label="Basic example">
+                    <button class="btn btn-secondary py-1 px-2 fs-7 d-flex d-flex align-items-center" onclick="location.href='/ais/coa/export/csv'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-csv d-flex align-self-center me-1" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM3.517 14.841a1.13 1.13 0 0 0 .401.823q.195.162.478.252.284.091.665.091.507 0 .859-.158.354-.158.539-.44.187-.284.187-.656 0-.336-.134-.56a1 1 0 0 0-.375-.357 2 2 0 0 0-.566-.21l-.621-.144a1 1 0 0 1-.404-.176.37.37 0 0 1-.144-.299q0-.234.185-.384.188-.152.512-.152.214 0 .37.068a.6.6 0 0 1 .246.181.56.56 0 0 1 .12.258h.75a1.1 1.1 0 0 0-.2-.566 1.2 1.2 0 0 0-.5-.41 1.8 1.8 0 0 0-.78-.152q-.439 0-.776.15-.337.149-.527.421-.19.273-.19.639 0 .302.122.524.124.223.352.367.228.143.539.213l.618.144q.31.073.463.193a.39.39 0 0 1 .152.326.5.5 0 0 1-.085.29.56.56 0 0 1-.255.193q-.167.07-.413.07-.175 0-.32-.04a.8.8 0 0 1-.248-.115.58.58 0 0 1-.255-.384zM.806 13.693q0-.373.102-.633a.87.87 0 0 1 .302-.399.8.8 0 0 1 .475-.137q.225 0 .398.097a.7.7 0 0 1 .272.26.85.85 0 0 1 .12.381h.765v-.072a1.33 1.33 0 0 0-.466-.964 1.4 1.4 0 0 0-.489-.272 1.8 1.8 0 0 0-.606-.097q-.534 0-.911.223-.375.222-.572.632-.195.41-.196.979v.498q0 .568.193.976.197.407.572.626.375.217.914.217.439 0 .785-.164t.55-.454a1.27 1.27 0 0 0 .226-.674v-.076h-.764a.8.8 0 0 1-.118.363.7.7 0 0 1-.272.25.9.9 0 0 1-.401.087.85.85 0 0 1-.478-.132.83.83 0 0 1-.299-.392 1.7 1.7 0 0 1-.102-.627zm8.239 2.238h-.953l-1.338-3.999h.917l.896 3.138h.038l.888-3.138h.879z"/>
+                        </svg>
+                        Export CSV
+                    </button>
+                    <% if (user.access ==  "Editor" || user.access ==  "System Administrator" || user.access ==  "System Owner") { %>
+                        <button type="button" class="btn btn-primary fs-7 py-1 px-2 d-flex ms-2 d-flex align-items-center" onclick="location.href='/ais/coa/create'">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg d-flex align-self-center me-1" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                            </svg>
+                            Create Account
+                        </button>
+                    <% } %>
                 </div>
-                <nav aria-label="Page navigation">
-                    <ul class="pagination mb-0">
-                        <% if (accounts > 0) { %>                                 
-                            <% if (current == 1) { %>
-                                <li class="page-item disabled"><a class="page-link fs-7" href="">&laquo;</a></li>
-                            <% } else { %>
-                                <li class="page-item"><a class="page-link fs-7" href="?p=1">&laquo;</a></li>
-                            <% } %>
-                            <% if (current == 1) { %>
-                                <li class="page-item disabled"><a class="page-link fs-7" href="">&lsaquo;</a></li>
-                            <% } else { %>
-                                <li class="page-item"><a class="page-link fs-7" href="?p=<%= current - 1 %>">&lsaquo;</a></li>
-                            <% } %>
-                            <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
-                            <% if (i !== 1) { %>
-                                <li class="page-item disabled"><a class="page-link fs-7" href="">...</a></li>
-                            <% } %>
-                            <% for(; i <= (Number(current) + 4) && i <= pages; i++) { %>
-                                <% if (i == current) { %>
-                                    <li class="page-item disabled"><a class="page-link fs-7" href=""><%= i %></a></li>
-                                <% } else { %>
-                                    <li class="page-item"><a class="page-link fs-7" href="?p=<%= i %>"><%= i %></a></li>
-                                <% } %>
-                                <% if (i == Number(current) + 4 && i < pages) { %>
-                                    <li class="page-item disabled"><a class="page-link fs-7" href="">...</a></li>
-                                <% } %>
-                            <% } %>
-                            <% if (current == pages) { %>
-                                <li class="page-item disabled"><a class="page-link fs-7" href="">&rsaquo;</a></li>
-                            <% } else { %>
-                                <li class="page-item"><a class="page-link fs-7" href="?p=<%= Number(current) + 1 %>">&rsaquo;</a></li>
-                            <% } %>
-                            <% if (current == pages) { %>
-                                <li class="page-item disabled"><a class="page-link fs-7" href="">&raquo;</a></li>
-                            <% } else { %>
-                                <li class="page-item"><a class="page-link fs-7" href="?p=<%= pages %>">&raquo;</a></li>
-                            <% } %>
-                        <% } else { %>
-                            <li class="page-item disabled"><a class="page-link fs-7" href="">&laquo;</a></li>
-                            <li class="page-item disabled"><a class="page-link fs-7" href="">&lsaquo;</a></li>
-                            <li class="page-item disabled"><a class="page-link fs-7" href="">1</a></li>
-                            <li class="page-item disabled"><a class="page-link fs-7" href="">&rsaquo;</a></li>
-                            <li class="page-item disabled"><a class="page-link fs-7" href="">&raquo;</a></li>
-                        <% } %>
-                    </ul>
-                </nav>
             </div>
         </div>
-        <div class="px-3 container-fluid border-top mt-2">
-            <p class="fs-7 px-3 pt-2 mb-2 text-secondary">Search Results</p>
-            <div class="px-3">
-                <table class="fs-7 table">
-                    <thead>
-                        <tr>
-                            <th class="col-1 text-secondary fw-medium">
-                                #
-                            </th>
-                            <th class="col-2 text-secondary fw-medium">
-                                Account Type
-                            </th>
-                            <th class="col-6 text-secondary fw-medium">
-                                Name
-                            </th>
-                            <th class="col-2 text-secondary fw-medium">
-                                Balance
-                            </th>
-                            <th class="col-1 text-secondary fw-medium">
-                                Actions
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% const type = [{num:1100,name:"Current Assets"},{num:1200,name:"Non-Current Assets"},{num:2100,name:"Current Liabilities"},{num:2200,name:"Non-Current Liabilities"},{num:3000,name:"Equity"},{num:4000,name:"Revenue"},{num:5000,name:"Expenses"}] %>
-                        <% if (accounts) { %>
-                            <% accounts.forEach(e => { %>
-                                <% i = 1 %>
-                                <tr>
-                                    <td class="py-3"><%= e.number %></td>
-                                    <td class="py-3">
-                                        <% typeFound = type.find((obj) => obj.num === Number(e.type)) %>
-                                        <%= `${e.type} / ${typeFound.name}` %>
-                                    </td>
-                                    <td class="py-3"><%= e.name %></td>
-                                    <td class="py-3">0.00 USD</td>
-                                    <td class="py-3">
-                                       <a href="/ais/coa/<%= e.number %>">Manage</a>
-                                    </td>
-                                </tr>
-                                <% i = i++ %>
-                            <% }) %>
-                        <% } else { %>
+        <div class="pb-3 bg-body">
+            <div class="px-3 container-fluid">
+                <div class="px-3">
+                    <table class="table table-striped" id="table" style="width:100%">
+                        <thead>
                             <tr>
-                                <td class="py-3">...</td>
-                                <td class="py-3">...</td>
-                                <td class="py-3">...</td>
-                                <td class="py-3">...</td>
-                                <td class="py-3">...</td>
+                                <th class="col text-light fw-medium bg-dark py-3 text-center fs-7">
+                                    #
+                                </th>
+                                <th class="col-2 text-light fw-medium bg-dark py-3 fs-7">
+                                    Actions
+                                </th>
+                                <th class="col-2 text-light fw-medium bg-dark py-3 fs-7">
+                                    Account Type
+                                </th>
+                                <th class="col-7 text-light fw-medium bg-dark py-3 fs-7">
+                                    Name
+                                </th>
+                                <th class="col-1 text-light fw-medium bg-dark py-3 fs-7">
+                                    Balance
+                                </th>
                             </tr>
-                        <% } %>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <% if (accounts) { %>
+                                <% let i = 1 %>
+                                <% accounts.forEach(e => { %>
+                                    <tr id="<%= e._id %>">
+                                        <td class="py-4 text-center fs-7">
+                                            <div class="py-1">
+                                                <%= i %>
+                                            </div>
+                                        </td>
+                                        <td class="py-4">
+                                            <div class="d-flex gap-1">
+                                                <a href="/ais/coa/<%= e._id %>" class="btn btn-primary fs-7 py-1">View</a>
+                                                <% if (user.access == "Editor" || user.access == "System Administrator" || user.access == "System Owner") { %>
+                                                    <a href="/ais/coa/<%= e._id %>/edit" class="btn btn-warning fs-7 py-1">Edit</a>
+                                                <% } %>
+                                                <% if (user.access == "System Administrator" || user.access == "System Owner") { %>
+                                                    <button class="btn btn-danger fs-7 py-1" data-bs-toggle="modal" data-bs-target="#delete<%= e._id %>">Delete</button>
+                                                    <div class="modal fade" id="delete<%= e._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm Action</h1>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    Are you sure you wish to delete this record? This action is permanent and has no option to undo.
+                                                                    <div class="mt-2">
+                                                                        <b>Account:&nbsp;</b><%= e.name %>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    <form action="/ais/coa/<%= e._id %>/delete" method="POST">
+                                                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <% } %>
+                                            </div>
+                                        </td>
+                                        <td class="py-4 fs-7">
+                                            <div class="py-1">
+                                                <% let type = [{num:1100,name:"Current Assets"},{num:1200,name:"Non-Current Assets"},{num:2100,name:"Current Liabilities"},{num:2200,name:"Non-Current Liabilities"},{num:3000,name:"Equity"},{num:4000,name:"Revenue"},{num:5000,name:"Expenses"}] %>
+                                                <% let typeFound = type.find((obj) => obj.num === Number(e.type)) %>
+                                                <%= `${typeFound.name}` %>
+                                            </div>
+                                        </td>
+                                        <td class="py-4 fs-7">
+                                            <div class="py-1">
+                                                <a href="/ais/coa/<%= e._id %>"><%= e.number %> - <%= e.name %></a>
+                                            </div>
+                                        </td>
+                                        <td class="py-4 fs-7">
+                                            <div class="py-1">
+                                                0.00 USD
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% i++ %>
+                                <% }) %>
+                            <% } else { %>
+                                <tr>
+                                    <td class="py-3">...</td>
+                                    <td class="py-3">...</td>
+                                    <td class="py-3">...</td>
+                                    <td class="py-3">...</td>
+                                    <td class="py-3">...</td>
+                                    <td class="py-3">...</td>
+                                    <td class="py-3">...</td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    $(document).ready( function () {
+        $('#table').DataTable({
+            responsive: true,
+            order: [[3, 'asc']],
+            columnDefs: [
+                {
+                    orderable: false, targets: [0, 1]
+                }
+            ],
+            lengthMenu: [
+                [-1, 10, 25, 50],
+                ['All', 10, 25, 50]
+            ]
+        });
+    });
+</script>
 <%- include('../../partials/footer') %>

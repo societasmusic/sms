@@ -5,7 +5,12 @@
         <div class="px-3">
             <div class="px-3 container-fluid d-flex justify-content-between">
                 <div class="d-flex" role="group" aria-label="Basic example">
-                    <button class="btn btn-secondary py-0 px-3 fs-7" onclick="location.href='/scm/vendors/export/csv'">Export CSV</button>
+                    <button class="btn btn-secondary py-1 px-2 fs-7 d-flex d-flex align-items-center" onclick="location.href='/ais/parties/export/csv'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-csv d-flex align-self-center me-1" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM3.517 14.841a1.13 1.13 0 0 0 .401.823q.195.162.478.252.284.091.665.091.507 0 .859-.158.354-.158.539-.44.187-.284.187-.656 0-.336-.134-.56a1 1 0 0 0-.375-.357 2 2 0 0 0-.566-.21l-.621-.144a1 1 0 0 1-.404-.176.37.37 0 0 1-.144-.299q0-.234.185-.384.188-.152.512-.152.214 0 .37.068a.6.6 0 0 1 .246.181.56.56 0 0 1 .12.258h.75a1.1 1.1 0 0 0-.2-.566 1.2 1.2 0 0 0-.5-.41 1.8 1.8 0 0 0-.78-.152q-.439 0-.776.15-.337.149-.527.421-.19.273-.19.639 0 .302.122.524.124.223.352.367.228.143.539.213l.618.144q.31.073.463.193a.39.39 0 0 1 .152.326.5.5 0 0 1-.085.29.56.56 0 0 1-.255.193q-.167.07-.413.07-.175 0-.32-.04a.8.8 0 0 1-.248-.115.58.58 0 0 1-.255-.384zM.806 13.693q0-.373.102-.633a.87.87 0 0 1 .302-.399.8.8 0 0 1 .475-.137q.225 0 .398.097a.7.7 0 0 1 .272.26.85.85 0 0 1 .12.381h.765v-.072a1.33 1.33 0 0 0-.466-.964 1.4 1.4 0 0 0-.489-.272 1.8 1.8 0 0 0-.606-.097q-.534 0-.911.223-.375.222-.572.632-.195.41-.196.979v.498q0 .568.193.976.197.407.572.626.375.217.914.217.439 0 .785-.164t.55-.454a1.27 1.27 0 0 0 .226-.674v-.076h-.764a.8.8 0 0 1-.118.363.7.7 0 0 1-.272.25.9.9 0 0 1-.401.087.85.85 0 0 1-.478-.132.83.83 0 0 1-.299-.392 1.7 1.7 0 0 1-.102-.627zm8.239 2.238h-.953l-1.338-3.999h.917l.896 3.138h.038l.888-3.138h.879z"/>
+                        </svg>
+                        Export CSV
+                    </button>
                     <% if (user.access ==  "Editor" || user.access ==  "System Administrator" || user.access ==  "System Owner") { %>
                         <button type="button" class="btn btn-primary fs-7 py-1 px-2 d-flex ms-2 d-flex align-items-center" onclick="location.href='/ais/parties/create'">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg d-flex align-self-center me-1" viewBox="0 0 16 16">
@@ -77,31 +82,33 @@
                                     <td class="py-4">
                                         <div class="d-flex gap-1">
                                             <a href="/ais/parties/<%= e._id %>" class="btn btn-primary fs-7 py-1">View</a>
-                                            <a href="/ais/parties/<%= e._id %>/edit" class="btn btn-warning fs-7 py-1">Edit</a>
-                                            <button class="btn btn-danger fs-7 py-1" data-bs-toggle="modal" data-bs-target="#delete<%= e._id %>">Delete</button>
-                                            <% if (user.access == "System Administrator" || user.access == "System Owner") { %>
-                                                <div class="modal fade" id="delete<%= e._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm Action</h1>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                Are you sure you wish to delete this record? This action is permanent and has no option to undo.
-                                                                <div class="mt-2">
-                                                                    <b>Name:&nbsp;</b><%= e.name %>
+                                            <% if (user.access == "Editor" || user.access == "System Administrator" || user.access == "System Owner") { %>
+                                                <a href="/ais/parties/<%= e._id %>/edit" class="btn btn-warning fs-7 py-1">Edit</a>
+                                                <% if (user.access == "System Administrator" || user.access == "System Owner") { %>
+                                                    <button class="btn btn-danger fs-7 py-1" data-bs-toggle="modal" data-bs-target="#delete<%= e._id %>">Delete</button>
+                                                    <div class="modal fade" id="delete<%= e._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm Action</h1>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                <form action="/ais/parties/<%= e._id %>/delete" method="POST">
-                                                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                                                </form>
+                                                                <div class="modal-body">
+                                                                    Are you sure you wish to delete this record? This action is permanent and has no option to undo.
+                                                                    <div class="mt-2">
+                                                                        <b>Name:&nbsp;</b><%= e.name %>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    <form action="/ais/parties/<%= e._id %>/delete" method="POST">
+                                                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                                                    </form>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                <% } %>
                                             <% } %>
                                         </div>
                                     </td>
@@ -168,6 +175,10 @@
                 {
                     orderable: false, targets: [0, 1]
                 }
+            ],
+            lengthMenu: [
+                [-1, 10, 25, 50],
+                ['All', 10, 25, 50]
             ]
         });
     });

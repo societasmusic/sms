@@ -10,16 +10,21 @@ router.get("/ais", authController.isLoggedIn, aisController.getIndex);
 
 // Parties
 router.get("/ais/parties", authController.isLoggedIn, aisController.getParties);
-router.get("/ais/parties/create", authController.isLoggedIn, aisController.getCreateParty);
-router.post("/ais/parties/create", authController.isLoggedIn, aisController.postCreateParty);
-router.get("/ais/parties/:id/edit", authController.isLoggedIn, aisController.getEditParty);
-router.post("/ais/parties/:id/edit", authController.isLoggedIn, aisController.postEditParty);
-router.post("/ais/parties/:id/delete", authController.isLoggedIn, aisController.postDeleteParty);
+router.get("/ais/parties/create", authController.isLoggedIn, authController.isEditor, aisController.getCreateParty);
+router.post("/ais/parties/create", authController.isLoggedIn, authController.isEditor, aisController.postCreateParty);
+router.get("/ais/parties/:id", authController.isLoggedIn, aisController.getViewParty);
+router.get("/ais/parties/:id/edit", authController.isLoggedIn, authController.isEditor, aisController.getEditParty);
+router.post("/ais/parties/:id/edit", authController.isLoggedIn, authController.isEditor, aisController.postEditParty);
+router.post("/ais/parties/:id/delete", authController.isLoggedIn, authController.isAdmin, aisController.postDeleteParty);
+router.get("/ais/parties/export/csv", authController.isLoggedIn, aisController.getExportCsvParties);
 
 // COA
 router.get("/ais/coa", authController.isLoggedIn, aisController.getAccounts);
-router.get("/ais/coa/create", authController.isLoggedIn, aisController.getCreateAccount);
-router.post("/ais/coa/create", authController.isLoggedIn, aisController.postCreateAccount);
+router.get("/ais/coa/create", authController.isLoggedIn, authController.isEditor, aisController.getCreateAccount);
+router.post("/ais/coa/create", authController.isLoggedIn, authController.isEditor, aisController.postCreateAccount);
+router.get("/ais/coa/:id/edit", authController.isLoggedIn, authController.isEditor, aisController.getEditAccount);
+router.post("/ais/coa/:id/edit", authController.isLoggedIn, authController.isEditor, aisController.postEditAccount);
+router.post("/ais/coa/:id/delete", authController.isLoggedIn, authController.isAdmin, aisController.postDeleteAccount);
 
 // Entries
 router.get("/ais/entries", authController.isLoggedIn, aisController.getEntries);

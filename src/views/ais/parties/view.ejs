@@ -1,0 +1,157 @@
+<%- include('../../partials/header') %>
+<div class="flex-grow-1 bg-body-tertiary">
+    <%- include('../../partials/breadcrumb') %>
+    <div class="px-3">
+        <div class="container py-3">
+            <% if (user.access == "Editor" || user.access == "System Administrator" || user.access == "System Owner") { %>
+                <div class="d-flex gap-1 mb-2">
+                    <a href="/ais/parties/<%= party._id %>/edit" class="btn btn-warning fs-7 py-1">Edit</a>
+                    <% if (user.access == "System Administrator" || user.access == "System Owner") { %>
+                        <button class="btn btn-danger fs-7 py-1" data-bs-toggle="modal" data-bs-target="#delete<%= party._id %>">Delete</button>
+                        <div class="modal fade" id="delete<%= party._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm Action</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you wish to delete this record? This action is permanent and has no option to undo.
+                                        <div class="mt-2">
+                                            <b>Name:&nbsp;</b><%= party.name %>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <form action="/ais/parties/<%= party._id %>/delete" method="POST">
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            <% } %>
+            <div class="border mb-3 shadow-sm bg-body">
+                <div class="bg-body border-bottom px-3 py-2">
+                    <h4 class="fw-normal mb-0">Summary</h4>
+                </div>
+                <div class="pb-3 bg-body">
+                    <div class="row border-bottom mx-3 mt-3 fs-7">
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Name:</p>
+                            <p class="text-body-secondary mb-2"><%= party.name %></p>
+                            <p class="fw-medium mb-0">Business Type:</p>
+                            <p class="text-body-secondary mb-2"><%= party.businessType %></p>
+                            <p class="fw-medium mb-0">Tax Territory:</p>
+                            <p class="text-body-secondary mb-2"><%= party.territory %></p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Business Category:</p>
+                            <p class="text-body-secondary mb-2"><%= party.category %></p>
+                            <p class="fw-medium mb-0">Party Type:</p>
+                            <p class="text-body-secondary mb-2"><%= party.partyType %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border mb-3 shadow-sm bg-body">
+                <div class="bg-body border-bottom px-3 py-2">
+                    <h4 class="fw-normal mb-0">Contact Information</h4>
+                </div>
+                <div class="pb-3 bg-body">
+                    <div class="row border-bottom mx-3 mt-3 fs-7">
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Primary Email:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (party.email != "") { %>
+                                    <%= party.email %>
+                                <% } else { %>
+                                    None
+                                <% } %>
+                            </p>
+                            <p class="fw-medium mb-0">Primary Phone:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (party.phone != null) { %>
+                                    <%= party.phone %>
+                                <% } else { %>
+                                    None
+                                <% } %>
+                            </p>
+                            <p class="fw-medium mb-0">Alternate Phone:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (party.altPhone != null) { %>
+                                    <%= party.altPhone %>
+                                <% } else { %>
+                                    None
+                                <% } %>
+                            </p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Mailing Address:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (party.address[0].line1 == "") { %>
+                                    None
+                                <% } else { %>
+                                    <%= `${party.address[0].line1} ${party.address[0].line2}` %><br>
+                                    <%= `${party.address[0].city} ${party.address[0].state} ${party.address[0].zip}` %><br>
+                                    <%= party.address[0].country %>
+                                <% } %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border mb-3 shadow-sm bg-body">
+                <div class="bg-body border-bottom px-3 py-2">
+                    <h4 class="fw-normal mb-0">Accounting Details</h4>
+                </div>
+                <div class="pb-3 bg-body">
+                    <div class="row border-bottom mx-3 mt-3 fs-7">
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Default Billing Account:</p>
+                            <p class="text-body-secondary mb-2"><%= billingAccount %></p>
+                            <p class="fw-medium mb-0">Invoice Currency:</p>
+                            <p class="text-body-secondary mb-2"><%= party.currency %></p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Tax ID:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (party.tin && party.tin != "") { %>
+                                    <%= party.tin %>
+                                <% } else { %>
+                                    None
+                                <% } %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border mb-3 shadow-sm bg-body">
+                <div class="bg-body border-bottom px-3 py-2">
+                    <h4 class="fw-normal mb-0">Audit</h4>
+                </div>
+                <div class="pb-3 bg-body">
+                    <div class="row border-bottom mx-3 mt-3 fs-7">
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Created At:</p>
+                            <p class="text-body-secondary mb-2"><%= party.createdAt %></p>
+                            <p class="fw-medium mb-0">Created By:</p>
+                            <p class="text-body-secondary mb-2"><%= createdByUser %></p>
+                            <p class="fw-medium mb-0">DB Object ID:</p>
+                            <p class="text-body-secondary mb-2"><%= party._id %></p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Updated At:</p>
+                            <p class="text-body-secondary mb-2"><%= party.updatedAt %></p>
+                            <p class="fw-medium mb-0">Updated By:</p>
+                            <p class="text-body-secondary mb-2"><%= updatedByUser %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/footer') %>

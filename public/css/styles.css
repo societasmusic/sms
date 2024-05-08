@@ -149,3 +149,14 @@ header {
 	width: 36px;  
 	font-size: 14px;
 }
+  
+.circle-inner-lg {
+	color: white;
+	display: table-cell;
+	vertical-align: middle; 
+	text-align: center;
+	text-decoration: none;
+	height: 72px;
+	width: 72px;  
+	font-size: 36px;
+}
