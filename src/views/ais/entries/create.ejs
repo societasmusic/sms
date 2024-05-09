@@ -32,6 +32,51 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <h3 class="fw-light">Account Entries*</h3>
+                        <table class="table">
+                            <thead>
+                                <tr class="fs-7">
+                                    <th class="col">Object</th>
+                                    <th class="col-6">Account</th>
+                                    <th class="col-2">Debit</th>
+                                    <th class="col-2">Credit</th>
+                                    <th class="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fieldRows">
+                                <tr>
+                                    <td class="fs-7">Row</td>
+                                    <td>
+                                        <select class="form-select form-select-search fs-7" name="account[]" id="account[]" required>
+                                            <option value=""></option>
+                                            <% accounts.forEach(e => { %>
+                                                <option value="<%= e.number %>"><%= e.number %> (<%= e.name %>)</option>
+                                            <% }) %>
+                                        </select>
+                                        <div class="invalid-feedback fs-7">
+                                            This field cannot be left blank
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control fs-7" name="debit[]" id="debit[]" required>
+                                        <div class="invalid-feedback fs-7">
+                                            This field cannot be left blank
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control fs-7" name="credit[]" id="credit[]" required>
+                                        <div class="invalid-feedback fs-7">
+                                            This field cannot be left blank
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning fs-7 add_row w-100">Add Field</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <button type="button" class="btn btn-secondary fs-7" onclick="location.href='<%= urlreturn %>'">Cancel</button>
                     <button type="submit" class="btn btn-primary fs-7">Save Account</button>
                     <p class="fs-7 text-secondary mt-2">* Required Field</p>
@@ -40,4 +85,47 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+    $(".add_row").click(function(e) {
+        e.preventDefault();
+        $("#fieldRows").append(`
+            <tr>
+                <td class="fs-7">Row</td>
+                <td>
+                    <select class="form-select form-select-search fs-7" name="account[]" id="account[]" required>
+                        <option value=""></option>
+                        <% accounts.forEach(e => { %>
+                            <option value="<%= e.number %>"><%= e.number %> (<%= e.name %>)</option>
+                        <% }) %>
+                    </select>
+                    <div class="invalid-feedback fs-7">
+                        This field cannot be left blank
+                    </div>
+                </td>
+                <td>
+                    <input type="number" class="form-control fs-7" name="debit[]" id="debit[]" required>
+                    <div class="invalid-feedback fs-7">
+                        This field cannot be left blank
+                    </div>
+                </td>
+                <td>
+                    <input type="number" class="form-control fs-7" name="credit[]" id="credit[]" required>
+                    <div class="invalid-feedback fs-7">
+                        This field cannot be left blank
+                    </div>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger fs-7 delete_row w-100">Delete</button>
+                </td>
+            </tr>
+        `)
+    });
+    $(document).on("click", ".delete_row", function(e) {
+        e.preventDefault();
+        let row_item = $(this).parent().parent();
+        $(row_item).remove();
+    });
+});
+</script>
 <%- include('../../partials/footer') %>

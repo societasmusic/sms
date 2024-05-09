@@ -2,7 +2,7 @@
 <div class="flex-grow-1 bg-body-tertiary">
     <%- include('../../partials/breadcrumb') %>
     <div class="px-3">
-        <div class="container py-3">
+        <div class="container mt-2 mb-3">
             <% if (user.access == "Editor" || user.access == "System Administrator" || user.access == "System Owner") { %>
                 <div class="d-flex gap-1 mb-2">
                     <a href="/ais/parties/<%= party._id %>/edit" class="btn btn-warning fs-7 py-1">Edit</a>

@@ -136,7 +136,7 @@
                                         <% if (party.currency == e.cc) { %>
                                             selected
                                         <% } %>>
-                                        <%= e.cc %>
+                                        <%= e.cc %> (<%= e.name %>)
                                     </option>
                                 <% }) %>
                             </select>
@@ -153,7 +153,7 @@
                                         <% if (party.billingAccount == e.number) { %>
                                             selected
                                         <% } %>>
-                                        <%= e.number %> - <%= e.name %>
+                                        <%= e.number %> (<%= e.name %>)
                                     </option>
                                 <% }) %>
                             </select>

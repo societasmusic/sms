@@ -1,0 +1,85 @@
+<%- include('../../partials/header') %>
+<div class="flex-grow-1 bg-body-tertiary">
+    <%- include('../../partials/breadcrumb') %>
+    <div class="px-3">
+        <div class="container mt-2 mb-3">
+            <% if (user.access == "Editor" || user.access == "System Administrator" || user.access == "System Owner") { %>
+                <div class="d-flex gap-1 mb-2">
+                    <a href="/ais/coa/<%= account._id %>/edit" class="btn btn-warning fs-7 py-1">Edit</a>
+                    <% if (user.access == "System Administrator" || user.access == "System Owner") { %>
+                        <button class="btn btn-danger fs-7 py-1" data-bs-toggle="modal" data-bs-target="#delete<%= account._id %>">Delete</button>
+                        <div class="modal fade" id="delete<%= account._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm Action</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you wish to delete this record? This action is permanent and has no option to undo.
+                                        <div class="mt-2">
+                                            <b>Name:&nbsp;</b><%= account.name %>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <form action="/ais/coa/<%= account._id %>/delete" method="POST">
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            <% } %>
+            <div class="border mb-3 shadow-sm bg-body">
+                <div class="bg-body border-bottom px-3 py-2">
+                    <h4 class="fw-normal mb-0">Summary</h4>
+                </div>
+                <div class="pb-3 bg-body">
+                    <div class="row border-bottom mx-3 mt-3 fs-7">
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Name:</p>
+                            <p class="text-body-secondary mb-2"><%= account.name %></p>
+                            <p class="fw-medium mb-0">Account Number:</p>
+                            <p class="text-body-secondary mb-2"><%= account.number %></p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Account Type:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% let type = [{num:1100,name:"Current Assets"},{num:1200,name:"Non-Current Assets"},{num:2100,name:"Current Liabilities"},{num:2200,name:"Non-Current Liabilities"},{num:3000,name:"Equity"},{num:4000,name:"Revenue"},{num:5000,name:"Expenses"}] %>
+                                <% let typeFound = type.find((obj) => obj.num === Number(account.type)) %>
+                                <%= `${typeFound.name}` %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border mb-3 shadow-sm bg-body">
+                <div class="bg-body border-bottom px-3 py-2">
+                    <h4 class="fw-normal mb-0">Audit</h4>
+                </div>
+                <div class="pb-3 bg-body">
+                    <div class="row border-bottom mx-3 mt-3 fs-7">
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Created At:</p>
+                            <p class="text-body-secondary mb-2"><%= account.createdAt %></p>
+                            <p class="fw-medium mb-0">Created By:</p>
+                            <p class="text-body-secondary mb-2"><%= createdByUser %></p>
+                            <p class="fw-medium mb-0">DB Object ID:</p>
+                            <p class="text-body-secondary mb-2"><%= account._id %></p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Updated At:</p>
+                            <p class="text-body-secondary mb-2"><%= account.updatedAt %></p>
+                            <p class="fw-medium mb-0">Updated By:</p>
+                            <p class="text-body-secondary mb-2"><%= updatedByUser %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/footer') %>

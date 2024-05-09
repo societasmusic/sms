@@ -24,7 +24,7 @@ const userSchema = mongoose.Schema(
         //             type: String,
         //             required: true
         //         },
-        //         module: {
+        //         level: {
         //             type: String,
         //             required: true
         //         },

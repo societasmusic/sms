@@ -180,6 +180,44 @@ exports.postCreateAccount = async (req, res) => {
         return res.redirect("/ais/coa/create");
     }
 };
+// Get View Account
+exports.getViewAccount = async (req, res) => {
+    try {
+        const messages = await req.flash("info");
+        const account = await Account.findOne({_id: req.params.id});
+        const title = `${account.number} - ${account.name}`;
+        var createdByUser;
+        try {
+            createdByUser = await User.findById(account.createdBy);
+            createdByUser = `${createdByUser.fname} ${createdByUser.lname}`;
+        } catch (err) {
+            createdByUser = "System";
+        };
+        var updatedByUser;
+        try {
+            updatedByUser = await User.findById(account.updatedBy);
+            updatedByUser = `${updatedByUser.fname} ${updatedByUser.lname}`;
+        } catch (err) {
+            updatedByUser = "System";
+        };
+        res.render("ais/coa/view", {
+            user: req.user,
+            urlraw: req.url,
+            urlreturn: "/ais/coa",
+            url: encodeURIComponent(req.url),
+            title,
+            pjson,
+            messages,
+            account,
+            createdByUser,
+            updatedByUser,
+        });
+    } catch (err) {
+        console.log(err);
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect("/ais/coa");
+    }
+}
 // Get Edit Account
 exports.getEditAccount = async (req, res) => {
     try {
@@ -189,7 +227,7 @@ exports.getEditAccount = async (req, res) => {
         res.render("ais/coa/edit", {
             user: req.user,
             urlraw: req.url,
-            urlreturn: "/ais/coa",
+            urlreturn: `/ais/coa/${req.params.id}`,
             url: encodeURIComponent(req.url),
             title,
             pjson,
@@ -231,6 +269,52 @@ exports.postDeleteAccount = async (req, res) => {
         await Account.findByIdAndDelete(req.params.id);
         await req.flash("info", "Your request has been successfully processed.");
         return res.redirect(`/ais/coa`);
+    } catch (err) {
+        console.log(err);
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/ais/coa`);
+    }
+};
+// Export CSV
+exports.getExportCsvAccounts = async (req, res) => {
+    try {
+        const data = await Account.find({});
+        const fields = [
+            {
+                label: "id",
+                value: "_id",
+            },
+            {
+                label: "name",
+                value: "name",
+            },
+            {
+                label: "number",
+                value: "number",
+            },
+            {
+                label: "type",
+                value: "type",
+            },
+            {
+                label: "createdAt",
+                value: "createdAt",
+            },
+            {
+                label: "createdBy",
+                value: "createdBy",
+            },
+            {
+                label: "updatedAt",
+                value: "updatedAt",
+            },
+            {
+                label: "updatedBy",
+                value: "updatedBy",
+            },
+        ];
+        const fileNameClean = new Date().toISOString().replaceAll("-", "").replaceAll(":", "").replaceAll(".", "");
+        return downloadCsvResource(res, `accounts-${fileNameClean}.csv`, fields, data);
     } catch (err) {
         console.log(err);
         await req.flash("info", "There was an error processing your request.");
@@ -646,5 +730,21 @@ exports.getEntries = async (req, res) => {
         perPage,
         count,
         pages: Math.ceil(count / perPage),
+    });
+};
+// Get Create Entry
+exports.getCreateEntry = async (req, res) => {
+    const title = "Create Entry";
+    const messages = await req.flash("info");
+    const accounts = await Account.find();
+    res.render("ais/entries/create", {
+        user: req.user,
+        urlraw: req.url,
+        urlreturn: "/ais/entries",
+        url: encodeURIComponent(req.url),
+        title,
+        pjson,
+        messages,
+        accounts,
     });
 };

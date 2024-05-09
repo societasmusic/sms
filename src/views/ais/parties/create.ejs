@@ -87,7 +87,7 @@
                             <select class="form-select form-select-search fs-7" name="currency" id="currency" aria-label="currency" required>
                                 <option value=""></option>
                                 <% currencies.forEach(e => { %>
-                                    <option value="<%= e.cc %>"><%= e.cc %></option>
+                                    <option value="<%= e.cc %>"><%= e.cc %> (<%= e.name %>)</option>
                                 <% }) %>
                             </select>
                             <div class="invalid-feedback fs-7">
@@ -99,7 +99,7 @@
                             <select class="form-select form-select-search fs-7" name="billingAccount" id="billingAccount" aria-label="billingAccount" required>
                                 <option value=""></option>
                                 <% accounts.forEach(e => { %>
-                                    <option value="<%= e.number %>"><%= e.number %> - <%= e.name %></option>
+                                    <option value="<%= e.number %>"><%= e.number %> (<%= e.name %>)</option>
                                 <% }) %>
                             </select>
                             <div class="invalid-feedback fs-7">
