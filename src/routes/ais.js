@@ -30,6 +30,8 @@ router.get("/ais/coa/export/csv", authController.isLoggedIn, aisController.getEx
 
 // Entries
 router.get("/ais/entries", authController.isLoggedIn, aisController.getEntries);
-router.get("/ais/entries/create", authController.isLoggedIn, aisController.getCreateEntry);
+router.get("/ais/entries/create", authController.isLoggedIn, authController.isEditor, aisController.getCreateEntry);
+router.post("/ais/entries/create", authController.isLoggedIn, authController.isEditor, upload.single("attachment"), aisController.postCreateEntry);
+router.get("/ais/entries/:id", authController.isLoggedIn, aisController.getViewEntry);
 
 module.exports = router;

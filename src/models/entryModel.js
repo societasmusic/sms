@@ -2,13 +2,17 @@ const mongoose = require("mongoose");
 
 const entrySchema = mongoose.Schema(
     {
-        name: {
-            type: String,
+        date: {
+            type: Date,
             required: true
         },
         type: {
             type: String,
-            required: false
+            required: true
+        },
+        number: {
+            type: Number,
+            required: true
         },
         rows: [
             {
@@ -32,7 +36,7 @@ const entrySchema = mongoose.Schema(
                 required: false
             },
             date: {
-                type: String,
+                type: Date,
                 required: false
             },
             remark: {
@@ -40,6 +44,20 @@ const entrySchema = mongoose.Schema(
                 required: false
             },
             attachment: {
+                type: String,
+                required: false
+            },
+        },
+        approval: {
+            status: {
+                type: String,
+                required: true
+            },
+            approvedAt: {
+                type: Date,
+                required: false
+            },
+            approvedBy: {
                 type: String,
                 required: false
             },

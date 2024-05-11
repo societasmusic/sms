@@ -33,10 +33,16 @@
                             <th class="col-2 text-light fw-medium bg-dark py-3 fs-7">
                                 Actions
                             </th>
-                            <th class="col-2 text-light fw-medium bg-dark py-3 fs-7">
+                            <th class="col-1 text-light fw-medium bg-dark py-3 fs-7">
                                 Date
                             </th>
-                            <th class="col-6 text-light fw-medium bg-dark py-3 fs-7">
+                            <th class="col-1 text-light fw-medium bg-dark py-3 fs-7 text-start">
+                                Number
+                            </th>
+                            <th class="col-1 text-light fw-medium bg-dark py-3 fs-7">
+                                Status
+                            </th>
+                            <th class="col-5 text-light fw-medium bg-dark py-3 fs-7">
                                 Account
                             </th>
                             <th class="col-1 text-light fw-medium bg-dark py-3 fs-7">
@@ -75,9 +81,9 @@
                                     </td> -->
                                     <td class="py-4">
                                         <div class="d-flex gap-1">
-                                            <a href="/ais/parties/<%= e._id %>" class="btn btn-primary fs-7 py-1">View</a>
+                                            <a href="/ais/entries/<%= e._id %>" class="btn btn-primary fs-7 py-1">View</a>
                                             <% if (user.access == "Editor" || user.access == "System Administrator" || user.access == "System Owner") { %>
-                                                <a href="/ais/parties/<%= e._id %>/edit" class="btn btn-warning fs-7 py-1">Edit</a>
+                                                <a href="/ais/entries/<%= e._id %>/edit" class="btn btn-warning fs-7 py-1">Edit</a>
                                                 <% if (user.access == "System Administrator" || user.access == "System Owner") { %>
                                                     <button class="btn btn-danger fs-7 py-1" data-bs-toggle="modal" data-bs-target="#delete<%= e._id %>">Delete</button>
                                                     <div class="modal fade" id="delete<%= e._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -90,12 +96,12 @@
                                                                 <div class="modal-body">
                                                                     Are you sure you wish to delete this record? This action is permanent and has no option to undo.
                                                                     <div class="mt-2">
-                                                                        <b>Name:&nbsp;</b><%= e.name %>
+                                                                        <b>Entry Number:&nbsp;</b><%= e.number %>
                                                                     </div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                    <form action="/ais/parties/<%= e._id %>/delete" method="POST">
+                                                                    <form action="/ais/entries/<%= e._id %>/delete" method="POST">
                                                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                                                     </form>
                                                                 </div>
@@ -106,38 +112,48 @@
                                             <% } %>
                                         </div>
                                     </td>
-                                    <td class="py-3 fs-7">
-                                        <div class="py-1 d-flex gap-3 align-items-center">
-                                            <div class="circle">
-                                                <p class="circle-inner"><%= e.name.slice(0,2) %></p>
-                                            </div>
-                                            <a href="/ais/parties/<%= e._id %>"><%= e.name %></a>
-                                        </div>
-                                    </td>
                                     <td class="py-4 fs-7">
                                         <div class="py-1">
-                                            <%= e.partyType %>
-                                        </div>
-                                    </td>
-                                    <td class="py-4 fs-7">
-                                        <div class="py-1">
-                                            <%= e.businessType %>
-                                        </div>
-                                    </td>
-                                    <td class="py-4 fs-7">
-                                        <div class="py-1 d-block text-truncate">
-                                            <%= e.territory %>
-                                        </div>
-                                    </td>
-                                    <td class="py-4 fs-7">
-                                        <div class="py-1">
-                                            <% var date = e.updatedAt.toISOString() %>
+                                            <% var date = e.date.toISOString().slice(0,10) %>
                                             <%= date %>
                                         </div>
                                     </td>
+                                    <td class="py-4 fs-7 text-start">
+                                        <div class="py-1">
+                                            <a href="/ais/entries/<%= e._id %>">
+                                                <%= String(e.number) %>
+                                            </a>
+                                        </div>
+                                    </td>
                                     <td class="py-4 fs-7">
                                         <div class="py-1">
-                                            0.00 USD
+                                            <% if (e.approval.status === "Pending Approval") { %>
+                                                <span class="badge text-bg-warning fs-7">Pending Approval</span>
+                                            <% } else if (e.approval.status === "Approved") { %>
+                                                <span class="badge text-bg-success fs-7">Approved</span>
+                                            <% } %>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 fs-7">
+                                        <div class="py-1">
+                                            <% e.rows.forEach(e2 => { %>
+                                                <% let found = accounts.find((e3) => Number(e3.number) == Number(e2.account)); %>
+                                                <%= e2.account %> - <%= found.name %><br>
+                                            <% }) %>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 fs-7">
+                                        <div class="py-1">
+                                            <% e.rows.forEach(e2 => { %>
+                                                <%= e2.debit.toFixed(2) %><br>
+                                            <% }) %>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 fs-7">
+                                        <div class="py-1">
+                                            <% e.rows.forEach(e2 => { %>
+                                                <%= e2.credit.toFixed(2) %><br>
+                                            <% }) %>
                                         </div>
                                     </td>
                                 </tr>
@@ -167,7 +183,7 @@
             order: [[2, 'asc']],
             columnDefs: [
                 {
-                    orderable: false, targets: [0, 1]
+                    orderable: false, targets: [0,1]
                 }
             ],
             lengthMenu: [

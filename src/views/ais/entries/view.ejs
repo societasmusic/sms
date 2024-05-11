@@ -1,0 +1,192 @@
+<%- include('../../partials/header') %>
+<div class="flex-grow-1 bg-body-tertiary">
+    <%- include('../../partials/breadcrumb') %>
+    <div class="px-3">
+        <div class="container mt-2 mb-3">
+            <% if (user.access == "Editor" || user.access == "System Administrator" || user.access == "System Owner") { %>
+                <div class="d-flex gap-1 mb-2">
+                    <a href="/ais/entries/<%= entry._id %>/edit" class="btn btn-warning fs-7 py-1">Edit</a>
+                    <% if (user.access == "System Administrator" || user.access == "System Owner") { %>
+                        <button class="btn btn-danger fs-7 py-1" data-bs-toggle="modal" data-bs-target="#delete<%= entry._id %>">Delete</button>
+                        <div class="modal fade" id="delete<%= entry._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm Action</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you wish to delete this record? This action is permanent and has no option to undo.
+                                        <div class="mt-2">
+                                            <b>Entry Number:&nbsp;</b><%= entry.number %>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <form action="/ais/entries/<%= entry._id %>/delete" method="POST">
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            <% } %>
+            <div class="border mb-3 shadow-sm bg-body">
+                <div class="bg-body border-bottom px-3 py-2">
+                    <h4 class="fw-normal mb-0">Details</h4>
+                </div>
+                <div class="pb-3 bg-body">
+                    <div class="row border-bottom mx-3 mt-3 fs-7">
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Entry Date:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% var date = entry.date.toISOString().slice(0,10) %>
+                                <%= date %>
+                            </p>
+                            <p class="fw-medium mb-0">Entry Number:</p>
+                            <p class="text-body-secondary mb-2"><%= entry.number %></p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Entry Type:</p>
+                            <p class="text-body-secondary mb-2">
+                                <%= entry.type %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border mb-3 shadow-sm bg-body">
+                <div class="bg-body border-bottom px-3 py-2">
+                    <h4 class="fw-normal mb-0">Account Entries</h4>
+                </div>
+                <div class="pb-3 bg-body">
+                    <div class="row border-bottom mx-3 mt-3 fs-7">
+                        <div class="col-6 pb-2">
+                            <p class="fw-medium mb-2">Account:</p>
+                            <% entry.rows.forEach(e => { %>
+                                <p class="text-body-secondary m-0">
+                                    <% let found = accounts.find((e2) => Number(e2.number) == Number(e.account)); %>
+                                    <%= e.account %> - <%= found.name %><br>
+                                </p>
+                            <% }) %>
+                        </div>
+                        <div class="col-3">
+                            <p class="fw-medium mb-2">Debit:</p>
+                            <% entry.rows.forEach(e => { %>
+                                <p class="text-body-secondary m-0">
+                                    <%= e.debit.toFixed(2) %><br>
+                                </p>
+                            <% }) %>
+                        </div>
+                        <div class="col-3">
+                            <p class="fw-medium mb-2">Credit:</p>
+                            <% entry.rows.forEach(e => { %>
+                                <p class="text-body-secondary m-0">
+                                    <%= e.credit.toFixed(2) %><br>
+                                </p>
+                            <% }) %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border mb-3 shadow-sm bg-body">
+                <div class="bg-body border-bottom px-3 py-2">
+                    <h4 class="fw-normal mb-0">Reference</h4>
+                </div>
+                <div class="pb-3 bg-body">
+                    <div class="row border-bottom mx-3 mt-3 fs-7">
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Reference Date:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (entry.reference.date > 0 && entry.reference.date != "") { %>
+                                    <% let refDate = entry.reference.date.toISOString().slice(0,10) %>
+                                    <%= refDate %>
+                                <% } else { %>
+                                    None
+                                <% } %>
+                            </p>
+                            <p class="fw-medium mb-0">Reference Number:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (entry.reference.number.trim() != "") { %>
+                                    <%= entry.reference.number %>
+                                <% } else { %>
+                                    None
+                                <% } %>
+                            </p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Remark:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (entry.reference.remark.trim() != "") { %>
+                                    <%= entry.reference.remark %>
+                                <% } else { %>
+                                    None
+                                <% } %>
+                            </p>
+                            <p class="fw-medium mb-0">Attachment:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (entry.reference.attachment != "") { %>
+                                    <a href="<%= attachmentUrl %>" target="_blank">
+                                        External Link
+                                    </a>
+                                <% } else { %>
+                                    None
+                                <% } %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border mb-3 shadow-sm bg-body">
+                <div class="bg-body border-bottom px-3 py-2">
+                    <h4 class="fw-normal mb-0">Audit</h4>
+                </div>
+                <div class="pb-3 bg-body">
+                    <div class="row border-bottom mx-3 mt-3 fs-7">
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Approved At:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (entry.approval.approvedAt > 0 && entry.approval.approvedAt != "") { %>                                 
+                                    <%= entry.approval.approvedAt %>
+                                <% } else { %>
+                                    None
+                                <% } %>
+                            </p>
+                            <p class="fw-medium mb-0">Approved By:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (entry.approval.approvedBy > 0 && entry.approval.approvedBy != "") { %>                                 
+                                    <%= approvedByUser %>
+                                <% } else { %>
+                                    None
+                                <% } %>
+                            </p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Status:</p>
+                            <p class="text-body-secondary mb-2"><%= entry.approval.status %></p>
+                        </div>
+                    </div>
+                    <div class="row border-bottom mx-3 mt-3 fs-7">
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Created At:</p>
+                            <p class="text-body-secondary mb-2"><%= entry.createdAt %></p>
+                            <p class="fw-medium mb-0">Created By:</p>
+                            <p class="text-body-secondary mb-2"><%= createdByUser %></p>
+                            <p class="fw-medium mb-0">DB Object ID:</p>
+                            <p class="text-body-secondary mb-2"><%= entry._id %></p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Updated At:</p>
+                            <p class="text-body-secondary mb-2"><%= entry.updatedAt %></p>
+                            <p class="fw-medium mb-0">Updated By:</p>
+                            <p class="text-body-secondary mb-2"><%= updatedByUser %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/footer') %>

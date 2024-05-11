@@ -551,7 +551,6 @@ exports.postEditParty = async (req, res) => {
     };
     // Define object
     const party = {
-        createdBy: req.user.id,
         updatedBy: req.user.id,
         name: req.body.name,
         partyType: req.body.partyType,
@@ -717,6 +716,7 @@ exports.getEntries = async (req, res) => {
         .limit(perPage)
         .exec();
     const messages = await req.flash("info");
+    const accounts = await Account.find();
     res.render("ais/entries", {
         user: req.user,
         urlraw: req.url,
@@ -730,6 +730,7 @@ exports.getEntries = async (req, res) => {
         perPage,
         count,
         pages: Math.ceil(count / perPage),
+        accounts,
     });
 };
 // Get Create Entry
@@ -747,4 +748,153 @@ exports.getCreateEntry = async (req, res) => {
         messages,
         accounts,
     });
+};
+exports.postCreateEntry = async (req, res) => {
+    // Check if any blank inputs
+    if (req.body.date == "" || req.body.type == "") {
+        await req.flash("info", "There was an error processing your request.");
+        console.log("1");
+        return res.redirect(`/ais/entries/create`);
+    };
+    // Check party type values
+    if (!["Standard Entry","Compound Entry","Adjusting Entry","Transfer Entry","Opening Entry","Closing Entry","Reversing Entry"].includes(req.body.type)) {
+        console.log("3");
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/ais/entries/create`);
+    };
+    // Define number
+    var number;
+    const entries = await Entry.find({"type":req.body.type});
+    if (entries < 1) {
+        number = 100000 + 1;
+    } else {
+        const entriesSorted = [];
+        entries.forEach(e => {
+            entriesSorted.push(e.number);
+        });
+        number = Number(Math.max(...entriesSorted) + 1);
+    };
+    // Upload files to s3 bucket
+    var fileName;
+    if (req.file != "" && req.file) {
+        const fileNameClean = new Date().toISOString().replaceAll("-", "").replaceAll(":", "").replaceAll(".", "");
+        const securityKey = (bytes = 32) => crypto.randomBytes(bytes).toString("hex");
+        var fileExt;
+        if (req.file.mimetype == "image/png") {
+            fileExt = "png"
+        } else if (req.file.mimetype == "image/jpeg") {
+            fileExt = "jpeg"
+        } else if (req.file.mimetype == "application/pdf") {
+            fileExt = "pdf"
+        } else {
+            await req.flash("info", "There was an error processing your request.");
+            return res.redirect(`/ais/entries/create`);
+        };
+        fileName = `attachment-${fileNameClean}-${securityKey()}.${fileExt}`
+        const params = {
+            Bucket: process.env.BUCKET_NAME,
+            Key: fileName,
+            Body: req.file.buffer,
+            ContentType: req.file.mimetype,
+        };
+        const command = new PutObjectCommand(params);
+        await s3.send(command);
+    } else {
+        fileName = "";
+    };
+    // Validate and Define Rows
+    if (req.body.account.length < 2 || !Array.isArray(req.body.account)) {
+        console.log("4");
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/ais/entries/create`);
+    };
+    const rows = [];
+    let i = 0;
+    req.body.account.forEach((e) => {
+        let row = {
+            account: e,
+            debit: req.body.debit[i],
+            credit: req.body.credit[i],
+        };
+        rows.push(row);
+        i++;
+    });
+    // Define Main Object
+    const entry = new Entry({
+        date: req.body.date,
+        type: req.body.type,
+        number: number,
+        rows: rows,
+        reference: {
+            number: req.body.refNumber,
+            date: req.body.refDate,
+            remark: req.body.refRemark,
+            attachment: fileName,
+        },
+        approval: {
+            status: "Pending Approval"
+        },
+        createdBy: req.user.id,
+        updatedBy: req.user.id,
+    });
+    // Save to db
+    try {
+        await entry.save();
+        await req.flash("info", "Your request has been successfully processed.");
+        return res.redirect(`/ais/entries`);
+    } catch (err) {
+        console.log(err);
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/ais/entries/create`);
+    }
+};
+exports.getViewEntry = async (req, res) => {
+    try {
+        const messages = await req.flash("info");
+        const entry = await Entry.findOne({_id: req.params.id});
+        const date = entry.date.toISOString().slice(0,10)
+        const title = `${date} - ${entry.number}`;
+        var createdByUser;
+        try {
+            createdByUser = await User.findById(entry.createdBy);
+            createdByUser = `${createdByUser.fname} ${createdByUser.lname}`;
+        } catch (err) {
+            createdByUser = "System";
+        };
+        var updatedByUser;
+        try {
+            updatedByUser = await User.findById(entry.updatedBy);
+            updatedByUser = `${updatedByUser.fname} ${updatedByUser.lname}`;
+        } catch (err) {
+            updatedByUser = "System";
+        };
+        var attachmentUrl;
+        if (entry.reference.attachment != "" && entry.reference.attachment) {
+            const getObjectParams = {
+                Bucket: process.env.BUCKET_NAME,
+                Key: entry.reference.attachment,
+            };
+            const command = new GetObjectCommand(getObjectParams);
+            attachmentUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+        };
+        const accounts = await Account.find();
+        res.render("ais/entries/view", {
+            user: req.user,
+            urlraw: req.url,
+            urlreturn: "/ais/entries",
+            url: encodeURIComponent(req.url),
+            title,
+            pjson,
+            messages,
+            entry,
+            createdByUser,
+            updatedByUser,
+            attachmentUrl,
+            accounts,
+        });
+    } catch (err) {
+        console.log(err);
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect("/ais/entries");
+    }
 };
