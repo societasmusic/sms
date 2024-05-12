@@ -33,5 +33,6 @@ router.get("/ais/entries", authController.isLoggedIn, aisController.getEntries);
 router.get("/ais/entries/create", authController.isLoggedIn, authController.isEditor, aisController.getCreateEntry);
 router.post("/ais/entries/create", authController.isLoggedIn, authController.isEditor, upload.single("attachment"), aisController.postCreateEntry);
 router.get("/ais/entries/:id", authController.isLoggedIn, aisController.getViewEntry);
+router.get("/ais/entries/:id/edit", authController.isLoggedIn, authController.isEditor, upload.single("attachment"), aisController.getEditEntry);
 
 module.exports = router;

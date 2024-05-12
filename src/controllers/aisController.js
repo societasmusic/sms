@@ -898,3 +898,37 @@ exports.getViewEntry = async (req, res) => {
         return res.redirect("/ais/entries");
     }
 };
+// Get Edit Entry
+exports.getEditEntry = async (req, res) => {
+    try {
+        const title = "Edit Entry";
+        const messages = await req.flash("info");
+        const accounts = await Account.find();
+        const entry = await Entry.findOne({_id: req.params.id});
+        var attachmentUrl;
+        if (entry.reference.attachment != "" && entry.reference.attachment) {
+            const getObjectParams = {
+                Bucket: process.env.BUCKET_NAME,
+                Key: entry.reference.attachment,
+            };
+            const command = new GetObjectCommand(getObjectParams);
+            attachmentUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+        };
+        res.render("ais/entries/edit", {
+            user: req.user,
+            urlraw: req.url,
+            urlreturn: "/ais/entries",
+            url: encodeURIComponent(req.url),
+            title,
+            pjson,
+            messages,
+            accounts,
+            entry,
+            attachmentUrl,
+        });
+    } catch (err) {
+        console.log(err);
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect("/ais/entries");
+    };
+};
