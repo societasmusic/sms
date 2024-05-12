@@ -5,7 +5,9 @@
         <div class="container mt-2 mb-3">
             <% if (user.access == "Editor" || user.access == "System Administrator" || user.access == "System Owner") { %>
                 <div class="d-flex gap-1 mb-2">
-                    <a href="/ais/entries/<%= entry._id %>/edit" class="btn btn-warning fs-7 py-1">Edit</a>
+                    <% if (entry.approval.status == "Pending Approval" || user.access == "System Administrator" || user.access == "System Owner") { %>
+                        <a href="/ais/entries/<%= entry._id %>/edit" class="btn btn-warning fs-7 py-1">Edit</a>
+                    <% } %>
                     <% if (user.access == "System Administrator" || user.access == "System Owner") { %>
                         <button class="btn btn-danger fs-7 py-1" data-bs-toggle="modal" data-bs-target="#delete<%= entry._id %>">Delete</button>
                         <div class="modal fade" id="delete<%= entry._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -156,7 +158,7 @@
                             </p>
                             <p class="fw-medium mb-0">Approved By:</p>
                             <p class="text-body-secondary mb-2">
-                                <% if (entry.approval.approvedBy > 0 && entry.approval.approvedBy != "") { %>                                 
+                                <% if (entry.approval.approvedAt > 0 && entry.approval.approvedBy != "") { %>                                 
                                     <%= approvedByUser %>
                                 <% } else { %>
                                     None

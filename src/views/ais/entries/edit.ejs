@@ -121,8 +121,19 @@
                                     <tr>
                                         <td class="fs-7">Row</td>
                                         <td>
-                                            <select class="form-select form-select-search fs-7" name="account-<%= i %>" id="account-<%= i %>" required>
+                                            <select class="form-select form-select-search fs-7" name="account" id="account-<%= i %>" required>
                                                 <option value=""></option>
+                                                <% 
+                                                    accounts.sort(function (a, b) {
+                                                        if (a.number < b.number) {
+                                                            return -1;
+                                                        }
+                                                        if (a.number > b.number) {
+                                                            return 1;
+                                                        }
+                                                        return 0;
+                                                    }); 
+                                                %>
                                                 <% accounts.forEach(e2 => { %>
                                                     <option value="<%= e2.number %>"
                                                         <% if (e2.number == e.account) { %>
@@ -137,13 +148,13 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <input type="number" step="0.01" class="form-control fs-7" name="debit-<%= i %>" id="debit-<%= i %>" value="<%= e.debit.toFixed(2) %>" required>
+                                            <input type="number" step="0.01" class="form-control fs-7" name="debit" id="debit-<%= i %>" value="<%= e.debit.toFixed(2) %>" required>
                                             <div class="invalid-feedback fs-7">
                                                 This field cannot be left blank
                                             </div>
                                         </td>
                                         <td>
-                                            <input type="number" step="0.01" class="form-control fs-7" name="credit-<%= i %>" id="credit-<%= i %>" value="<%= e.credit.toFixed(2) %>" required>
+                                            <input type="number" step="0.01" class="form-control fs-7" name="credit" id="credit-<%= i %>" value="<%= e.credit.toFixed(2) %>" required>
                                             <div class="invalid-feedback fs-7">
                                                 This field cannot be left blank
                                             </div>
@@ -169,8 +180,12 @@
                         </div>
                         <div class="col-6 py-1">
                             <label for="refDate" class="form-label fs-7">Reference Date</label>
-                            <% var refDate = entry.reference.date.toISOString().slice(0,10) %>
-                            <% refDate %>
+                            <% let refDate; %>
+                            <% if (entry.reference.date == null) { %>
+                                <% refDate = null %>
+                            <% } else { %>
+                                <% refDate = entry.reference.date.toISOString().slice(0,10) %>
+                            <% } %>
                             <input type="date" class="form-control fs-7" name="refDate" id="refDate" value="<%= refDate %>">
                         </div>
                     </div>
@@ -211,6 +226,17 @@
                 <td>
                     <select class="form-select form-select-search fs-7" name="account" id="account-${uniqueId}" required>
                         <option value=""></option>
+                        <% 
+                            accounts.sort(function (a, b) {
+                                if (a.number < b.number) {
+                                    return -1;
+                                }
+                                if (a.number > b.number) {
+                                    return 1;
+                                }
+                                return 0;
+                            }); 
+                        %>
                         <% accounts.forEach(e => { %>
                             <option value="<%= e.number %>"><%= e.number %> (<%= e.name %>)</option>
                         <% }) %>

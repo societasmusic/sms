@@ -55,17 +55,6 @@
                     </thead>
                     <tbody>
                         <% if (entries) { %>
-                            <% 
-                                entries.sort(function (a, b) {
-                                    if (a.name < b.name) {
-                                        return -1;
-                                    }
-                                    if (a.name > b.name) {
-                                        return 1;
-                                    }
-                                    return 0;
-                                }); 
-                            %>
                             <% var i = 1 %>
                             <% entries.forEach(e => { %>
                                 <tr id="<%= e._id %>">
@@ -83,7 +72,9 @@
                                         <div class="d-flex gap-1">
                                             <a href="/ais/entries/<%= e._id %>" class="btn btn-primary fs-7 py-1">View</a>
                                             <% if (user.access == "Editor" || user.access == "System Administrator" || user.access == "System Owner") { %>
-                                                <a href="/ais/entries/<%= e._id %>/edit" class="btn btn-warning fs-7 py-1">Edit</a>
+                                                <% if (e.approval.status == "Pending Approval" || user.access == "System Administrator" || user.access == "System Owner") { %>
+                                                    <a href="/ais/entries/<%= e._id %>/edit" class="btn btn-warning fs-7 py-1">Edit</a>
+                                                <% } %>
                                                 <% if (user.access == "System Administrator" || user.access == "System Owner") { %>
                                                     <button class="btn btn-danger fs-7 py-1" data-bs-toggle="modal" data-bs-target="#delete<%= e._id %>">Delete</button>
                                                     <div class="modal fade" id="delete<%= e._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -131,6 +122,8 @@
                                                 <span class="badge text-bg-warning fs-7">Pending Approval</span>
                                             <% } else if (e.approval.status === "Approved") { %>
                                                 <span class="badge text-bg-success fs-7">Approved</span>
+                                            <% } else if (e.approval.status === "Cancelled") { %>
+                                                <span class="badge text-bg-danger fs-7">Cancelled</span>
                                             <% } %>
                                         </div>
                                     </td>
@@ -180,7 +173,7 @@
     $(document).ready( function () {
         $('#table').DataTable({
             responsive: true,
-            order: [[2, 'asc']],
+            order: [[2, 'desc']],
             columnDefs: [
                 {
                     orderable: false, targets: [0,1]

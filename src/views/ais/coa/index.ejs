@@ -102,7 +102,29 @@
                                         </td>
                                         <td class="py-4 fs-7">
                                             <div class="py-1">
-                                                0.00 USD
+                                                <% let balance = 0; %>
+                                                <% let debits = 0; %>
+                                                <% let credits = 0; %>
+                                                <% entries.forEach(entry => { %>
+                                                    <% if (entry.approval.status === "Approved") { %>
+                                                        <% entry.rows.forEach(r => { %>
+                                                            <% if (Number(r.account) === Number(e.number)) { %>
+                                                                <% debits = debits + Number(r.debit) %>
+                                                                <% credits = credits + Number(r.credit) %>
+                                                            <% } %>
+                                                        <% }) %>
+                                                    <% } %>
+                                                <% }) %>
+                                                <% if (Number(e.type) === 1100 || Number(e.type) === 1200 || Number(e.type) === 5000) { %>
+                                                    <% balance = debits - credits; %>
+                                                <% } else { %>
+                                                    <% balance = credits - debits; %>
+                                                <% } %>
+                                                <% if (balance < 0) { %>
+                                                    (<%= balance.toFixed(2).slice(1) %>)
+                                                <% } else { %>
+                                                    <%= balance.toFixed(2) %>
+                                                <% } %>
                                             </div>
                                         </td>
                                     </tr>

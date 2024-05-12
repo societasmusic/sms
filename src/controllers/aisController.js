@@ -98,6 +98,7 @@ exports.getAccounts = async (req, res) => {
         .skip(perPage * page - perPage)
         .limit(perPage)
         .exec();
+    const entries = await Entry.find();
     const messages = await req.flash("info");
     res.render("ais/coa", {
         user: req.user,
@@ -108,6 +109,7 @@ exports.getAccounts = async (req, res) => {
         pjson,
         messages,
         accounts,
+        entries,
         current: page,
         perPage,
         count,
@@ -578,7 +580,7 @@ exports.postEditParty = async (req, res) => {
     try {
         await Party.findByIdAndUpdate(req.params.id, party);
         await req.flash("info", "Your request has been successfully processed.");
-        return res.redirect("/ais/parties");
+        return res.redirect(`/ais/parties/${req.params.id}`);
     } catch (err) {
         console.log(err);
         await req.flash("info", "There was an error processing your request.");
@@ -764,7 +766,7 @@ exports.postCreateEntry = async (req, res) => {
     };
     // Define number
     var number;
-    const entries = await Entry.find({"type":req.body.type});
+    const entries = await Entry.find();
     if (entries < 1) {
         number = 100000 + 1;
     } else {
@@ -805,6 +807,23 @@ exports.postCreateEntry = async (req, res) => {
     // Validate and Define Rows
     if (req.body.account.length < 2 || !Array.isArray(req.body.account)) {
         console.log("4");
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/ais/entries/create`);
+    };
+    let debits = 0;
+    let credits = 0;
+    req.body.debit.forEach((e) => {
+        debits = debits + Number(e);
+    });
+    req.body.credit.forEach((e) => {
+        credits = credits + Number(e);
+    });
+    if (debits.toFixed(2) != credits.toFixed(2)) {
+        console.log(req.body.debit);
+        console.log(req.body.credit);
+        console.log(debits);
+        console.log(credits);
+        console.log("6");
         await req.flash("info", "There was an error processing your request.");
         return res.redirect(`/ais/entries/create`);
     };
@@ -854,21 +873,28 @@ exports.getViewEntry = async (req, res) => {
         const entry = await Entry.findOne({_id: req.params.id});
         const date = entry.date.toISOString().slice(0,10)
         const title = `${date} - ${entry.number}`;
-        var createdByUser;
+        let createdByUser;
         try {
             createdByUser = await User.findById(entry.createdBy);
             createdByUser = `${createdByUser.fname} ${createdByUser.lname}`;
         } catch (err) {
             createdByUser = "System";
         };
-        var updatedByUser;
+        let updatedByUser;
         try {
             updatedByUser = await User.findById(entry.updatedBy);
             updatedByUser = `${updatedByUser.fname} ${updatedByUser.lname}`;
         } catch (err) {
             updatedByUser = "System";
         };
-        var attachmentUrl;
+        let approvedByUser;
+        try {
+            approvedByUser = await User.findById(entry.approval.approvedBy);
+            approvedByUser = `${approvedByUser.fname} ${approvedByUser.lname}`;
+        } catch (err) {
+            approvedByUser = "System";
+        };
+        let attachmentUrl;
         if (entry.reference.attachment != "" && entry.reference.attachment) {
             const getObjectParams = {
                 Bucket: process.env.BUCKET_NAME,
@@ -889,6 +915,7 @@ exports.getViewEntry = async (req, res) => {
             entry,
             createdByUser,
             updatedByUser,
+            approvedByUser,
             attachmentUrl,
             accounts,
         });
@@ -914,6 +941,10 @@ exports.getEditEntry = async (req, res) => {
             const command = new GetObjectCommand(getObjectParams);
             attachmentUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
         };
+        if (req.user.access == "Editor" && entry.approval.status != "Pending Approval") {
+            await req.flash("info", "There was an error processing your request.");
+            return res.redirect("/ais/entries");
+        };
         res.render("ais/entries/edit", {
             user: req.user,
             urlraw: req.url,
@@ -931,4 +962,147 @@ exports.getEditEntry = async (req, res) => {
         await req.flash("info", "There was an error processing your request.");
         return res.redirect("/ais/entries");
     };
+};
+exports.postEditEntry = async (req, res) => {
+    // Check permissions
+    if (req.user.access == "Editor" && req.body.status) {
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect("/ais/entries");
+    };
+    // Check if any blank inputs
+    if (req.body.date == "" || req.body.type == "") {
+        await req.flash("info", "There was an error processing your request.");
+        console.log("1");
+        return res.redirect(`/ais/entries/${req.params.id}/edit`);
+    };
+    // Check party type values
+    if (!["Standard Entry","Compound Entry","Adjusting Entry","Transfer Entry","Opening Entry","Closing Entry","Reversing Entry"].includes(req.body.type)) {
+        console.log("3");
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/ais/entries/${req.params.id}/edit`);
+    };
+    // Upload files to s3 bucket
+    var fileName;
+    if (req.file != "" && req.file) {
+        const fileNameClean = new Date().toISOString().replaceAll("-", "").replaceAll(":", "").replaceAll(".", "");
+        const securityKey = (bytes = 32) => crypto.randomBytes(bytes).toString("hex");
+        var fileExt;
+        if (req.file.mimetype == "image/png") {
+            fileExt = "png"
+        } else if (req.file.mimetype == "image/jpeg") {
+            fileExt = "jpeg"
+        } else if (req.file.mimetype == "application/pdf") {
+            fileExt = "pdf"
+        } else {
+            await req.flash("info", "There was an error processing your request.");
+            return res.redirect(`/ais/entries/${req.params.id}/edit`);
+        };
+        fileName = `attachment-${fileNameClean}-${securityKey()}.${fileExt}`
+        const params = {
+            Bucket: process.env.BUCKET_NAME,
+            Key: fileName,
+            Body: req.file.buffer,
+            ContentType: req.file.mimetype,
+        };
+        const command = new PutObjectCommand(params);
+        await s3.send(command);
+    } else {
+        // Keep existing file if no new attachment is given
+        try {
+            const existingEntry = await Entry.findOne({_id:req.params.id});
+            fileName = existingEntry.reference.attachment || "";
+        } catch (err) {
+            console.log(err);
+            await req.flash("info", "There was an error processing your request.");
+            return res.redirect(`/ais/entries/${req.params.id}/edit`);
+        };
+    };
+    // Validate and Define Rows
+    if (req.body.account.length < 2 && !Array.isArray(req.body.account)) {
+        console.log("4");
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/ais/entries/${req.params.id}/edit`);
+    };
+    let debits = 0;
+    let credits = 0;
+    req.body.debit.forEach((e) => {
+        debits = debits + Number(e);
+    });
+    req.body.credit.forEach((e) => {
+        credits = credits + Number(e);
+    });
+    if (debits.toFixed(2) != credits.toFixed(2)) {
+        console.log("6");
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/ais/entries/${req.params.id}/edit`);
+    };
+    const rows = [];
+    let i = 0;
+    req.body.account.forEach((e) => {
+        let row = {
+            account: e,
+            debit: req.body.debit[i],
+            credit: req.body.credit[i],
+        };
+        rows.push(row);
+        i++;
+    });
+    // Validate status and approval
+    let status;
+    let approvedAt = new Date();
+    let approvedBy;
+    if (req.user.access == "System Administrator" || req.user.access == "System Owner") {
+        if (!["Pending Approval","Approved","Cancelled"].includes(req.body.status)) {
+            console.log("5");
+            await req.flash("info", "There was an error processing your request.");
+            return res.redirect(`/ais/entries/${req.params.id}/edit`);
+        };
+        status = req.body.status;
+        approvedAt = approvedAt.toISOString();
+        approvedBy = req.user._id;
+    } else {
+        status = "Pending Approval";
+        approvedAt = "";
+        approvedBy = "";
+    };
+    // Define Main Object
+    const entry = {
+        date: req.body.date,
+        type: req.body.type,
+        rows: rows,
+        reference: {
+            number: req.body.refNumber,
+            date: req.body.refDate,
+            remark: req.body.refRemark,
+            attachment: fileName,
+        },
+        approval: {
+            status: status,
+            approvedAt: approvedAt,
+            approvedBy: approvedBy,
+        },
+        updatedBy: req.user.id,
+    };
+    // Save to db
+    try {
+        await Entry.findByIdAndUpdate(req.params.id, entry);
+        await req.flash("info", "Your request has been successfully processed.");
+        return res.redirect(`/ais/entries`);
+    } catch (err) {
+        console.log(err);
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/ais/entries/${req.params.id}/edit`);
+    }
+};
+// Post Delete Entry
+exports.postDeleteEntry = async (req, res) => {
+    try {
+        await Entry.findByIdAndDelete(req.params.id);
+        await req.flash("info", "Your request has been successfully processed.");
+        return res.redirect(`/ais/entries`);
+    } catch (err) {
+        console.log(err);
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/ais/entries`);
+    }
 };

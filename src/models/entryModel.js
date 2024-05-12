@@ -30,6 +30,10 @@ const entrySchema = mongoose.Schema(
                 },
             }
         ],
+        party: {
+            type: String,
+            required: false
+        },
         reference: {
             number: {
                 type: String,
