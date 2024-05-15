@@ -2,6 +2,7 @@ var pjson = require('../../package.json');
 const Party = require("../models/partyModel");
 const Account = require("../models/accountModel");
 const User = require("../models/userModel");
+const Item = require("../models/itemModel");
 const Entry = require("../models/entryModel");
 const fs = require('fs');
 const crypto = require("crypto");
@@ -1106,3 +1107,95 @@ exports.postDeleteEntry = async (req, res) => {
         return res.redirect(`/ais/entries`);
     }
 };
+// Export CSV
+exports.getExportCsvEntries = async (req, res) => {
+    try {
+        const data = await Entry.find({});
+        const fields = [
+            {
+                label: "id",
+                value: "_id",
+            },
+            {
+                label: "date",
+                value: "date",
+            },
+            {
+                label: "number",
+                value: "number",
+            },
+            {
+                label: "type",
+                value: "type",
+            },
+            {
+                label: "approvedAt",
+                value: "approval.approvedAt",
+            },
+            {
+                label: "approvedBy",
+                value: "approval.approvedBy",
+            },
+            {
+                label: "createdAt",
+                value: "createdAt",
+            },
+            {
+                label: "createdBy",
+                value: "createdBy",
+            },
+            {
+                label: "updatedAt",
+                value: "updatedAt",
+            },
+            {
+                label: "updatedBy",
+                value: "updatedBy",
+            },
+        ];
+        const fileNameClean = new Date().toISOString().replaceAll("-", "").replaceAll(":", "").replaceAll(".", "");
+        return downloadCsvResource(res, `entries-${fileNameClean}.csv`, fields, data);
+    } catch (err) {
+        console.log(err);
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/ais/entries`);
+    }
+};
+
+/*
+    Inventory
+*/
+// Get Index
+exports.getInventory = async (req, res) => {
+    const title = "Inventory";
+    const items = await Item.find();
+    const messages = await req.flash("info");
+    res.render("ais/inventory", {
+        user: req.user,
+        urlraw: req.url,
+        urlreturn: "/ais",
+        url: encodeURIComponent(req.url),
+        title,
+        pjson,
+        messages,
+        items,
+    });
+};
+// Get Create Item
+exports.getCreateInventory = async (req, res) => {
+    const title = "Create Item";
+    const items = await Item.find();
+    const accounts = [];
+    const messages = await req.flash("info");
+    res.render("ais/inventory/create", {
+        user: req.user,
+        urlraw: req.url,
+        urlreturn: "/ais/inventory",
+        url: encodeURIComponent(req.url),
+        title,
+        pjson,
+        messages,
+        items,
+        accounts,
+    });
+}

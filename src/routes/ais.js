@@ -36,5 +36,16 @@ router.get("/ais/entries/:id", authController.isLoggedIn, aisController.getViewE
 router.get("/ais/entries/:id/edit", authController.isLoggedIn, authController.isEditor, aisController.getEditEntry);
 router.post("/ais/entries/:id/edit", authController.isLoggedIn, authController.isEditor, upload.single("attachment"), aisController.postEditEntry);
 router.post("/ais/entries/:id/delete", authController.isLoggedIn, authController.isAdmin, aisController.postDeleteEntry);
+router.get("/ais/entries/export/csv", authController.isLoggedIn, aisController.getExportCsvEntries);
+
+// Invengofy
+router.get("/ais/inventory", authController.isLoggedIn, aisController.getInventory);
+router.get("/ais/inventory/create", authController.isLoggedIn, authController.isEditor, aisController.getCreateInventory);
+// router.post("/ais/inventory/create", authController.isLoggedIn, authController.isEditor, aisController.postCreateInventory);
+// router.get("/ais/inventory/:id", authController.isLoggedIn, aisController.getViewInventory);
+// router.get("/ais/inventory/:id/edit", authController.isLoggedIn, authController.isEditor, aisController.getEditInventory);
+// router.post("/ais/inventory/:id/edit", authController.isLoggedIn, authController.isEditor, aisController.postEditInventory);
+// router.post("/ais/inventory/:id/delete", authController.isLoggedIn, authController.isAdmin, aisController.postDeleteInventory);
+// router.get("/ais/inventory/export/csv", authController.isLoggedIn, aisController.getExportCsvInventory);
 
 module.exports = router;

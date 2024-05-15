@@ -10,64 +10,48 @@ const itemSchema = mongoose.Schema(
             type: String,
             required: false
         },
-        subItemOf: {
-            type: String,
-            required: false
-        },
         itemType: {
             type: String,
             required: true
         },
-        itemNumber: {
-            itemNumberSeries: {
-                type: String,
-                required: false
+        pricing: {
+            rate: {
+                type: Number,
+                required: true
             },
-            itemNumberText: {
+            unit: {
                 type: String,
-                required: false
-            },
-        },
-        itemImage: {
-            type: String,
-            required: false
-        },
-        itemLabel: {
-            type: String,
-            required: false
-        },
-        cLine: {
-            cLineYear: {
-                type: String,
-                required: false
-            },
-            cLineText: {
-                type: String,
-                required: false
+                required: true
             },
         },
-        pLine: {
-            pLineYear: {
-                type: String,
-                required: false
-            },
-            pLineText: {
-                type: String,
-                required: false
-            },
-        },
-        manufacturedIn: {
-            type: String,
-            required: false
-        },
-        explicit: {
-            type: String,
-            required: false
-        },
-        lang: {
-            type: String,
-            required: false
-        },
+        royalties: [
+            {
+                party: {
+                    type: String,
+                    required: false
+                },
+                percent: {
+                    type: Number,
+                    required: false
+                },
+                createdBy: {
+                    type: String,
+                    required: true
+                },
+                updatedBy: {
+                    type: String,
+                    required: true
+                },
+                createdAt: {
+                    type: Date,
+                    required: true
+                },
+                updatedAt: {
+                    type: Date,
+                    required: true
+                },
+            }
+        ],
         createdBy: {
             type: String,
             required: true
@@ -79,7 +63,7 @@ const itemSchema = mongoose.Schema(
     },
     {
         timestamps: true
-    }
+    },
 )
 
 const Item = mongoose.model("Item", itemSchema);
