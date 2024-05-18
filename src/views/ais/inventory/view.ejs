@@ -1,0 +1,159 @@
+<%- include('../../partials/header') %>
+<div class="flex-grow-1 bg-body-tertiary">
+    <%- include('../../partials/breadcrumb') %>
+    <div class="px-3">
+        <div class="container mt-2 mb-3">
+            <% if (user.access == "Editor" || user.access == "System Administrator" || user.access == "System Owner") { %>
+                <div class="d-flex gap-1 mb-2">
+                    <a href="/ais/inventory/<%= item.number %>/edit" class="btn btn-warning fs-7 py-1">Edit</a>
+                    <% if (user.access == "System Administrator" || user.access == "System Owner") { %>
+                        <button class="btn btn-danger fs-7 py-1" data-bs-toggle="modal" data-bs-target="#delete<%= item.number %>">Delete</button>
+                        <div class="modal fade" id="delete<%= item.number %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm Action</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you wish to delete this record? This action is permanent and has no option to undo.
+                                        <div class="mt-2">
+                                            <b>Item Number:&nbsp;</b><%= item.number %>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <form action="/ais/inventory/<%= item.number %>/delete" method="POST">
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            <% } %>
+            <div class="border mb-3 bg-body">
+                <div class="bg-body border-bottom px-3 py-2">
+                    <h4 class="fw-normal mb-0">Basic Details</h4>
+                </div>
+                <div class="pb-3 bg-body">
+                    <div class="row border-bottom mx-3 mt-3 fs-7">
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Item Name:</p>
+                            <p class="text-body-secondary mb-2"><%= item.name %></p>
+                            <p class="fw-medium mb-0">Item Type:</p>
+                            <p class="text-body-secondary mb-2"><%= item.type %></p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Item Version:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (item.version != "") { %>                                         
+                                    <%= item.version %>
+                                <% } else { %>
+                                    None
+                                <% } %>
+                            </p>
+                            <p class="fw-medium mb-0">Item Number:</p>
+                            <p class="text-body-secondary mb-2"><%= item.number %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border mb-3 bg-body">
+                <div class="bg-body border-bottom px-3 py-2">
+                    <h4 class="fw-normal mb-0">Invoice Pricing</h4>
+                </div>
+                <div class="pb-3 bg-body">
+                    <div class="row border-bottom mx-3 mt-3 fs-7">
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Pricing Rate:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (item.pricing.rate > 0) { %>                                         
+                                    <%= item.pricing.rate.toFixed(2) %>
+                                <% } else { %>
+                                    None
+                                <% } %>
+                            </p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Unit of Measurment (UoM):</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (item.pricing.uom != "") { %>                                         
+                                    <%= item.pricing.uom %>
+                                <% } else { %>
+                                    None
+                                <% } %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border mb-3 bg-body">
+                <div class="bg-body border-bottom px-3 py-2">
+                    <h4 class="fw-normal mb-0">Sales Royalty/Commission Schedule</h4>
+                </div>
+                <div class="pb-3 bg-body">
+                    <% if (item.royalties != 0 && item.royalties) { %>
+                        <% let i = 1 %>
+                        <% item.royalties.forEach(e => { %>
+                            <div class="row border-bottom mx-3 mt-3 fs-7">
+                                <div class="col-1">
+                                    <%= `${i}.` %>
+                                </div>
+                                <div class="col-6">
+                                    <p class="fw-medium mb-0">Party:</p>
+                                    <p class="text-body-secondary mb-2">
+                                        <% let partyFound = parties.find((e2) => e2._id == e.party) %>
+                                        <%= partyFound.name %>
+                                    </p>
+                                    <p class="fw-medium mb-0">Created At:</p>
+                                    <p class="text-body-secondary mb-2"><%= e.createdAt %></p>
+                                </div>
+                                <div class="col-5">
+                                    <p class="fw-medium mb-0">Rate (%):</p>
+                                    <p class="text-body-secondary mb-2"><%= (e.rate * 100).toFixed(6) %>%</p>
+                                    <p class="fw-medium mb-0">Maximum Reserve Rate (%):</p>
+                                    <p class="text-body-secondary mb-2"><%= (e.maxReserveRate * 100).toFixed(6) %>%</p>
+                                    <p class="fw-medium mb-0">Payout Threshold (USD):</p>
+                                    <p class="text-body-secondary mb-2"><%= e.threshold.toFixed(6) %> USD</p>
+                                </div>
+                            </div>
+                            <% i++ %>
+                        <% }) %>
+                    <% } else { %>
+                        <div class="row border-bottom mx-3 mt-3 fs-7">
+                            <div class="col-12 mb-2">
+                                None
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+            <div class="border mb-3 bg-body">
+                <div class="bg-body border-bottom px-3 py-2">
+                    <h4 class="fw-normal mb-0">Audit</h4>
+                </div>
+                <div class="pb-3 bg-body">
+                    <div class="row border-bottom mx-3 mt-3 fs-7">
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Created At:</p>
+                            <p class="text-body-secondary mb-2"><%= item.createdAt %></p>
+                            <p class="fw-medium mb-0">Created By:</p>
+                            <p class="text-body-secondary mb-2"><%= createdByUser %></p>
+                            <p class="fw-medium mb-0">DB Object ID:</p>
+                            <p class="text-body-secondary mb-2"><%= item._id %></p>
+                        </div>
+                        <div class="col-6">
+                            <p class="fw-medium mb-0">Updated At:</p>
+                            <p class="text-body-secondary mb-2"><%= item.updatedAt %></p>
+                            <p class="fw-medium mb-0">Updated By:</p>
+                            <p class="text-body-secondary mb-2"><%= updatedByUser %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/footer') %>

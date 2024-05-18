@@ -33,13 +33,16 @@
                             <th class="col-2 text-light fw-medium bg-dark py-3 fs-7">
                                 Actions
                             </th>
-                            <th class="col-6 text-light fw-medium bg-dark py-3 fs-7">
+                            <th class="col-1 text-light fw-medium bg-dark py-3 fs-7 text-start">
+                                Item Number
+                            </th>
+                            <th class="col-4 text-light fw-medium bg-dark py-3 fs-7">
                                 Name
                             </th>
                             <th class="col-1 text-light fw-medium bg-dark py-3 fs-7">
                                 Version
                             </th>
-                            <th class="col-1 text-light fw-medium bg-dark py-3 fs-7">
+                            <th class="col-2 text-light fw-medium bg-dark py-3 fs-7">
                                 Item Type
                             </th>
                             <th class="col-2 text-light fw-medium bg-dark py-3 fs-7">
@@ -48,7 +51,82 @@
                         </tr>
                     </thead>
                     <tbody>
-                       
+                        <% let i = 1; %>
+                        <% items.forEach(e => { %>
+                            <tr>
+                                <td class="py-4 fs-7">
+                                    <div class="py-1">
+                                        <%= i %>
+                                    </div>
+                                </td>
+                                <td class="py-4">
+                                    <div class="d-flex gap-1">
+                                        <a href="/ais/inventory/<%= e.number %>" class="btn btn-primary fs-7 py-1">View</a>
+                                        <% if (user.access == "Editor" || user.access == "System Administrator" || user.access == "System Owner") { %>
+                                            <a href="/ais/inventory/<%= e.number %>/edit" class="btn btn-warning fs-7 py-1">Edit</a>
+                                            <% if (user.access == "System Administrator" || user.access == "System Owner") { %>
+                                                <button class="btn btn-danger fs-7 py-1" data-bs-toggle="modal" data-bs-target="#delete<%= e.number %>">Delete</button>
+                                                <div class="modal fade" id="delete<%= e.number %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm Action</h1>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Are you sure you wish to delete this record? This action is permanent and has no option to undo.
+                                                                <div class="mt-2">
+                                                                    <b>Item Number:&nbsp;</b><%= e.number %>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                <form action="/ais/inventory/<%= e.number %>/delete" method="POST">
+                                                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <% } %>
+                                        <% } %>
+                                    </div>
+                                </td>
+                                <td class="py-4 fs-7">
+                                    <div class="py-1 text-start">
+                                        <%= e.number %>
+                                    </div>
+                                </td>
+                                <td class="py-4 fs-7">
+                                    <div class="py-1">
+                                        <a href="/ais/inventory/<%= e.number %>">
+                                            <%= e.name %>
+                                        </a>
+                                    </div>
+                                </td>
+                                <td class="py-4 fs-7">
+                                    <div class="py-1">
+                                        <% if (e.version != "") { %>                                         
+                                            <%= e.version %>
+                                        <% } else { %>
+                                            None
+                                        <% } %>
+                                    </div>
+                                </td>
+                                <td class="py-4 fs-7">
+                                    <div class="py-1">
+                                        <%= e.type %>
+                                    </div>
+                                </td>
+                                <td class="py-4 fs-7">
+                                    <div class="py-1">
+                                        <% let date = e.updatedAt.toISOString() %>
+                                        <%= date %>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% i++ %>
+                        <% }) %>
                     </tbody>
                 </table>
             </div>
@@ -59,7 +137,7 @@
     $(document).ready( function () {
         $('#table').DataTable({
             responsive: true,
-            order: [[2, 'asc']],
+            order: [[2, 'desc']],
             columnDefs: [
                 {
                     orderable: false, targets: [0, 1]

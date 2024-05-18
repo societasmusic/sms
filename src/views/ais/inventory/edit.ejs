@@ -1,0 +1,345 @@
+<%- include('../../partials/header') %>
+<div class="flex-grow-1 bg-body">
+    <%- include('../../partials/breadcrumb') %>
+    <div class="pt-2 pb-3 bg-body">
+        <div class="px-3">
+            <div class="px-3">
+                <form action="/ais/inventory/<%= item.number %>/edit" method="POST" class="needs-validation" novalidate>
+                    <div class="row mt-2 mb-4">
+                        <h4 class="fw-light">Basic Details</h4>
+                        <div class="col-3 py-1">
+                            <label for="name" class="form-label fs-7">Item Name*</label>
+                            <input type="text" class="form-control fs-7" name="name" id="name" value="<%= item.name %>" required>
+                            <div class="invalid-feedback fs-7">
+                                This field cannot be left blank
+                            </div>
+                        </div>
+                        <div class="col-3 py-1">
+                            <label for="version" class="form-label fs-7">Version</label>
+                            <input type="text" class="form-control fs-7" name="version" id="version" value="<%= item.version %>">
+                            <div class="invalid-feedback fs-7">
+                                This field cannot be left blank
+                            </div>
+                        </div>
+                        <div class="col-6 py-1">
+                            <label for="type" class="form-label fs-7">Item Type*</label>
+                            <select class="form-select fs-7" name="type" id="type" aria-label="type" required>
+                                <option value=""></option>            
+                                <% itemTypes.forEach(e => { %>
+                                    <option value="<%= e %>"
+                                        <% if (item.type == e) { %>
+                                            selected
+                                        <% } %>>
+                                        <%= e %>
+                                    </option>
+                                <% }) %>
+                            </select>
+                            <div class="invalid-feedback fs-7">
+                                This field cannot be left blank
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2 mb-4">
+                        <h4 class="fw-light">Invoice Pricing</h4>
+                        <div class="col-6 py-1">
+                            <label for="pricingRate" class="form-label fs-7">Rate</label>
+                            <input type="number" class="form-control fs-7" name="pricingRate" id="pricingRate" step="0.01" value="<%= item.pricing.rate %>">
+                        </div>
+                        <div class="col-6 py-1">
+                            <label for="uom" class="form-label fs-7">Unit of Measurement (UoM)</label>
+                            <select class="form-select fs-7" name="uom" id="uom">
+                                <option value=""
+                                    <% if (item.pricing.uom == "") { %>
+                                        selected
+                                    <% } %>>
+                                </option>
+                                <option value="Each"
+                                    <% if (item.pricing.uom == "Each") { %>
+                                        selected
+                                    <% } %>>
+                                    Each
+                                </option>
+                                <option value="Gram"
+                                    <% if (item.pricing.uom == "Gram") { %>
+                                        selected
+                                    <% } %>>
+                                    Gram (g)
+                                </option>
+                                <option value="Kilogram"
+                                    <% if (item.pricing.uom == "Kilogram") { %>
+                                        selected
+                                    <% } %>>
+                                    Kilogram (kg)
+                                </option>
+                                <option value="Centimeter"
+                                    <% if (item.pricing.uom == "Centimeter") { %>
+                                        selected
+                                    <% } %>>
+                                    Centimeter (cm)
+                                </option>
+                                <option value="Meter"
+                                    <% if (item.pricing.uom == "Meter") { %>
+                                        selected
+                                    <% } %>>
+                                    Meter (m)
+                                </option>
+                                <option value="Kilometer"
+                                    <% if (item.pricing.uom == "Kilometer") { %>
+                                        selected
+                                    <% } %>>
+                                    Kilometer (km)
+                                </option>
+                                <option value="Milliliter"
+                                    <% if (item.pricing.uom == "Milliliter") { %>
+                                        selected
+                                    <% } %>>
+                                    Milliliter (mL)
+                                </option>
+                                <option value="Liter"
+                                    <% if (item.pricing.uom == "Liter") { %>
+                                        selected
+                                    <% } %>>
+                                    Liter (L)
+                                </option>
+                                <option value="Second"
+                                    <% if (item.pricing.uom == "Second") { %>
+                                        selected
+                                    <% } %>>
+                                    Second
+                                </option>
+                                <option value="Minute"
+                                    <% if (item.pricing.uom == "Minute") { %>
+                                        selected
+                                    <% } %>>
+                                    Minute
+                                </option>
+                                <option value="Hour"
+                                    <% if (item.pricing.uom == "Hour") { %>
+                                        selected
+                                    <% } %>>
+                                    Hour
+                                </option>
+                                <option value="Day"
+                                    <% if (item.pricing.uom == "Day") { %>
+                                        selected
+                                    <% } %>>
+                                    Day
+                                </option>
+                                <option value="Week"
+                                    <% if (item.pricing.uom == "Week") { %>
+                                        selected
+                                    <% } %>>
+                                    Week
+                                </option>
+                                <option value="Month"
+                                    <% if (item.pricing.uom == "Month") { %>
+                                        selected
+                                    <% } %>>
+                                    Month
+                                </option>
+                                <option value="Year"
+                                    <% if (item.pricing.uom == "Year") { %>
+                                        selected
+                                    <% } %>>
+                                    Year
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <h4 class="fw-light">Sales Royalty/Commission Schedule</h4>
+                        <table class="table">
+                            <thead>
+                                <tr class="fs-7">
+                                    <th class="col">Object</th>
+                                    <th class="col-7">Party</th>
+                                    <th class="col-1">Rate</th>
+                                    <th class="col-1">Max Reserve Rate</th>
+                                    <th class="col-1">Threshold</th>
+                                    <th class="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fieldRows">
+                                <% if (item.royalties != 0 && item.royalties) { %>                                
+                                    <% let i = 0 %>
+                                    <% item.royalties.forEach(e => { %>                                
+                                        <tr>
+                                            <td class="fs-7">Recipient</td>
+                                            <td>
+                                                <select class="form-select form-select-min fs-7" name="party" id="party-<%= e._id %>">
+                                                    <option value=""></option>
+                                                    <% 
+                                                        parties.sort(function (a, b) {
+                                                            if (a.number < b.number) {
+                                                                return -1;
+                                                            }
+                                                            if (a.number > b.number) {
+                                                                return 1;
+                                                            }
+                                                            return 0;
+                                                        }); 
+                                                    %>
+                                                    <% parties.forEach(e2 => { %>
+                                                        <option value="<%= e2._id %>"
+                                                            <% if (e2._id == e.party) { %>
+                                                                selected
+                                                            <% } %>>
+                                                            <%= e2.name %>
+                                                        </option>
+                                                    <% }) %>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <input type="number" step="0.01" class="form-control fs-7" name="rate" id="rate" value="<%= e.rate * 100 %>">
+                                                    <span class="input-group-text rounded-end fs-7">%</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <input type="number" step="0.01" class="form-control fs-7" name="maxReserveRate" id="maxReserveRate" value="<%= e.maxReserveRate * 100  %>">
+                                                    <span class="input-group-text rounded-end fs-7">%</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <input type="number" step="0.01" class="form-control fs-7" name="threshold" id="threshold" value="<%= e.threshold  %>">
+                                                    <span class="input-group-text rounded-end fs-7">USD</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <% if (i == 0) { %>
+                                                    <button type="button" class="btn btn-warning fs-7 add_row w-100">Add Recipient</button>
+                                                <% } else { %>
+                                                    <button type="button" class="btn btn-danger fs-7 delete_row w-100">Delete</button>
+                                                <% } %>
+                                            </td>
+                                        </tr>
+                                        <% i++ %>
+                                    <% }) %>
+                                <% } else { %>
+                                    <tr>
+                                        <td class="fs-7">Recipient</td>
+                                        <td>
+                                            <select class="form-select form-select-min fs-7" name="party" id="party">
+                                                <option value=""></option>
+                                                <% 
+                                                    parties.sort(function (a, b) {
+                                                        if (a.number < b.number) {
+                                                            return -1;
+                                                        }
+                                                        if (a.number > b.number) {
+                                                            return 1;
+                                                        }
+                                                        return 0;
+                                                    }); 
+                                                %>
+                                                <% parties.forEach(e => { %>
+                                                    <option value="<%= e._id %>"><%= e.name %></option>
+                                                <% }) %>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control fs-7" name="rate" id="rate">
+                                                <span class="input-group-text rounded-end fs-7">%</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control fs-7" name="maxReserveRate" id="maxReserveRate">
+                                                <span class="input-group-text rounded-end fs-7">%</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control fs-7" name="threshold" id="threshold">
+                                                <span class="input-group-text rounded-end fs-7">USD</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-warning fs-7 add_row w-100">Add Recipient</button>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="button" class="btn btn-secondary fs-7" onclick="location.href='<%= urlreturn %>'">Cancel</button>
+                    <button type="submit" class="btn btn-primary fs-7">Save Item</button>
+                    <p class="fs-7 text-secondary mt-2">* Required Field</p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $(".add_row").click(function(e) {
+            e.preventDefault();
+            let uniqueId = Date.now();
+            $("#fieldRows").append(`
+                <tr>
+                    <td class="fs-7">Recipient</td>
+                    <td>
+                        <select class="form-select form-select-min fs-7" name="party" id="party-${uniqueId}">
+                            <option value=""></option>
+                            <% 
+                                parties.sort(function (a, b) {
+                                    if (a.number < b.number) {
+                                        return -1;
+                                    }
+                                    if (a.number > b.number) {
+                                        return 1;
+                                    }
+                                    return 0;
+                                }); 
+                            %>
+                            <% parties.forEach(e => { %>
+                                <option value="<%= e._id %>"><%= e.name %></option>
+                            <% }) %>
+                        </select>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <input type="number" step="0.01" class="form-control fs-7" name="rate" id="rate">
+                            <span class="input-group-text rounded-end fs-7">%</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <input type="number" step="0.01" class="form-control fs-7" name="maxReserveRate" id="maxReserveRate">
+                            <span class="input-group-text rounded-end fs-7">%</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <input type="number" step="0.01" class="form-control fs-7" name="threshold" id="threshold">
+                            <span class="input-group-text rounded-end fs-7">USD</span>
+                        </div>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger fs-7 delete_row w-100">Delete</button>
+                    </td>
+                </tr>
+            `);
+            $(".form-select-min").select2({
+                theme: 'bootstrap-5',
+                placeholder: "Select one...",
+                minimumInputLength: 2,
+                allowClear: true,
+            });
+            $(".form-select-search").select2({
+                theme: 'bootstrap-5',
+                placeholder: "Select one...",
+                allowClear: true,
+            });
+        });
+        $(document).on("click", ".delete_row", function(e) {
+            e.preventDefault();
+            let row_item = $(this).parent().parent();
+            $(row_item).remove();
+        });
+    });
+</script>
+<%- include('../../partials/footer') %>

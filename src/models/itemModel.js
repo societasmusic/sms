@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const itemSchema = mongoose.Schema(
     {
+        number: {
+            type: Number,
+            required: true
+        },
         name: {
             type: String,
             required: true
@@ -10,18 +14,18 @@ const itemSchema = mongoose.Schema(
             type: String,
             required: false
         },
-        itemType: {
+        type: {
             type: String,
             required: true
         },
         pricing: {
             rate: {
                 type: Number,
-                required: true
+                required: false
             },
-            unit: {
+            uom: {
                 type: String,
-                required: true
+                required: false
             },
         },
         royalties: [
@@ -30,25 +34,21 @@ const itemSchema = mongoose.Schema(
                     type: String,
                     required: false
                 },
-                percent: {
+                rate: {
                     type: Number,
                     required: false
                 },
-                createdBy: {
-                    type: String,
-                    required: true
+                maxReserveRate: {
+                    type: Number,
+                    required: false
                 },
-                updatedBy: {
-                    type: String,
-                    required: true
+                threshold: {
+                    type: Number,
+                    required: false
                 },
                 createdAt: {
                     type: Date,
-                    required: true
-                },
-                updatedAt: {
-                    type: Date,
-                    required: true
+                    required: false
                 },
             }
         ],
