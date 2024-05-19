@@ -51,12 +51,10 @@ app.use("/", require("./src/routes/index"));
 
 // Applications
 app.use("/", require("./src/routes/ais"));
-// app.use("/", require("./src/routes/tps"));
-app.use("/", require("./src/routes/scm"));
 app.use("/", require("./src/routes/uss"));
+app.use("/", require("./src/routes/config"));
 
 // Utilities
-// app.use("/", require("./src/routes/tasks"));
 app.use("/", require("./src/routes/utilities"));
 app.use("/", require("./src/routes/auth"));
 
