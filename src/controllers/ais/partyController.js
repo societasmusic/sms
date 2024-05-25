@@ -4,6 +4,7 @@ const Account = require("../../models/accountModel");
 const User = require("../../models/userModel");
 const {downloadCsvResource} = require("../../utils/json-csv");
 const fs = require('fs');
+const internal = require('stream');
 
 let countries;
 fs.readFile("src/data/countries.json", "utf8", (err, data) => {
@@ -101,17 +102,21 @@ exports.postCreateParty = async (req, res) => {
         return res.redirect(`/ais/parties/create`);
     };
     // Check preset arrays
-    // const accounts = await Account.find({});
-    // if (!accounts.includes(req.body.billingAccount)) {
-    //     console.log("4");
-    //     await req.flash("info", "There was an error processing your request.");
-    //     return res.redirect(`/ais/parties/create`);
-    // };
-    // Check preset arrays
     if (!businesscategories.includes(req.body.category)) {
         console.log("5");
         await req.flash("info", "There was an error processing your request.");
         return res.redirect(`/ais/parties/create`);
+    };
+    let internalId;
+    const parties = await Party.find();
+    if (parties < 1) {
+        internalId = 100000 + 1;
+    } else {
+        const partiesSorted = [];
+        parties.forEach(e => {
+            partiesSorted.push(e.internalId);
+        });
+        internalId = Number(Math.max(...partiesSorted) + 1);
     };
     // Define object
     const party = new Party({
@@ -124,6 +129,8 @@ exports.postCreateParty = async (req, res) => {
         businessType: req.body.businessType,
         territory: req.body.territory,
         currency: req.body.currency,
+        externalId: req.body.externalId,
+        internalId: Number(internalId),
         category: req.body.category,
         email: req.body.email,
         phone: req.body.phone,
@@ -154,7 +161,7 @@ exports.postCreateParty = async (req, res) => {
 exports.getViewParty = async (req, res) => {
     try {
         const messages = await req.flash("info");
-        const party = await Party.findOne({_id: req.params.id});
+        const party = await Party.findOne({internalId: req.params.id});
         const title = `${party.name}`;
         var createdByUser;
         try {
@@ -203,7 +210,7 @@ exports.getEditParty = async (req, res) => {
         const title = "Edit Party";
         const messages = await req.flash("info");
         const accounts = await Account.find({});
-        const party = await Party.findOne({_id: req.params.id});
+        const party = await Party.findOne({internalId: req.params.id});
         res.render("ais/parties/edit", {
             user: req.user,
             urlraw: req.url,
@@ -267,6 +274,7 @@ exports.postEditParty = async (req, res) => {
         businessType: req.body.businessType,
         territory: req.body.territory,
         currency: req.body.currency,
+        externalId: req.body.externalId,
         category: req.body.category,
         email: req.body.email,
         phone: req.body.phone,
@@ -284,7 +292,7 @@ exports.postEditParty = async (req, res) => {
     };
     // Save to db
     try {
-        await Party.findByIdAndUpdate(req.params.id, party);
+        await Party.findOneAndUpdate({internalId: req.params.id}, party);
         await req.flash("info", "Your request has been successfully processed.");
         return res.redirect(`/ais/parties/${req.params.id}`);
     } catch (err) {
@@ -296,7 +304,7 @@ exports.postEditParty = async (req, res) => {
 // Post Delete Party
 exports.postDeleteParty = async (req, res) => {
     try {
-        await Party.findByIdAndDelete(req.params.id);
+        await Party.findOneAndDelete({internalId: req.params.id});
         await req.flash("info", "Your request has been successfully processed.");
         return res.redirect(`/ais/parties`);
     } catch (err) {

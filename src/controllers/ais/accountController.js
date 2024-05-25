@@ -3,6 +3,20 @@ const Account = require("../../models/accountModel");
 const User = require("../../models/userModel");
 const Entry = require("../../models/entryModel");
 const {downloadCsvResource} = require("../../utils/json-csv");
+const fs = require('fs');
+
+/* 
+    Data
+*/
+let currencies;
+fs.readFile("src/data/currencies.json", "utf8", (err, data) => {
+    if (err) {
+        console.log(err);
+    } else {
+        currencies = JSON.parse(data);
+    }
+});
+let companies = ["Societas Music Group Corporation","DIGITALDAYDREAM Recordings LLC"]
 
 /*
     Accounts
@@ -49,9 +63,8 @@ exports.getCreateAccount = async (req, res) => {
         title,
         pjson,
         messages,
-        countries,
-        businesscategories,
         currencies,
+        companies,
     });
 };
 // Post Create Account
@@ -63,6 +76,10 @@ exports.postCreateAccount = async (req, res) => {
     };
     // Check preset arrays
     if (!["1100","1200","2100","2200","3000","4000","5000"].includes(req.body.type)) {
+        await req.flash("info", "There was an error processing your request.");
+        return res.redirect(`/ais/coa/create`);
+    };
+    if (!companies.includes(req.body.company)) {
         await req.flash("info", "There was an error processing your request.");
         return res.redirect(`/ais/coa/create`);
     };
@@ -91,6 +108,8 @@ exports.postCreateAccount = async (req, res) => {
         name: req.body.name,
         type: req.body.type,
         number: number,
+        company: req.body.company,
+        currency: req.body.currency,
     });
     // Save to db
     try {
@@ -107,7 +126,7 @@ exports.postCreateAccount = async (req, res) => {
 exports.getViewAccount = async (req, res) => {
     try {
         const messages = await req.flash("info");
-        const account = await Account.findOne({_id: req.params.id});
+        const account = await Account.findOne({number: req.params.id});
         const title = `${account.number} - ${account.name}`;
         var createdByUser;
         try {
@@ -146,7 +165,7 @@ exports.getEditAccount = async (req, res) => {
     try {
         const title = "Edit Account";
         const messages = await req.flash("info");
-        const account = await Account.findOne({_id: req.params.id});
+        const account = await Account.findOne({number: req.params.id});
         res.render("ais/coa/edit", {
             user: req.user,
             urlraw: req.url,
@@ -156,6 +175,8 @@ exports.getEditAccount = async (req, res) => {
             pjson,
             messages,
             account,
+            currencies,
+            companies,
         });
     } catch (err) {
         console.log(err);
@@ -177,7 +198,7 @@ exports.postEditAccount = async (req, res) => {
     };
     // Save to db
     try {
-        await Account.findByIdAndUpdate(req.params.id, account);
+        await Account.findOneAndUpdate({number: req.params.id}, account);
         await req.flash("info", "Your request has been successfully processed.");
         return res.redirect(`/ais/coa/`);
     } catch (err) {
@@ -189,7 +210,7 @@ exports.postEditAccount = async (req, res) => {
 // Post Delete Account
 exports.postDeleteAccount = async (req, res) => {
     try {
-        await Account.findByIdAndDelete(req.params.id);
+        await Account.findOneAndDelete({number: req.params.id});
         await req.flash("info", "Your request has been successfully processed.");
         return res.redirect(`/ais/coa`);
     } catch (err) {

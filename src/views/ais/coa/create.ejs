@@ -8,12 +8,36 @@
                     <div class="row mt-2 mb-4">
                         <div class="col-6 py-1">
                             <label for="name" class="form-label fs-7">Name*</label>
-                            <input type="text" class="form-control fs-7" name="name" id="name" required>
+                            <input type="text" class="form-control rounded-1" name="name" id="name" required>
                             <div class="invalid-feedback fs-7">
                                     This field cannot be left blank
                             </div>
                         </div>
-                        <div class="col-6 py-1">
+                        <div class="col-2 py-1">
+                            <label for="company" class="form-label fs-7">Company</label>
+                            <select class="form-select form-select-search fs-7" name="company" id="company" aria-label="company">
+                                <option value=""></option>
+                                <% companies.forEach(e => { %>
+                                    <option value="<%= e %>"><%= e %></option>
+                                <% }) %>
+                            </select>
+                            <div class="invalid-feedback fs-7">
+                                    This field cannot be left blank
+                            </div>
+                        </div>
+                        <div class="col-2 py-1">
+                            <label for="currency" class="form-label fs-7">Currency</label>
+                            <select class="form-select form-select-search fs-7" name="currency" id="currency" aria-label="currency">
+                                <option value=""></option>
+                                <% currencies.forEach(e => { %>
+                                    <option value="<%= e.cc %>"><%= e.cc %> (<%= e.name %>)</option>
+                                <% }) %>
+                            </select>
+                            <div class="invalid-feedback fs-7">
+                                    This field cannot be left blank
+                            </div>
+                        </div>
+                        <div class="col-2 py-1">
                             <label for="type" class="form-label fs-7">Account Type*</label>
                             <select class="form-select fs-7" name="type" id="type" aria-label="type" required>
                                 <option value=""></option>
@@ -32,8 +56,8 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-secondary fs-7" onclick="location.href='<%= urlreturn %>'">Cancel</button>
-                    <button type="submit" class="btn btn-primary fs-7">Save Account</button>
+                    <button type="button" class="btn btn-secondary py-1 rounded-1" onclick="location.href='<%= urlreturn %>'">Cancel</button>
+                    <button type="submit" class="btn btn-primary py-1 rounded-1">Save Account</button>
                     <p class="fs-7 text-secondary mt-2">* Required Field</p>
                 </form>
             </div>

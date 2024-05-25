@@ -5,10 +5,10 @@
         <div class="container mt-2 mb-3">
             <% if (user.access == "Editor" || user.access == "System Administrator" || user.access == "System Owner") { %>
                 <div class="d-flex gap-1 mb-2">
-                    <a href="/ais/parties/<%= party._id %>/edit" class="btn btn-warning fs-7 py-1">Edit</a>
+                    <a href="/ais/parties/<%= party.internalId %>/edit" class="btn btn-warning rounded-1 py-1">Edit</a>
                     <% if (user.access == "System Administrator" || user.access == "System Owner") { %>
-                        <button class="btn btn-danger fs-7 py-1" data-bs-toggle="modal" data-bs-target="#delete<%= party._id %>">Delete</button>
-                        <div class="modal fade" id="delete<%= party._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <button class="btn btn-danger rounded-1 py-1" data-bs-toggle="modal" data-bs-target="#delete<%= party.internalId %>">Delete</button>
+                        <div class="modal fade" id="delete<%= party.internalId %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -18,12 +18,12 @@
                                     <div class="modal-body">
                                         Are you sure you wish to delete this record? This action is permanent and has no option to undo.
                                         <div class="mt-2">
-                                            <b>Name:&nbsp;</b><%= party.name %>
+                                            <b>Party:&nbsp;</b><%= party.name %> (<%= party.internalId %>)
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <form action="/ais/parties/<%= party._id %>/delete" method="POST">
+                                        <form action="/ais/parties/<%= party.internalId %>/delete" method="POST">
                                             <button type="submit" class="btn btn-primary">Save changes</button>
                                         </form>
                                     </div>
@@ -33,7 +33,7 @@
                     <% } %>
                 </div>
             <% } %>
-            <div class="border mb-3 bg-body">
+            <div class="border mb-2 bg-body">
                 <div class="bg-body border-bottom px-3 py-2">
                     <h4 class="fw-normal mb-0">Summary</h4>
                 </div>
@@ -52,11 +52,13 @@
                             <p class="text-body-secondary mb-2"><%= party.category %></p>
                             <p class="fw-medium mb-0">Party Type:</p>
                             <p class="text-body-secondary mb-2"><%= party.partyType %></p>
+                            <p class="fw-medium mb-0">Internal ID:</p>
+                            <p class="text-body-secondary mb-2"><%= party.internalId %></p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="border mb-3 bg-body">
+            <div class="border mb-2 bg-body">
                 <div class="bg-body border-bottom px-3 py-2">
                     <h4 class="fw-normal mb-0">Contact Information</h4>
                 </div>
@@ -103,7 +105,7 @@
                     </div>
                 </div>
             </div>
-            <div class="border mb-3 bg-body">
+            <div class="border mb-2 bg-body">
                 <div class="bg-body border-bottom px-3 py-2">
                     <h4 class="fw-normal mb-0">Accounting Details</h4>
                 </div>
@@ -124,11 +126,19 @@
                                     None
                                 <% } %>
                             </p>
+                            <p class="fw-medium mb-0">External ID:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (party.externalId && party.externalId != "") { %>
+                                    <%= party.externalId %>
+                                <% } else { %>
+                                    None
+                                <% } %>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="border mb-3 bg-body">
+            <div class="border mb-2 bg-body">
                 <div class="bg-body border-bottom px-3 py-2">
                     <h4 class="fw-normal mb-0">Audit</h4>
                 </div>

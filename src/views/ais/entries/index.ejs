@@ -5,20 +5,22 @@
         <div class="px-3">
             <div class="px-3 container-fluid d-flex justify-content-between">
                 <div class="d-flex" role="group" aria-label="Basic example">
-                    <button class="btn btn-secondary py-1 px-2 fs-7 d-flex d-flex align-items-center" onclick="location.href='/ais/entries/export/csv'">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-csv d-flex align-self-center me-1" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM3.517 14.841a1.13 1.13 0 0 0 .401.823q.195.162.478.252.284.091.665.091.507 0 .859-.158.354-.158.539-.44.187-.284.187-.656 0-.336-.134-.56a1 1 0 0 0-.375-.357 2 2 0 0 0-.566-.21l-.621-.144a1 1 0 0 1-.404-.176.37.37 0 0 1-.144-.299q0-.234.185-.384.188-.152.512-.152.214 0 .37.068a.6.6 0 0 1 .246.181.56.56 0 0 1 .12.258h.75a1.1 1.1 0 0 0-.2-.566 1.2 1.2 0 0 0-.5-.41 1.8 1.8 0 0 0-.78-.152q-.439 0-.776.15-.337.149-.527.421-.19.273-.19.639 0 .302.122.524.124.223.352.367.228.143.539.213l.618.144q.31.073.463.193a.39.39 0 0 1 .152.326.5.5 0 0 1-.085.29.56.56 0 0 1-.255.193q-.167.07-.413.07-.175 0-.32-.04a.8.8 0 0 1-.248-.115.58.58 0 0 1-.255-.384zM.806 13.693q0-.373.102-.633a.87.87 0 0 1 .302-.399.8.8 0 0 1 .475-.137q.225 0 .398.097a.7.7 0 0 1 .272.26.85.85 0 0 1 .12.381h.765v-.072a1.33 1.33 0 0 0-.466-.964 1.4 1.4 0 0 0-.489-.272 1.8 1.8 0 0 0-.606-.097q-.534 0-.911.223-.375.222-.572.632-.195.41-.196.979v.498q0 .568.193.976.197.407.572.626.375.217.914.217.439 0 .785-.164t.55-.454a1.27 1.27 0 0 0 .226-.674v-.076h-.764a.8.8 0 0 1-.118.363.7.7 0 0 1-.272.25.9.9 0 0 1-.401.087.85.85 0 0 1-.478-.132.83.83 0 0 1-.299-.392 1.7 1.7 0 0 1-.102-.627zm8.239 2.238h-.953l-1.338-3.999h.917l.896 3.138h.038l.888-3.138h.879z"/>
-                        </svg>
-                        Export CSV
-                    </button>
-                    <% if (user.access ==  "Editor" || user.access ==  "System Administrator" || user.access ==  "System Owner") { %>
-                        <button type="button" class="btn btn-primary fs-7 py-1 px-2 d-flex ms-2 d-flex align-items-center" onclick="location.href='/ais/entries/create'">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg d-flex align-self-center me-1" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                    <div class="d-flex gap-2">
+                        <% if (user.access ==  "Editor" || user.access ==  "System Administrator" || user.access ==  "System Owner") { %>
+                            <a href="/ais/entries/create" class="btn btn-primary rounded-1 d-flex align-items-center gap-1 p-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                    <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                                </svg>
+                                <p class="m-0">Add Record</p>
+                            </a>
+                        <% } %>
+                        <a href="/ais/entries/export/csv" class="btn btn-primary rounded-1 d-flex align-items-center gap-1 p-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-csv" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM3.517 14.841a1.13 1.13 0 0 0 .401.823q.195.162.478.252.284.091.665.091.507 0 .859-.158.354-.158.539-.44.187-.284.187-.656 0-.336-.134-.56a1 1 0 0 0-.375-.357 2 2 0 0 0-.566-.21l-.621-.144a1 1 0 0 1-.404-.176.37.37 0 0 1-.144-.299q0-.234.185-.384.188-.152.512-.152.214 0 .37.068a.6.6 0 0 1 .246.181.56.56 0 0 1 .12.258h.75a1.1 1.1 0 0 0-.2-.566 1.2 1.2 0 0 0-.5-.41 1.8 1.8 0 0 0-.78-.152q-.439 0-.776.15-.337.149-.527.421-.19.273-.19.639 0 .302.122.524.124.223.352.367.228.143.539.213l.618.144q.31.073.463.193a.39.39 0 0 1 .152.326.5.5 0 0 1-.085.29.56.56 0 0 1-.255.193q-.167.07-.413.07-.175 0-.32-.04a.8.8 0 0 1-.248-.115.58.58 0 0 1-.255-.384zM.806 13.693q0-.373.102-.633a.87.87 0 0 1 .302-.399.8.8 0 0 1 .475-.137q.225 0 .398.097a.7.7 0 0 1 .272.26.85.85 0 0 1 .12.381h.765v-.072a1.33 1.33 0 0 0-.466-.964 1.4 1.4 0 0 0-.489-.272 1.8 1.8 0 0 0-.606-.097q-.534 0-.911.223-.375.222-.572.632-.195.41-.196.979v.498q0 .568.193.976.197.407.572.626.375.217.914.217.439 0 .785-.164t.55-.454a1.27 1.27 0 0 0 .226-.674v-.076h-.764a.8.8 0 0 1-.118.363.7.7 0 0 1-.272.25.9.9 0 0 1-.401.087.85.85 0 0 1-.478-.132.83.83 0 0 1-.299-.392 1.7 1.7 0 0 1-.102-.627zm8.239 2.238h-.953l-1.338-3.999h.917l.896 3.138h.038l.888-3.138h.879z"/>
                             </svg>
-                            Create Entry
-                        </button>
-                    <% } %>
+                            <p class="m-0">Export CSV</p>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -27,130 +29,115 @@
                 <table class="table table-striped" id="table" style="width:100%">
                     <thead>
                         <tr>
-                            <th class="col text-light fw-medium bg-dark py-3 text-center fs-7" style="min-width:36px;">
-                                #
-                            </th>
-                            <th class="col-2 text-light fw-medium bg-dark py-3 fs-7">
-                                Actions
-                            </th>
-                            <th class="col-1 text-light fw-medium bg-dark py-3 fs-7">
-                                Date
-                            </th>
-                            <th class="col-1 text-light fw-medium bg-dark py-3 fs-7 text-start">
-                                Number
-                            </th>
-                            <th class="col-1 text-light fw-medium bg-dark py-3 fs-7">
-                                Status
-                            </th>
-                            <th class="col-5 text-light fw-medium bg-dark py-3 fs-7">
-                                Account
-                            </th>
-                            <th class="col-1 text-light fw-medium bg-dark py-3 fs-7">
-                                Debit
-                            </th>
-                            <th class="col-1 text-light fw-medium bg-dark py-3 fs-7">
-                                Credit
-                            </th>
+                            <th class="col text-light bg-dark fw-normal">Actions</th>
+                            <th class="col-1 text-light bg-dark fw-normal text-end">Date</th>
+                            <th class="col-1 text-light bg-dark fw-normal text-end">Internal ID</th>
+                            <th class="col-1 text-light bg-dark fw-normal">Status</th>
+                            <th class="col-1 text-light bg-dark fw-normal">Entry Type</th>
+                            <th class="col-6 text-light bg-dark fw-normal">Account</th>
+                            <th class="col-1 text-light bg-dark fw-normal text-end">Debit</th>
+                            <th class="col-1 text-light bg-dark fw-normal text-end">Credit</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% if (entries) { %>
-                            <% var i = 1 %>
+                            <% let i = 1 %>
                             <% entries.forEach(e => { %>
-                                <tr id="<%= e._id %>">
-                                    <td class="py-4 text-center fs-7">
-                                        <div class="py-1">
-                                            <%= i %>
-                                        </div>
-                                    </td>
-                                    <!-- <td class="py-4">
-                                        <div class="py-1">
-                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                        </div>
-                                    </td> -->
-                                    <td class="py-4">
+                                <tr id="<%= e.number %>">
+                                    <td>
                                         <div class="d-flex gap-1">
-                                            <a href="/ais/entries/<%= e._id %>" class="btn btn-primary fs-7 py-1">View</a>
+                                            <a href="/ais/entries/<%= e.number %>" class="btn btn-outline-primary rounded-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-eye-fill d-flex align-items-center" viewBox="0 0 16 16">
+                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                                                </svg>
+                                            </a>
                                             <% if (user.access == "Editor" || user.access == "System Administrator" || user.access == "System Owner") { %>
-                                                <% if (e.approval.status == "Pending Approval" || user.access == "System Administrator" || user.access == "System Owner") { %>
-                                                    <a href="/ais/entries/<%= e._id %>/edit" class="btn btn-warning fs-7 py-1">Edit</a>
-                                                <% } %>
-                                                <% if (user.access == "System Administrator" || user.access == "System Owner") { %>
-                                                    <button class="btn btn-danger fs-7 py-1" data-bs-toggle="modal" data-bs-target="#delete<%= e._id %>">Delete</button>
-                                                    <div class="modal fade" id="delete<%= e._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog modal-dialog-centered">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm Action</h1>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <a href="/ais/entries/<%= e.number %>/edit" class="btn btn-outline-warning rounded-1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-pencil-square d-flex align-items-center" viewBox="0 0 16 16">
+                                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                        <path d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                                    </svg>
+                                                </a>
+                                            <% } %>
+                                            <% if (user.access == "System Administrator" || user.access == "System Owner") { %>
+                                                <button class="btn btn-outline-danger rounded-1" data-bs-toggle="modal" data-bs-target="#delete<%= e.number %>">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-trash d-flex align-items-center" viewBox="0 0 16 16">
+                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                                    </svg>
+                                                </button>
+                                                <div class="modal fade" id="delete<%= e.number %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm Action</h1>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Are you sure you wish to delete this record? This action is permanent and has no option to undo.
+                                                                <div class="mt-2">
+                                                                    <b>Entry Number:&nbsp;</b><%= e.number %>
                                                                 </div>
-                                                                <div class="modal-body">
-                                                                    Are you sure you wish to delete this record? This action is permanent and has no option to undo.
-                                                                    <div class="mt-2">
-                                                                        <b>Entry Number:&nbsp;</b><%= e.number %>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                    <form action="/ais/entries/<%= e._id %>/delete" method="POST">
-                                                                        <button type="submit" class="btn btn-primary">Save changes</button>
-                                                                    </form>
-                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                <form action="/ais/entries/<%= e.number %>/delete" method="POST">
+                                                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                                                </form>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                <% } %>
+                                                </div>
                                             <% } %>
                                         </div>
                                     </td>
-                                    <td class="py-4 fs-7">
-                                        <div class="py-1">
-                                            <% var date = e.date.toISOString().slice(0,10) %>
-                                            <%= date %>
-                                        </div>
+                                    <td class="font-monospace text-end">
+                                        <% var date = e.date.toISOString().slice(0,10) %>
+                                        <%= date %>
                                     </td>
-                                    <td class="py-4 fs-7 text-start">
-                                        <div class="py-1">
-                                            <a href="/ais/entries/<%= e._id %>">
-                                                <%= String(e.number) %>
-                                            </a>
-                                        </div>
+                                    <td class="font-monospace text-end"><%= e.number %></td>
+                                    <td class="">
+                                        <% if (e.approval.status === "Pending Approval") { %>
+                                            <span class="badge text-bg-warning fs-7">Pending Approval</span>
+                                        <% } else if (e.approval.status === "Approved") { %>
+                                            <span class="badge text-bg-success fs-7">Approved</span>
+                                        <% } else if (e.approval.status === "Cancelled") { %>
+                                            <span class="badge text-bg-danger fs-7">Cancelled</span>
+                                        <% } %>
                                     </td>
-                                    <td class="py-4 fs-7">
-                                        <div class="py-1">
-                                            <% if (e.approval.status === "Pending Approval") { %>
-                                                <span class="badge text-bg-warning fs-7">Pending Approval</span>
-                                            <% } else if (e.approval.status === "Approved") { %>
-                                                <span class="badge text-bg-success fs-7">Approved</span>
-                                            <% } else if (e.approval.status === "Cancelled") { %>
-                                                <span class="badge text-bg-danger fs-7">Cancelled</span>
+                                    <td class="">
+                                        <%= e.type %>
+                                    </td>
+                                    <td class="">
+                                        <% e.rows.forEach(e2 => { %>
+                                            <% let found = accounts.find((e3) => Number(e3.number) == Number(e2.account)); %>
+                                            <% if (e2.credit != 0) { %>
+                                                <span class="ms-5"><%= found.name %><br></span>
+                                            <% } else { %>
+                                                <span><%= found.name %><br></span>
                                             <% } %>
-                                        </div>
+                                        <% }) %>
                                     </td>
-                                    <td class="py-4 fs-7">
-                                        <div class="py-1">
-                                            <% e.rows.forEach(e2 => { %>
-                                                <% let found = accounts.find((e3) => Number(e3.number) == Number(e2.account)); %>
-                                                <%= e2.account %> - <%= found.name %><br>
-                                            <% }) %>
-                                        </div>
+                                    <td class="font-monospace text-end">
+                                        <% e.rows.forEach(e2 => { %>
+                                            <% if (e2.debit != 0) { %>
+                                                <%= e2.debit.toFixed(6) %><br>
+                                            <% } else { %>
+                                                <br>
+                                            <% } %>
+                                        <% }) %>
                                     </td>
-                                    <td class="py-4 fs-7">
-                                        <div class="py-1">
-                                            <% e.rows.forEach(e2 => { %>
-                                                <%= e2.debit.toFixed(2) %><br>
-                                            <% }) %>
-                                        </div>
-                                    </td>
-                                    <td class="py-4 fs-7">
-                                        <div class="py-1">
-                                            <% e.rows.forEach(e2 => { %>
-                                                <%= e2.credit.toFixed(2) %><br>
-                                            <% }) %>
-                                        </div>
+                                    <td class="font-monospace text-end">
+                                        <% e.rows.forEach(e2 => { %>
+                                            <% if (e2.credit != 0) { %>
+                                                <%= e2.credit.toFixed(6) %><br>
+                                            <% } else { %>
+                                                <br>
+                                            <% } %>
+                                        <% }) %>
                                     </td>
                                 </tr>
-                                <% i = i + 1; %>
+                                <% i++ %>
                             <% }) %>
                         <% } else { %>
                             <tr>
@@ -173,10 +160,10 @@
     $(document).ready( function () {
         $('#table').DataTable({
             responsive: true,
-            order: [[2, 'desc']],
+            order: [[1, 'desc']],
             columnDefs: [
                 {
-                    orderable: false, targets: [0,1]
+                    orderable: false, targets: [0]
                 }
             ],
             lengthMenu: [

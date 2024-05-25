@@ -1,8 +1,12 @@
 /* body, button, input, button {
 	font-size: 90% !important;
 } */
-.fs-7 {
+/* .fs-7 {
 	font-size: 80% !important;
+} */
+
+p, a.alt, a.btn, li, button.btn, td, th, .form-control, label, .form-select, .dt-info, .dt-paging a, .input-group-text {
+    font-size: 0.875em !important;
 }
 
 .custom-hover-zoom {

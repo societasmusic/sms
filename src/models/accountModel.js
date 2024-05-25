@@ -10,6 +10,14 @@ const accountSchema = mongoose.Schema(
             type: String,
             required: true
         },
+        company: {
+            type: String,
+            required: true
+        },
+        currency: {
+            type: String,
+            required: false
+        },
         type: {
             type: String,
             required: true

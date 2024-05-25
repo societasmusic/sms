@@ -186,7 +186,7 @@ exports.postCreateEntry = async (req, res) => {
 exports.getViewEntry = async (req, res) => {
     try {
         const messages = await req.flash("info");
-        const entry = await Entry.findOne({_id: req.params.id});
+        const entry = await Entry.findOne({number: req.params.id});
         const date = entry.date.toISOString().slice(0,10)
         const title = `${date} - ${entry.number}`;
         let createdByUser;
@@ -247,7 +247,7 @@ exports.getEditEntry = async (req, res) => {
         const title = "Edit Entry";
         const messages = await req.flash("info");
         const accounts = await Account.find();
-        const entry = await Entry.findOne({_id: req.params.id});
+        const entry = await Entry.findOne({number: req.params.id});
         var attachmentUrl;
         if (entry.reference.attachment != "" && entry.reference.attachment) {
             const getObjectParams = {
@@ -264,7 +264,7 @@ exports.getEditEntry = async (req, res) => {
         res.render("ais/entries/edit", {
             user: req.user,
             urlraw: req.url,
-            urlreturn: "/ais/entries",
+            urlreturn: `/ais/entries/${req.params.id}`,
             url: encodeURIComponent(req.url),
             title,
             pjson,
@@ -325,7 +325,7 @@ exports.postEditEntry = async (req, res) => {
     } else {
         // Keep existing file if no new attachment is given
         try {
-            const existingEntry = await Entry.findOne({_id:req.params.id});
+            const existingEntry = await Entry.findOne({number: req.params.id});
             fileName = existingEntry.reference.attachment || "";
         } catch (err) {
             console.log(err);
@@ -401,7 +401,7 @@ exports.postEditEntry = async (req, res) => {
     };
     // Save to db
     try {
-        await Entry.findByIdAndUpdate(req.params.id, entry);
+        await Entry.findOneAndUpdate({number: req.params.id}, entry);
         await req.flash("info", "Your request has been successfully processed.");
         return res.redirect(`/ais/entries`);
     } catch (err) {
@@ -413,7 +413,7 @@ exports.postEditEntry = async (req, res) => {
 // Post Delete Entry
 exports.postDeleteEntry = async (req, res) => {
     try {
-        await Entry.findByIdAndDelete(req.params.id);
+        await Entry.findOneAndDelete({number: req.params.id});
         await req.flash("info", "Your request has been successfully processed.");
         return res.redirect(`/ais/entries`);
     } catch (err) {

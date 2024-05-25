@@ -4,14 +4,14 @@
     <div class="pt-2 pb-3 bg-body">
         <div class="px-3">
             <div class="px-3">
-                <form action="/ais/entries/<%= entry._id %>/edit" method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
+                <form action="/ais/entries/<%= entry.number %>/edit" method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
                     <div class="row mt-2 mb-4">
                         <h4 class="fw-light">Details</h4>
                         <div class="col-6 py-1">
                             <label for="date" class="form-label fs-7">Entry Date*</label>
                             <% var date = entry.date.toISOString().slice(0,10) %>
                             <% date %>
-                            <input type="date" class="form-control fs-7" name="date" id="date" value="<%= date %>" required>
+                            <input type="date" class="form-control rounded-1" name="date" id="date" value="<%= date %>" required>
                             <div class="invalid-feedback fs-7">
                                 This field cannot be left blank
                             </div>
@@ -148,22 +148,22 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <input type="number" step="0.01" class="form-control fs-7" name="debit" id="debit-<%= i %>" value="<%= e.debit.toFixed(2) %>" required>
+                                            <input type="number" step="0.000001" class="form-control rounded-1" name="debit" id="debit-<%= i %>" value="<%= e.debit.toFixed(2) %>" required>
                                             <div class="invalid-feedback fs-7">
                                                 This field cannot be left blank
                                             </div>
                                         </td>
                                         <td>
-                                            <input type="number" step="0.01" class="form-control fs-7" name="credit" id="credit-<%= i %>" value="<%= e.credit.toFixed(2) %>" required>
+                                            <input type="number" step="0.000001" class="form-control rounded-1" name="credit" id="credit-<%= i %>" value="<%= e.credit.toFixed(2) %>" required>
                                             <div class="invalid-feedback fs-7">
                                                 This field cannot be left blank
                                             </div>
                                         </td>
                                         <td>
                                             <% if (i == 0) { %>
-                                                <button type="button" class="btn btn-warning fs-7 add_row w-100">Add Field</button>
+                                                <button type="button" class="btn btn-warning rounded-1 add_row w-100">Add Field</button>
                                             <% } else { %>
-                                                <button type="button" class="btn btn-danger fs-7 delete_row w-100">Delete</button>
+                                                <button type="button" class="btn btn-danger rounded-1 delete_row w-100">Delete</button>
                                             <% } %>
                                         </td>
                                     </tr>
@@ -176,7 +176,7 @@
                         <h4 class="fw-light">Reference</h4>
                         <div class="col-6 py-1">
                             <label for="refNumber" class="form-label fs-7">Reference Number</label>
-                            <input type="text" class="form-control fs-7" name="refNumber" id="refNumber" value="<%= entry.reference.number %>">
+                            <input type="text" class="form-control rounded-1" name="refNumber" id="refNumber" value="<%= entry.reference.number %>">
                         </div>
                         <div class="col-6 py-1">
                             <label for="refDate" class="form-label fs-7">Reference Date</label>
@@ -186,18 +186,18 @@
                             <% } else { %>
                                 <% refDate = entry.reference.date.toISOString().slice(0,10) %>
                             <% } %>
-                            <input type="date" class="form-control fs-7" name="refDate" id="refDate" value="<%= refDate %>">
+                            <input type="date" class="form-control rounded-1" name="refDate" id="refDate" value="<%= refDate %>">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-6 py-1">
                             <label for="remark" class="form-label fs-7">Remarks</label>
-                            <input type="text" class="form-control fs-7" name="refRemark" id="refRemark" value="<%= entry.reference.remark %>">
+                            <input type="text" class="form-control rounded-1" name="refRemark" id="refRemark" value="<%= entry.reference.remark %>">
                         </div>
                         <div class="col-6 py-1">
                             <label for="formFile" class="form-label fs-7">Replace Attachment</label>
                             <small class="text-secondary">(PDF/PNG/JPG Only)</small>
-                            <input class="form-control fs-7" type="file" id="attachment" name="attachment" accept="application/pdf,image/jpeg,image/png,image/gif">
+                            <input class="form-control rounded-1" type="file" id="attachment" name="attachment" accept="application/pdf,image/jpeg,image/png,image/gif">
                             <small class="text-truncate text-secondary d-block fs-7 mt-1">
                                 <% if (entry.reference.attachment != "") { %>
                                     Existing Attachment: <a href="<%= attachmentUrl %>" target="_blank" class="text-secondary">External Link</a>
@@ -207,8 +207,8 @@
                             </small>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-secondary fs-7" onclick="location.href='<%= urlreturn %>'">Cancel</button>
-                    <button type="submit" class="btn btn-primary fs-7">Save Entry</button>
+                    <button type="button" class="btn btn-secondary rounded-1 py-1" onclick="location.href='<%= urlreturn %>'">Cancel</button>
+                    <button type="submit" class="btn btn-primary rounded-1 py-1">Save Entry</button>
                     <p class="fs-7 text-secondary mt-2">* Required Field</p>
                 </form>
             </div>
@@ -246,19 +246,19 @@
                     </div>
                 </td>
                 <td>
-                    <input type="number" step="0.01" class="form-control fs-7" name="debit" id="debit" required>
+                    <input type="number" step="0.000001" class="form-control rounded-1" name="debit" id="debit" required>
                     <div class="invalid-feedback fs-7">
                         This field cannot be left blank
                     </div>
                 </td>
                 <td>
-                    <input type="number" step="0.01" class="form-control fs-7" name="credit" id="credit" required>
+                    <input type="number" step="0.000001" class="form-control rounded-1" name="credit" id="credit" required>
                     <div class="invalid-feedback fs-7">
                         This field cannot be left blank
                     </div>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-danger fs-7 delete_row w-100">Delete</button>
+                    <button type="button" class="btn btn-danger rounded-1 delete_row w-100">Delete</button>
                 </td>
             </tr>
         `);

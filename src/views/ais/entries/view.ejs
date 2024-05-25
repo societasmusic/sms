@@ -6,11 +6,11 @@
             <% if (user.access == "Editor" || user.access == "System Administrator" || user.access == "System Owner") { %>
                 <div class="d-flex gap-1 mb-2">
                     <% if (entry.approval.status == "Pending Approval" || user.access == "System Administrator" || user.access == "System Owner") { %>
-                        <a href="/ais/entries/<%= entry._id %>/edit" class="btn btn-warning fs-7 py-1">Edit</a>
+                        <a href="/ais/entries/<%= entry.number %>/edit" class="btn btn-warning rounded-1 py-1">Edit</a>
                     <% } %>
                     <% if (user.access == "System Administrator" || user.access == "System Owner") { %>
-                        <button class="btn btn-danger fs-7 py-1" data-bs-toggle="modal" data-bs-target="#delete<%= entry._id %>">Delete</button>
-                        <div class="modal fade" id="delete<%= entry._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <button class="btn btn-danger rounded-1 py-1" data-bs-toggle="modal" data-bs-target="#delete<%= entry.number %>">Delete</button>
+                        <div class="modal fade" id="delete<%= entry.number %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -25,7 +25,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <form action="/ais/entries/<%= entry._id %>/delete" method="POST">
+                                        <form action="/ais/entries/<%= entry.number %>/delete" method="POST">
                                             <button type="submit" class="btn btn-primary">Save changes</button>
                                         </form>
                                     </div>
@@ -35,7 +35,7 @@
                     <% } %>
                 </div>
             <% } %>
-            <div class="border mb-3 bg-body">
+            <div class="border mb-2 bg-body">
                 <div class="bg-body border-bottom px-3 py-2">
                     <h4 class="fw-normal mb-0">Details</h4>
                 </div>
@@ -59,7 +59,7 @@
                     </div>
                 </div>
             </div>
-            <div class="border mb-3 bg-body">
+            <div class="border mb-2 bg-body">
                 <div class="bg-body border-bottom px-3 py-2">
                     <h4 class="fw-normal mb-0">Account Entries</h4>
                 </div>
@@ -93,7 +93,7 @@
                     </div>
                 </div>
             </div>
-            <div class="border mb-3 bg-body">
+            <div class="border mb-2 bg-body">
                 <div class="bg-body border-bottom px-3 py-2">
                     <h4 class="fw-normal mb-0">Reference</h4>
                 </div>
@@ -141,7 +141,7 @@
                     </div>
                 </div>
             </div>
-            <div class="border mb-3 bg-body">
+            <div class="border mb-2 bg-body">
                 <div class="bg-body border-bottom px-3 py-2">
                     <h4 class="fw-normal mb-0">Audit</h4>
                 </div>

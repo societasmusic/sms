@@ -35,6 +35,14 @@ const partySchema = mongoose.Schema(
             type: String,
             require: true
         },
+        internalId: {
+            type: Number,
+            require: true
+        },
+        externalId: {
+            type: String,
+            require: false
+        },
         partyType: {
             type: String,
             require: true
