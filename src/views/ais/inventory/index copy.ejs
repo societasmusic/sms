@@ -29,42 +29,45 @@
                 <table class="table table-striped" id="table" style="width:100%">
                     <thead>
                         <tr>
-                            <th class="col text-light bg-dark fw-normal">Actions</th>
-                            <th class="col-1 text-light bg-dark fw-normal text-end">Internal ID</th>
-                            <th class="col-3 text-light bg-dark fw-normal">Name</th>
-                            <th class="col-2 text-light bg-dark fw-normal">Version</th>
-                            <th class="col-2 text-light bg-dark fw-normal">Item Type</th>
-                            <th class="col-2 text-light bg-dark fw-normal">External ID</th>
-                            <th class="col-2 text-light bg-dark fw-normal">Last Updated</th>
+                            <th class="col text-light fw-medium bg-dark py-3 text-center fs-7" style="min-width:36px;">
+                                #
+                            </th>
+                            <th class="col-2 text-light fw-medium bg-dark py-3 fs-7">
+                                Actions
+                            </th>
+                            <th class="col-1 text-light fw-medium bg-dark py-3 fs-7 text-start">
+                                Item Number
+                            </th>
+                            <th class="col-4 text-light fw-medium bg-dark py-3 fs-7">
+                                Name
+                            </th>
+                            <th class="col-1 text-light fw-medium bg-dark py-3 fs-7">
+                                Version
+                            </th>
+                            <th class="col-2 text-light fw-medium bg-dark py-3 fs-7">
+                                Item Type
+                            </th>
+                            <th class="col-2 text-light fw-medium bg-dark py-3 fs-7">
+                                Last Updated
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% if (items) { %>
-                            <% let i = 1 %>
-                            <% items.forEach(e => { %>
-                                <tr id="<%= e.number %>">
-                                    <td>
-                                        <div class="d-flex gap-1">
-                                            <a href="/ais/inventory/<%= e.number %>" class="btn btn-outline-primary rounded-1">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-eye-fill d-flex align-items-center" viewBox="0 0 16 16">
-                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
-                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
-                                                </svg>
-                                            </a>
-                                            <% if (user.access == "Editor" || user.access == "System Administrator" || user.access == "System Owner") { %>
-                                                <a href="/ais/inventory/<%= e.number %>/edit" class="btn btn-outline-warning rounded-1">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-pencil-square d-flex align-items-center" viewBox="0 0 16 16">
-                                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                                        <path d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                                                    </svg>
-                                                </a>
-                                            <% } %>
+                        <% let i = 1; %>
+                        <% items.forEach(e => { %>
+                            <tr>
+                                <td class="py-4 fs-7">
+                                    <div class="py-1">
+                                        <%= i %>
+                                    </div>
+                                </td>
+                                <td class="py-4">
+                                    <div class="d-flex gap-1">
+                                        <a href="/ais/inventory/<%= e.number %>" class="btn btn-primary fs-7 py-1">View</a>
+                                        <% if (user.access == "Editor" || user.access == "System Administrator" || user.access == "System Owner") { %>
+                                            <a href="/ais/inventory/<%= e.number %>/edit" class="btn btn-warning fs-7 py-1">Edit</a>
                                             <% if (user.access == "System Administrator" || user.access == "System Owner") { %>
-                                                <button class="btn btn-outline-danger rounded-1" data-bs-toggle="modal" data-bs-target="#delete<%= e.number %>">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-trash d-flex align-items-center" viewBox="0 0 16 16">
-                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
-                                                    </svg>
-                                                </button>
+                                                <button class="btn btn-danger fs-7 py-1" data-bs-toggle="modal" data-bs-target="#delete<%= e.number %>">Delete</button>
                                                 <div class="modal fade" id="delete<%= e.number %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered">
                                                         <div class="modal-content">
@@ -75,7 +78,7 @@
                                                             <div class="modal-body">
                                                                 Are you sure you wish to delete this record? This action is permanent and has no option to undo.
                                                                 <div class="mt-2">
-                                                                    <b>Item:&nbsp;</b><%= e.name %> (<%= e.number %>)
+                                                                    <b>Item Number:&nbsp;</b><%= e.number %>
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
@@ -88,31 +91,44 @@
                                                     </div>
                                                 </div>
                                             <% } %>
-                                        </div>
-                                    </td>
-                                    <td class="font-monospace text-end"><%= e.number %></td>
-                                    <td><a href="/ais/inventory/<%= e.number %>"><%= e.name %></a></td>
-                                    <td><%= e.version %></td>
-                                    <td><%= e.type %></td>
-                                    <td><%= e.externalId %></td>
-                                    <td class="font-monospace text-end">
+                                        <% } %>
+                                    </div>
+                                </td>
+                                <td class="py-4 fs-7">
+                                    <div class="py-1 text-start">
+                                        <%= e.number %>
+                                    </div>
+                                </td>
+                                <td class="py-4 fs-7">
+                                    <div class="py-1">
+                                        <a href="/ais/inventory/<%= e.number %>">
+                                            <%= e.name %>
+                                        </a>
+                                    </div>
+                                </td>
+                                <td class="py-4 fs-7">
+                                    <div class="py-1">
+                                        <% if (e.version != "") { %>                                         
+                                            <%= e.version %>
+                                        <% } else { %>
+                                            None
+                                        <% } %>
+                                    </div>
+                                </td>
+                                <td class="py-4 fs-7">
+                                    <div class="py-1">
+                                        <%= e.type %>
+                                    </div>
+                                </td>
+                                <td class="py-4 fs-7">
+                                    <div class="py-1">
                                         <% let date = e.updatedAt.toISOString() %>
                                         <%= date %>
-                                    </td>
-                                </tr>
-                                <% i++ %>
-                            <% }) %>
-                        <% } else { %>
-                            <tr>
-                                <td class="py-3">...</td>
-                                <td class="py-3">...</td>
-                                <td class="py-3">...</td>
-                                <td class="py-3">...</td>
-                                <td class="py-3">...</td>
-                                <td class="py-3">...</td>
-                                <td class="py-3">...</td>
+                                    </div>
+                                </td>
                             </tr>
-                        <% } %>
+                            <% i++ %>
+                        <% }) %>
                     </tbody>
                 </table>
             </div>
@@ -123,10 +139,10 @@
     $(document).ready( function () {
         $('#table').DataTable({
             responsive: true,
-            order: [[2, 'asc']],
+            order: [[2, 'desc']],
             columnDefs: [
                 {
-                    orderable: false, targets: [0]
+                    orderable: false, targets: [0, 1]
                 }
             ],
             lengthMenu: [

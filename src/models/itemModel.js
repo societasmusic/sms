@@ -6,6 +6,10 @@ const itemSchema = mongoose.Schema(
             type: Number,
             required: true
         },
+        externalId: {
+            type: String,
+            required: false
+        },
         name: {
             type: String,
             required: true

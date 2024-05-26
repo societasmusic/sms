@@ -9,14 +9,14 @@
                         <h4 class="fw-light">Basic Details</h4>
                         <div class="col-3 py-1">
                             <label for="name" class="form-label fs-7">Item Name*</label>
-                            <input type="text" class="form-control fs-7" name="name" id="name" value="<%= item.name %>" required>
+                            <input type="text" class="form-control rounded-1" name="name" id="name" value="<%= item.name %>" required>
                             <div class="invalid-feedback fs-7">
                                 This field cannot be left blank
                             </div>
                         </div>
                         <div class="col-3 py-1">
                             <label for="version" class="form-label fs-7">Version</label>
-                            <input type="text" class="form-control fs-7" name="version" id="version" value="<%= item.version %>">
+                            <input type="text" class="form-control rounded-1" name="version" id="version" value="<%= item.version %>">
                             <div class="invalid-feedback fs-7">
                                 This field cannot be left blank
                             </div>
@@ -43,9 +43,9 @@
                         <h4 class="fw-light">Invoice Pricing</h4>
                         <div class="col-6 py-1">
                             <label for="pricingRate" class="form-label fs-7">Rate</label>
-                            <input type="number" class="form-control fs-7" name="pricingRate" id="pricingRate" step="0.01" value="<%= item.pricing.rate %>">
+                            <input type="number" class="form-control rounded-1" name="pricingRate" id="pricingRate" step="0.01" value="<%= item.pricing.rate %>">
                         </div>
-                        <div class="col-6 py-1">
+                        <div class="col-3 py-1">
                             <label for="uom" class="form-label fs-7">Unit of Measurement (UoM)</label>
                             <select class="form-select fs-7" name="uom" id="uom">
                                 <option value=""
@@ -145,6 +145,11 @@
                                 </option>
                             </select>
                         </div>
+                        <div class="col-3 py-1">
+                            <label for="externalId" class="form-label fs-7">External ID</label>
+                            <small class="text-secondary">(i.e., SKU, UPC, ISRC, etc.)</small>
+                            <input type="text" class="form-control rounded-1" name="externalId" id="externalId" value="<%= item.externalId %>">
+                        </div>
                     </div>
                     <div class="row mb-3">
                         <h4 class="fw-light">Sales Royalty/Commission Schedule <span class="badge text-bg-success ms-2 fw-light" id="resultOuter">Total: <span id="result">0</span>&percnt;</span></h4>
@@ -191,27 +196,27 @@
                                             </td>
                                             <td>
                                                 <div class="input-group">
-                                                    <input type="number" step="0.01" class="form-control fs-7 calc" name="rate" id="rate" value="<%= e.rate * 100 %>">
+                                                    <input type="number" step="0.01" class="form-control rounded-start-1 calc" name="rate" id="rate" value="<%= e.rate * 100 %>">
                                                     <span class="input-group-text rounded-end fs-7">%</span>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="input-group">
-                                                    <input type="number" step="0.01" class="form-control fs-7" name="maxReserveRate" id="maxReserveRate" value="<%= e.maxReserveRate * 100  %>">
+                                                    <input type="number" step="0.01" class="form-control rounded-start-1" name="maxReserveRate" id="maxReserveRate" value="<%= e.maxReserveRate * 100  %>">
                                                     <span class="input-group-text rounded-end fs-7">%</span>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="input-group">
-                                                    <input type="number" step="0.01" class="form-control fs-7" name="threshold" id="threshold" value="<%= e.threshold  %>">
+                                                    <input type="number" step="0.01" class="form-control rounded-start-1" name="threshold" id="threshold" value="<%= e.threshold  %>">
                                                     <span class="input-group-text rounded-end fs-7">USD</span>
                                                 </div>
                                             </td>
                                             <td>
                                                 <% if (i == 0) { %>
-                                                    <button type="button" class="btn btn-warning fs-7 add_row w-100">Add Recipient</button>
+                                                    <button type="button" class="btn btn-warning rounded-1 add_row w-100">Add Recipient</button>
                                                 <% } else { %>
-                                                    <button type="button" class="btn btn-danger fs-7 delete_row w-100">Delete</button>
+                                                    <button type="button" class="btn btn-danger rounded-1 delete_row w-100">Delete</button>
                                                 <% } %>
                                             </td>
                                         </tr>
@@ -241,32 +246,32 @@
                                         </td>
                                         <td>
                                             <div class="input-group">
-                                                <input type="number" step="0.01" class="form-control fs-7 calc" name="rate" id="rate">
+                                                <input type="number" step="0.01" class="form-control rounded-start-1 calc" name="rate" id="rate">
                                                 <span class="input-group-text rounded-end fs-7">%</span>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="input-group">
-                                                <input type="number" step="0.01" class="form-control fs-7" name="maxReserveRate" id="maxReserveRate">
+                                                <input type="number" step="0.01" class="form-control rounded-start-1" name="maxReserveRate" id="maxReserveRate">
                                                 <span class="input-group-text rounded-end fs-7">%</span>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="input-group">
-                                                <input type="number" step="0.01" class="form-control fs-7" name="threshold" id="threshold">
+                                                <input type="number" step="0.01" class="form-control rounded-start-1" name="threshold" id="threshold">
                                                 <span class="input-group-text rounded-end fs-7">USD</span>
                                             </div>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-warning fs-7 add_row w-100">Add Recipient</button>
+                                            <button type="button" class="btn btn-warning rounded-1 add_row w-100">Add Recipient</button>
                                         </td>
                                     </tr>
                                 <% } %>
                             </tbody>
                         </table>
                     </div>
-                    <button type="button" class="btn btn-secondary fs-7" onclick="location.href='<%= urlreturn %>'">Cancel</button>
-                    <button type="submit" class="btn btn-primary fs-7">Save Item</button>
+                    <button type="button" class="btn btn-secondary rounded-1 py-1" onclick="location.href='<%= urlreturn %>'">Cancel</button>
+                    <button type="submit" class="btn btn-primary rounded-1 py-1">Save Item</button>
                     <p class="fs-7 text-secondary mt-2">* Required Field</p>
                 </form>
             </div>
@@ -302,24 +307,24 @@
                     </td>
                     <td>
                         <div class="input-group">
-                            <input type="number" step="0.01" class="form-control fs-7 calc" name="rate" id="rate">
+                            <input type="number" step="0.01" class="form-control rounded-start-1 calc" name="rate" id="rate">
                             <span class="input-group-text rounded-end fs-7">%</span>
                         </div>
                     </td>
                     <td>
                         <div class="input-group">
-                            <input type="number" step="0.01" class="form-control fs-7" name="maxReserveRate" id="maxReserveRate">
+                            <input type="number" step="0.01" class="form-control rounded-start-1" name="maxReserveRate" id="maxReserveRate">
                             <span class="input-group-text rounded-end fs-7">%</span>
                         </div>
                     </td>
                     <td>
                         <div class="input-group">
-                            <input type="number" step="0.01" class="form-control fs-7" name="threshold" id="threshold">
+                            <input type="number" step="0.01" class="form-control rounded-start-1" name="threshold" id="threshold">
                             <span class="input-group-text rounded-end fs-7">USD</span>
                         </div>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-danger fs-7 delete_row w-100">Delete</button>
+                        <button type="button" class="btn btn-danger rounded-1 delete_row w-100">Delete</button>
                     </td>
                 </tr>
             `);

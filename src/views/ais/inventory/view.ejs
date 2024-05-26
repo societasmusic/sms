@@ -5,9 +5,9 @@
         <div class="container mt-2 mb-3">
             <% if (user.access == "Editor" || user.access == "System Administrator" || user.access == "System Owner") { %>
                 <div class="d-flex gap-1 mb-2">
-                    <a href="/ais/inventory/<%= item.number %>/edit" class="btn btn-warning fs-7 py-1">Edit</a>
+                    <a href="/ais/inventory/<%= item.number %>/edit" class="btn btn-warning rounded-1 py-1">Edit</a>
                     <% if (user.access == "System Administrator" || user.access == "System Owner") { %>
-                        <button class="btn btn-danger fs-7 py-1" data-bs-toggle="modal" data-bs-target="#delete<%= item.number %>">Delete</button>
+                        <button class="btn btn-danger rounded-1 py-1" data-bs-toggle="modal" data-bs-target="#delete<%= item.number %>">Delete</button>
                         <div class="modal fade" id="delete<%= item.number %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
@@ -18,7 +18,7 @@
                                     <div class="modal-body">
                                         Are you sure you wish to delete this record? This action is permanent and has no option to undo.
                                         <div class="mt-2">
-                                            <b>Item Number:&nbsp;</b><%= item.number %>
+                                            <b>Item:&nbsp;</b><%= item.name %> (<%= item.number %>)
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -33,7 +33,7 @@
                     <% } %>
                 </div>
             <% } %>
-            <div class="border mb-3 bg-body">
+            <div class="border mb-2 bg-body">
                 <div class="bg-body border-bottom px-3 py-2">
                     <h4 class="fw-normal mb-0">Basic Details</h4>
                 </div>
@@ -54,15 +54,15 @@
                                     None
                                 <% } %>
                             </p>
-                            <p class="fw-medium mb-0">Item Number:</p>
+                            <p class="fw-medium mb-0">Internal ID:</p>
                             <p class="text-body-secondary mb-2"><%= item.number %></p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="border mb-3 bg-body">
+            <div class="border mb-2 bg-body">
                 <div class="bg-body border-bottom px-3 py-2">
-                    <h4 class="fw-normal mb-0">Invoice Pricing</h4>
+                    <h4 class="fw-normal mb-0">Invoicing Details</h4>
                 </div>
                 <div class="pb-3 bg-body">
                     <div class="row border-bottom mx-3 mt-3 fs-7">
@@ -71,6 +71,14 @@
                             <p class="text-body-secondary mb-2">
                                 <% if (item.pricing.rate > 0) { %>                                         
                                     <%= item.pricing.rate.toFixed(2) %>
+                                <% } else { %>
+                                    None
+                                <% } %>
+                            </p>
+                            <p class="fw-medium mb-0">External ID:</p>
+                            <p class="text-body-secondary mb-2">
+                                <% if (item.externalId && item.externalId != "") { %>                                         
+                                    <%= item.externalId %>
                                 <% } else { %>
                                     None
                                 <% } %>
@@ -89,7 +97,7 @@
                     </div>
                 </div>
             </div>
-            <div class="border mb-3 bg-body">
+            <div class="border mb-2 bg-body">
                 <div class="bg-body border-bottom px-3 py-2">
                     <h4 class="fw-normal mb-0">Sales Royalty/Commission Schedule</h4>
                 </div>
@@ -130,7 +138,7 @@
                     <% } %>
                 </div>
             </div>
-            <div class="border mb-3 bg-body">
+            <div class="border mb-2 bg-body">
                 <div class="bg-body border-bottom px-3 py-2">
                     <h4 class="fw-normal mb-0">Audit</h4>
                 </div>

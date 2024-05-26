@@ -129,6 +129,7 @@ exports.postCreateInventory = async (req, res) => {
     // Define Main Object
     const item = new Item({
         number: number,
+        externalId: req.body.externalId,
         name: req.body.name,
         version: req.body.version,
         type: req.body.type,
@@ -273,6 +274,7 @@ exports.postEditInventory = async (req, res) => {
     // Define Main Object
     const item = {
         name: req.body.name,
+        externalId: req.body.externalId,
         version: req.body.version,
         type: req.body.type,
         pricing: {
